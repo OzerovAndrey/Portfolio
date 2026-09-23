@@ -17,6 +17,8 @@
 - **Дзеркало демо, не редагувати тут:** `core.json`, `map.json`, `theme/*.json`, `typography.json`.
   Оновлюються тільки `node tools/sync-demo-tokens.mjs` (з `../multibrand-design-system` або `--github`).
   Потрібна зміна в цих сетах → задача в `tasks/demo-NN-*.md`, правка в демо, потім sync.
+- **`tokens/demo/`** — read-only копія брендів (aurum/nova/fiesta/ultra) і `components.json` демо. Оновлюється тільки `sync-demo-tokens`.
+  З неї `npm run tokens:demo` генерує `src/generated/demo/` (meta + ланцюжки резолву) для секції «Під капотом». Цифри на сайті беруться звідти, не пишуться руками.
 - **Свої файли портфоліо:** `brand/site.json` (ключі ідентичні брендам демо — змінюються тільки значення),
   `components.json` (`button`, `input` взяті з демо; решта — компоненти сторінок), `$themes.json`, `$metadata.json`.
 - `components` посилаються тільки на theme / brand-семантику (включно з `layout.*`). Ніколи на `core.*` / `map.*`.

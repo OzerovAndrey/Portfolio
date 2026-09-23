@@ -1,0 +1,276 @@
+{
+  "color": {
+    "product1": {
+      "value": "#FF3D9E",
+      "type": "color"
+    },
+    "product2": {
+      "value": "#17E1FF",
+      "type": "color"
+    },
+    "product3": {
+      "value": "#7B4DFF",
+      "type": "color"
+    },
+    "onProduct1": {
+      "value": "{color.black}",
+      "type": "color",
+      "description": "текст на заливці product1"
+    },
+    "onProduct2": {
+      "value": "{color.black}",
+      "type": "color"
+    },
+    "success": {
+      "value": "#087A42",
+      "type": "color"
+    },
+    "warning": {
+      "value": "#FF9A1F",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#D42A38",
+      "type": "color"
+    },
+    "ink": {
+      "value": "#0B1329",
+      "type": "color",
+      "description": "база нейтральної шкали"
+    }
+  },
+  "fontFamily": {
+    "display": {
+      "value": "Unbounded",
+      "type": "fontFamilies",
+      "description": "заголовки: display / title"
+    },
+    "base": {
+      "value": "Inter",
+      "type": "fontFamilies",
+      "description": "текст: body / label / caption / overline"
+    }
+  },
+  "space": {
+    "padding": {
+      "xs": {
+        "value": "{dimension.12}",
+        "type": "spacing"
+      },
+      "sm": {
+        "value": "{dimension.12}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{dimension.16}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{dimension.20}",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "{dimension.24}",
+        "type": "spacing"
+      }
+    },
+    "gap": {
+      "xs": {
+        "value": "{dimension.4}",
+        "type": "spacing"
+      },
+      "sm": {
+        "value": "{dimension.6}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{dimension.8}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{dimension.10}",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "{dimension.12}",
+        "type": "spacing"
+      }
+    }
+  },
+  "borderRadius": {
+    "control": {
+      "value": "{borderRadius.12}",
+      "type": "borderRadius"
+    },
+    "surface": {
+      "value": "{borderRadius.12}",
+      "type": "borderRadius"
+    }
+  },
+  "borderWidth": {
+    "none": {
+      "value": "{borderWidth.0}",
+      "type": "borderWidth"
+    },
+    "control": {
+      "value": "{borderWidth.2}",
+      "type": "borderWidth"
+    }
+  },
+  "size": {
+    "control": {
+      "xs": {
+        "value": "{dimension.24}",
+        "type": "sizing"
+      },
+      "sm": {
+        "value": "{dimension.32}",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "{dimension.40}",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "{dimension.48}",
+        "type": "sizing"
+      },
+      "xl": {
+        "value": "{dimension.56}",
+        "type": "sizing"
+      }
+    }
+  },
+  "iconSize": {
+    "xs": {
+      "value": "{dimension.12}",
+      "type": "sizing"
+    },
+    "sm": {
+      "value": "{dimension.16}",
+      "type": "sizing"
+    },
+    "md": {
+      "value": "{dimension.20}",
+      "type": "sizing"
+    },
+    "lg": {
+      "value": "{dimension.24}",
+      "type": "sizing"
+    },
+    "xl": {
+      "value": "{dimension.32}",
+      "type": "sizing"
+    }
+  },
+  "layout": {
+    "columns": {
+      "xs": {
+        "value": "4",
+        "type": "number",
+        "description": "кількість колонок сітки"
+      },
+      "sm": {
+        "value": "8",
+        "type": "number",
+        "description": "кількість колонок сітки"
+      },
+      "md": {
+        "value": "12",
+        "type": "number",
+        "description": "кількість колонок сітки"
+      },
+      "lg": {
+        "value": "12",
+        "type": "number",
+        "description": "кількість колонок сітки"
+      },
+      "xl": {
+        "value": "12",
+        "type": "number",
+        "description": "кількість колонок сітки"
+      }
+    },
+    "columnGap": {
+      "xs": {
+        "value": "{dimension.16}",
+        "type": "spacing",
+        "description": "gutter сітки й відстань між картками"
+      },
+      "sm": {
+        "value": "{dimension.16}",
+        "type": "spacing",
+        "description": "gutter сітки й відстань між картками"
+      },
+      "md": {
+        "value": "{dimension.16}",
+        "type": "spacing",
+        "description": "gutter сітки й відстань між картками"
+      },
+      "lg": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "gutter сітки й відстань між картками"
+      },
+      "xl": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "gutter сітки й відстань між картками"
+      }
+    },
+    "paddingH": {
+      "xs": {
+        "value": "{dimension.16}",
+        "type": "spacing",
+        "description": "поля сторінки (margin сітки)"
+      },
+      "sm": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "поля сторінки (margin сітки)"
+      },
+      "md": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "поля сторінки (margin сітки)"
+      },
+      "lg": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "поля сторінки (margin сітки)"
+      },
+      "xl": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "поля сторінки (margin сітки)"
+      }
+    },
+    "rowGap": {
+      "xs": {
+        "value": "{dimension.24}",
+        "type": "spacing",
+        "description": "відстань між секціями сторінки"
+      },
+      "sm": {
+        "value": "{dimension.32}",
+        "type": "spacing",
+        "description": "відстань між секціями сторінки"
+      },
+      "md": {
+        "value": "{dimension.32}",
+        "type": "spacing",
+        "description": "відстань між секціями сторінки"
+      },
+      "lg": {
+        "value": "{dimension.40}",
+        "type": "spacing",
+        "description": "відстань між секціями сторінки"
+      },
+      "xl": {
+        "value": "{dimension.48}",
+        "type": "spacing",
+        "description": "відстань між секціями сторінки"
+      }
+    }
+  }
+}

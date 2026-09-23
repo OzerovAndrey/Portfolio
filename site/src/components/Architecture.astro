@@ -1,0 +1,186 @@
+---
+// «Під капотом»: стек шарів + ланцюжок резолву токена. Усі цифри й значення — з токенів демо,
+// згенерованих `npm run tokens:demo` (tokens/demo/ ← sync-demo-tokens). Руками тут нічого не пишеться.
+import meta from "../generated/demo/meta.json";
+import manifest from "../generated/demo/manifest.json";
+import { t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const d = t(Astro.props.lang).architecture;
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+
+const c = meta.counts;
+const brands = ["aurum", "nova", "fiesta", "ultra"] as const;
+const brandName = { aurum: "Aurum", nova: "Nova", fiesta: "Fiesta", ultra: "Ultra" };
+const themes = ["light", "dark"] as const;
+const TOKENS = { fill: "button.primary.bg.default", subtle: "chip.selected.bg.default", radius: "button.borderRadius" } as const;
+type TokenKey = keyof typeof TOKENS;
+type Step = { name: string; layer: string; ref?: string; note?: string; value?: string };
+const chains = manifest.chains as unknown as Record<string, Record<string, { steps: Step[]; value: string }>>;
+
+type LayerId = "components" | "theme" | "typography" | "map" | "brand" | "core";
+const layers: { id: LayerId; n: number; g?: number; b?: number }[] = [
+  { id: "components", n: c.components, g: meta.componentCount },
+  { id: "theme", n: c.theme / 2 },
+  { id: "typography", n: c.typography },
+  { id: "map", n: c.map },
+  { id: "brand", n: c.brand / meta.brandCount, b: meta.brandCount },
+  { id: "core", n: c.core },
+];
+
+const isColor = (v?: string) => !!v && /^#[0-9a-f]{3,8}$/i.test(v);
+const note = (n?: string) => {
+  if (!n) return "";
+  const m = /^(lighten|darken) ([\d.]+)/.exec(n);
+  if (m) return fill(d.explorer.notes[m[1] as "lighten" | "darken"], { p: Math.round(parseFloat(m[2]) * 100) });
+  return /step 500/.test(n) ? d.explorer.notes.base : n;
+};
+const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explorer.layerNames] ?? l;
+---
+<div class="arch" data-arch data-token="fill" data-brand="aurum">
+  <div class="stack">
+    <h3 class="stack__title ts-title-t4">{d.layersTitle}</h3>
+    <ol class="stack__list">
+      {layers.map((l) => {
+        const L = d.layers[l.id];
+        return (
+          <li class:list={["layer", l.id === "brand" && "layer--brand"]}>
+            <div class="layer__head">
+              <span class="layer__name ts-title-t5">{L.name}</span>
+              {l.id === "brand" && <span class="layer__tag ts-label-sm">{d.brandTag}</span>}
+              <span class="layer__count ts-body-sm-strong">{fill(L.count, { n: l.n, g: l.g ?? "", b: l.b ?? "" })}</span>
+            </div>
+            <p class="layer__detail ts-body-sm-regular">{L.detail}</p>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+
+  <div class="chain">
+    <h3 class="chain__title ts-title-t4">{d.explorer.title}</h3>
+    <div class="chain__controls">
+      <div class="chain__control">
+        <span class="chain__label ts-label-sm" id="arch-token-label">{d.explorer.tokenLabel}</span>
+        <div class="seg" role="radiogroup" aria-labelledby="arch-token-label">
+          {(Object.keys(TOKENS) as TokenKey[]).map((k, i) => (
+            <button type="button" class="seg__item ts-label-sm" role="radio" aria-checked={i === 0 ? "true" : "false"} data-set="token" data-value={k} data-event={`arch_token_${k}`}>{d.explorer.tokens[k]}</button>
+          ))}
+        </div>
+      </div>
+      <div class="chain__control">
+        <span class="chain__label ts-label-sm" id="arch-brand-label">{d.explorer.brandLabel}</span>
+        <div class="seg" role="radiogroup" aria-labelledby="arch-brand-label">
+          {brands.map((b, i) => (
+            <button type="button" class="seg__item ts-label-sm" role="radio" aria-checked={i === 0 ? "true" : "false"} data-set="brand" data-value={b} data-event={`arch_brand_${b}`}>{brandName[b]}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="chain__views" aria-live="polite">
+      {(Object.keys(TOKENS) as TokenKey[]).flatMap((k) => brands.flatMap((b) => themes.map((th) => {
+        const ch = chains[`${b}|${th}`][TOKENS[k]];
+        return (
+          <ol class="steps" data-view-token={k} data-view-brand={b} data-view-theme={th} hidden={!(k === "fill" && b === "aurum" && th === "light")}>
+            {ch.steps.map((s) => (
+              <li class="cstep">
+                <span class="cstep__layer ts-overline-sm">{layerName(s.layer)}</span>
+                <code class="cstep__name ts-body-sm-strong">{s.name}</code>
+                {s.note && <span class="cstep__note ts-body-xs-regular">{note(s.note)}</span>}
+                {s.value && !s.ref && <span class="cstep__value ts-body-sm-regular">{isColor(s.value) && <i class="swatch" style={`--swatch: ${s.value}`} aria-hidden="true"></i>}{s.value}</span>}
+              </li>
+            ))}
+            <li class="cstep cstep--result">
+              <span class="cstep__layer ts-overline-sm">{d.explorer.result}</span>
+              <span class="cstep__value ts-body-md-strong">
+                {isColor(ch.value) ? <i class="swatch" style={`--swatch: ${ch.value}`} aria-hidden="true"></i> : <i class="swatch swatch--radius" style={`--swatch-radius: ${ch.value}`} aria-hidden="true"></i>}
+                {ch.value}
+              </span>
+            </li>
+          </ol>
+        );
+      })))}
+    </div>
+    <p class="chain__note ts-body-sm-regular">{d.explorer.themeNote}</p>
+  </div>
+</div>
+
+<script>
+  // Перемикачі токена й бренду + поточна тема сайту (<html data-theme>) → видно один ланцюжок.
+  // Тема змінилась (кнопка чи система) — ланцюжок перемикається сам.
+  const root = document.querySelector<HTMLElement>("[data-arch]");
+  if (root) {
+    const html = document.documentElement;
+    const views = [...root.querySelectorAll<HTMLElement>("[data-view-token]")];
+    const render = () => {
+      const { token, brand } = root.dataset, theme = html.dataset.theme === "dark" ? "dark" : "light";
+      for (const v of views) v.hidden = !(v.dataset.viewToken === token && v.dataset.viewBrand === brand && v.dataset.viewTheme === theme);
+    };
+    root.addEventListener("click", (e) => {
+      const btn = (e.target as Element).closest<HTMLButtonElement>("[data-set]");
+      if (!btn) return;
+      const key = btn.dataset.set as "token" | "brand";
+      root.dataset[key] = btn.dataset.value;
+      root.querySelectorAll<HTMLButtonElement>(`[data-set="${key}"]`).forEach((b) => b.setAttribute("aria-checked", String(b === btn)));
+      render();
+    });
+    new MutationObserver(render).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+    render();
+  }
+</script>
+
+<style>
+  .arch { display: grid; gap: var(--l-gap); }
+  @media (min-width: 1024px) { .arch { grid-template-columns: 5fr 7fr; align-items: start; } }
+
+  .stack, .chain { display: flex; flex-direction: column; gap: var(--tokenChain-gap); }
+  .stack__title, .chain__title { color: var(--tokenChain-name-color); }
+  .stack__list { display: flex; flex-direction: column; gap: var(--layerStack-gap); }
+  .layer {
+    display: flex; flex-direction: column; gap: var(--layerStack-item-gap);
+    padding: var(--layerStack-item-padding); background: var(--layerStack-item-bg);
+    border: var(--layerStack-item-borderWidth) solid var(--layerStack-item-br); border-radius: var(--layerStack-item-borderRadius);
+  }
+  .layer--brand { background: var(--layerStack-highlight-bg); border-color: var(--layerStack-highlight-br); }
+  .layer__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-sm); }
+  .layer__name { color: var(--layerStack-name-color); }
+  .layer__tag { padding-inline: var(--layerStack-tag-paddingH); border-radius: var(--layerStack-tag-borderRadius); background: var(--layerStack-tag-bg); color: var(--layerStack-tag-color); }
+  .layer__count { margin-inline-start: auto; color: var(--layerStack-count-color); }
+  .layer__detail { color: var(--layerStack-detail-color); }
+
+  .chain { padding: var(--tokenChain-padding); background: var(--tokenChain-bg); border: var(--tokenChain-borderWidth) solid var(--tokenChain-br); border-radius: var(--tokenChain-borderRadius); }
+  .chain__controls { display: flex; flex-wrap: wrap; gap: var(--tokenChain-gap); }
+  .chain__control { display: flex; flex-direction: column; gap: var(--tokenChain-step-gap); }
+  .chain__label, .chain__note { color: var(--tokenChain-label-color); }
+
+  .seg { display: inline-flex; flex-wrap: wrap; padding: var(--segmented-padding); background: var(--segmented-bg); border-radius: var(--segmented-borderRadius); }
+  .seg__item {
+    min-height: calc(var(--segmented-size) - var(--segmented-padding) * 2); padding-inline: var(--segmented-item-paddingH);
+    border: 0; border-radius: var(--segmented-item-borderRadius); cursor: pointer;
+    background: var(--segmented-item-bg-default); color: var(--segmented-item-color-default);
+  }
+  .seg__item:hover { background: var(--segmented-item-bg-hover); color: var(--segmented-item-color-hover); }
+  .seg__item[aria-checked="true"] { background: var(--segmented-item-bg-active); color: var(--segmented-item-color-active); }
+
+  .cstep {
+    position: relative; display: flex; flex-direction: column; gap: var(--tokenChain-step-gap);
+    padding: var(--tokenChain-step-padding); background: var(--tokenChain-step-bg);
+    border: var(--tokenChain-borderWidth) solid var(--tokenChain-step-br); border-radius: var(--tokenChain-step-borderRadius);
+  }
+  .cstep:not(:first-child)::before { content: "↓"; position: absolute; inset-inline-start: var(--tokenChain-step-padding); top: calc(var(--tokenChain-step-gap) * -1 - 0.9em); color: var(--tokenChain-arrow-color); line-height: 1; }
+  .steps { display: flex; flex-direction: column; gap: calc(var(--tokenChain-step-gap) + 1.1em); }
+  .steps[hidden] { display: none; }
+  .cstep__layer { color: var(--tokenChain-layer-color); }
+  .cstep__name { color: var(--tokenChain-name-color); overflow-wrap: anywhere; }
+  .cstep__note { color: var(--tokenChain-note-color); }
+  .cstep__value { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--tokenChain-name-color); }
+  .cstep--result { background: var(--tokenChain-result-bg); border-color: var(--tokenChain-result-br); }
+  .cstep--result .cstep__value { color: var(--tokenChain-result-color); }
+  .swatch {
+    display: inline-block; flex: none; width: var(--tokenChain-swatch-size); height: var(--tokenChain-swatch-size);
+    background: var(--swatch); border: var(--tokenChain-borderWidth) solid var(--tokenChain-swatch-br); border-radius: var(--tokenChain-swatch-borderRadius);
+  }
+  .swatch--radius { background: var(--tokenChain-step-bg); border-radius: var(--swatch-radius); }
+
+</style>

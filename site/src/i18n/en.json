@@ -54,6 +54,69 @@
     "openFull": "Open full screen",
     "loading": "Loading demo…"
   },
+  "architecture": {
+    "eyebrow": "Under the hood",
+    "title": "Six layers. Only one of them is the brand.",
+    "lead": "A component never knows which brand it is in. It asks for a meaning, the theme picks a step on a color ramp, and only the brand file holds real colors, fonts and radii. Every number below is counted from the demo's tokens at build time.",
+    "layersTitle": "The layers, top to bottom",
+    "brandTag": "Per brand",
+    "layers": {
+      "components": {
+        "name": "Components",
+        "count": "{n} tokens · {g} components",
+        "detail": "Buttons, cards and chips read meanings, never raw values."
+      },
+      "theme": {
+        "name": "Theme",
+        "count": "{n} per theme × 2",
+        "detail": "Semantic colors: text, fill, border. Light and dark are an axis of their own."
+      },
+      "typography": {
+        "name": "Typography",
+        "count": "{n} text styles",
+        "detail": "Built from the brand's fonts and the core type scale."
+      },
+      "map": {
+        "name": "Map",
+        "count": "{n} ramp steps",
+        "detail": "Tints and shades calculated from brand colors, so nobody picks them by hand."
+      },
+      "brand": {
+        "name": "Brand",
+        "count": "{n} values × {b} brands",
+        "detail": "The only file that changes when you add a brand."
+      },
+      "core": {
+        "name": "Core",
+        "count": "{n} values",
+        "detail": "The raw scale: sizes, radii, weights, base colors."
+      }
+    },
+    "explorer": {
+      "title": "Follow one token through the layers",
+      "tokenLabel": "Token",
+      "brandLabel": "Brand",
+      "tokens": {
+        "fill": "Primary button",
+        "subtle": "Selected chip",
+        "radius": "Button corners"
+      },
+      "result": "Result",
+      "themeNote": "Switch the site theme at the top right: light and dark take different steps of the same ramp.",
+      "layerNames": {
+        "component": "Component",
+        "theme": "Theme",
+        "map": "Map",
+        "brand": "Brand",
+        "core": "Core"
+      },
+      "notes": {
+        "base": "step 500 is the brand color itself",
+        "lighten": "{p}% lighter than the brand color",
+        "darken": "{p}% darker than the brand color"
+      }
+    }
+  },
   "how": {
     "eyebrow": "How it works",
     "title": "How a brand gets from Figma to production",

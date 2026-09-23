@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import DemoFrame from "../../components/DemoFrame.astro";
+import Architecture from "../../components/Architecture.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
@@ -45,7 +46,19 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section" id="how" aria-labelledby="how-title">
+
+  <section class="section" id="architecture" aria-labelledby="architecture-title">
+    <div class="container">
+      <div class="section__head">
+        <p class="section__eyebrow ts-overline-md">{d.architecture.eyebrow}</p>
+        <h2 class="section__title ts-title-t1" id="architecture-title">{d.architecture.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{d.architecture.lead}</p>
+      </div>
+      <Architecture lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--alt" id="how" aria-labelledby="how-title">
     <div class="container">
       <div class="section__head">
         <p class="section__eyebrow ts-overline-md">{d.how.eyebrow}</p>
@@ -64,7 +77,7 @@ const d = t(lang);
   </section>
 
 
-  <section class="section section--alt" id="audience" aria-labelledby="audience-title">
+  <section class="section" id="audience" aria-labelledby="audience-title">
     <div class="container">
       <div class="section__head">
         <p class="section__eyebrow ts-overline-md">{d.audience.eyebrow}</p>
@@ -81,7 +94,7 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section" aria-labelledby="cta-title">
+  <section class="section section--alt" aria-labelledby="cta-title">
     <div class="container">
       <div class="cta">
         <div class="cta__text">
