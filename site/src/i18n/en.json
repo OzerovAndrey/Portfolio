@@ -61,7 +61,6 @@
     "success": "Thanks, your message is on its way. I'll reply personally.",
     "error": "The message didn't go through. Please try again or use one of the direct contacts below.",
     "direct": "Prefer to write directly?",
-    "book": "Book a call",
     "noForm": "The contact form is on its way. Until then, use the direct contacts."
   },
   "footer": {

@@ -8,7 +8,7 @@ export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
 const c = d.contact;
-const { email, linkedin, telegram, phone, calcom } = config.contacts;
+const { email, linkedin, telegram, phone } = config.contacts;
 const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram], [formatPhone(phone), phone && `tel:${phone}`]);
 ---
 <Base lang={lang} page="contact" title={d.meta.contactTitle} description={d.meta.contactDescription}>
@@ -45,16 +45,15 @@ const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin]
           </div>
         </form>
       ) : (
-        !direct.length && !calcom && <p class="field__hint ts-body-md-regular">{c.noForm}</p>
+        !direct.length && <p class="field__hint ts-body-md-regular">{c.noForm}</p>
       )}
 
-      {(direct.length > 0 || calcom) && (
+      {direct.length > 0 && (
         <div class="direct">
           <h2 class="ts-title-t4">{c.direct}</h2>
           <ul class="direct__list">
             {direct.map((l) => <li><a class="ts-body-md-strong" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
           </ul>
-          {calcom && <Button variant="secondary" href={calcom} target="_blank" rel="noopener">{c.book} ↗</Button>}
         </div>
       )}
     </div>

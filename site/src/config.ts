@@ -1,5 +1,5 @@
 // Дані, які надає Андрій (бриф, розділ 8). Порожнє поле = блок на сайті не показується.
-type Contacts = { email: string; linkedin: string; telegram: string; phone: string; calcom: string; github: string };
+type Contacts = { email: string; linkedin: string; telegram: string; phone: string; github: string };
 
 export const config = {
   name: "Andrey Ozerov",
@@ -16,7 +16,6 @@ export const config = {
     linkedin: "https://www.linkedin.com/in/andrey-ozerov-162b3737/",
     telegram: "https://t.me/ozerov_design",
     phone: "+380630710271",
-    calcom: "",
     github: "https://github.com/OzerovAndrey",
   } satisfies Contacts as Contacts,
 };
