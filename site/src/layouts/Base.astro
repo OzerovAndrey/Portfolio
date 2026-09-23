@@ -28,13 +28,12 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <meta property="og:site_name" content={d.meta.siteName} />
     <meta property="og:locale" content={lang === "uk" ? "uk_UA" : "en_US"} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
-    <!-- тема до першого рендера: збережений вибір → системна → light -->
+    <!-- тема до першого рендера: вибір у межах візиту (sessionStorage) → light. Системна тема не враховується -->
     <script is:inline>
       (() => {
         let t = null;
-        try { t = localStorage.getItem("theme"); } catch {}
-        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        document.documentElement.dataset.theme = t;
+        try { t = sessionStorage.getItem("theme"); } catch {}
+        document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
       })();
     </script>
   </head>

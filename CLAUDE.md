@@ -27,7 +27,8 @@
   WCAG-контраст). Червоне = не комітити. Нова пара «текст на фоні» → додати в `PAIRS` у чекері.
 
 ## Сайт (`site/`)
-- Astro + React-острови (зараз один: `ThemeToggle.tsx`) + TypeScript. Маршрути `/en/*`, `/uk/*`; `/` редіректить за мовою браузера.
+- Astro + React-острови (зараз один: `ThemeToggle.tsx`) + TypeScript. Маршрути `/en/*`, `/uk/*`; `/` завжди редіректить на `/en/`.
+- Перший візит — завжди light + EN. Вибір теми живе тільки в межах візиту (`sessionStorage`), системна тема й мова браузера не враховуються.
 - `npm run tokens` генерує `src/styles/tokens.generated.css` і `src/generated/*` через `tools/build-css.mjs`. Не редагувати.
 - Стилі — тільки `var(--…)` компонентних токенів, оболонка сторінки — theme/brand-семантика (`--color-*`, `--space-*`, `--layout-*`).
   Жодного hex / px / font-family. Виняток: брейкпоінти в `@media`.

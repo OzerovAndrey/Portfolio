@@ -11,7 +11,7 @@ export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("theme", next); } catch { /* приватний режим — тема живе до перезавантаження */ }
+    try { sessionStorage.setItem("theme", next); } catch { /* приватний режим — тема живе до перезавантаження */ }
     setTheme(next);
   };
   const label = theme === "dark" ? labelToLight : labelToDark;
