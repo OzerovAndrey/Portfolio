@@ -21,6 +21,20 @@ const d = t(lang);
     </div>
   </section>
 
+  <section class="section section--tight" aria-labelledby="metrics-title">
+    <div class="container">
+      <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
+      <ul class="metrics">
+        {d.metrics.items.map((m) => (
+          <li class="metric">
+            <span class="metric__amount ts-display-d2">{m.amount}</span>
+            <span class="metric__label ts-body-md-regular">{m.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <section class="section section--alt" id="demo" aria-labelledby="demo-title">
     <div class="container">
       <div class="section__head">
@@ -49,7 +63,25 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="cta-title">
+
+  <section class="section section--alt" id="audience" aria-labelledby="audience-title">
+    <div class="container">
+      <div class="section__head">
+        <p class="section__eyebrow ts-overline-md">{d.audience.eyebrow}</p>
+        <h2 class="section__title ts-title-t1" id="audience-title">{d.audience.title}</h2>
+      </div>
+      <ul class="audience">
+        {d.audience.items.map((a) => (
+          <li class="audience__item">
+            <h3 class="audience__title ts-title-t4">{a.title}</h3>
+            <p class="audience__detail ts-body-md-regular">{a.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cta-title">
     <div class="container">
       <div class="cta">
         <div class="cta__text">
@@ -85,4 +117,23 @@ const d = t(lang);
   .cta__text { display: flex; flex-direction: column; gap: var(--space-gap-md); }
   .cta__title { color: var(--ctaBand-title-color); }
   .cta__lead { color: var(--ctaBand-lead-color); }
+
+  .section--tight { padding-block: var(--l-row); }
+  .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--l-gap); }
+  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
+  .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding: var(--metric-padding); background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
+  .metric__amount { color: var(--metric-amount-color); }
+  .metric__label { color: var(--metric-label-color); }
+  /* Вузькі екрани: одна колонка, число зліва від підпису — підпис не ламається у стовпчик */
+  @media (max-width: 559px) {
+    .metrics { grid-template-columns: 1fr; gap: var(--space-gap-md); }
+    .metric { flex-direction: row; align-items: center; gap: var(--l-gap); }
+    .metric__amount { min-width: 2ch; }
+  }
+
+  .audience { display: grid; gap: var(--l-gap); }
+  @media (min-width: 768px) { .audience { grid-template-columns: repeat(3, 1fr); } }
+  .audience__item { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
+  .audience__title { color: var(--audience-title-color); }
+  .audience__detail { color: var(--audience-detail-color); }
 </style>

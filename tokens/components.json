@@ -879,6 +879,10 @@
       "value": "{color.border.tertiary}",
       "type": "color"
     },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
     "borderRadius": {
       "value": "{borderRadius.surface}",
       "type": "borderRadius"

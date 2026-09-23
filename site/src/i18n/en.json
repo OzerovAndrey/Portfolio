@@ -25,6 +25,27 @@
     "ctaDemo": "Switch brands live",
     "ctaHow": "See how it's built"
   },
+  "metrics": {
+    "title": "Key numbers",
+    "items": [
+      {
+        "amount": "4",
+        "label": "brands in the live demo, all on one codebase"
+      },
+      {
+        "amount": "2",
+        "label": "themes per brand: light and dark"
+      },
+      {
+        "amount": "55",
+        "label": "values in a brand file. That file is the whole brand"
+      },
+      {
+        "amount": "0",
+        "label": "component changes needed to add a brand"
+      }
+    ]
+  },
   "demo": {
     "eyebrow": "Live demo",
     "title": "Switch the brand. The code stays put.",
@@ -37,9 +58,36 @@
     "eyebrow": "How it works",
     "title": "How a brand gets from Figma to production",
     "steps": [
-      { "title": "A brand is data", "detail": "Every brand is one Token Studio file with the same 55 keys: colors, fonts, radii, spacing, layout. Designers change values. Component tokens are never touched." },
-      { "title": "The pipeline builds it", "detail": "Tokens live in Git as JSON and compile to CSS custom properties. Automated checks catch missing keys, broken layer references and failing WCAG contrast before anything ships." },
-      { "title": "Two attributes switch it", "detail": "The product changes brand and theme with data-brand and data-theme on one element. Same markup, same components, one release for every brand." }
+      {
+        "title": "A brand is data",
+        "detail": "Every brand is one Token Studio file with the same 55 keys: colors, fonts, radii, spacing, layout. Designers change values. Component tokens are never touched."
+      },
+      {
+        "title": "The pipeline builds it",
+        "detail": "Tokens live in Git as JSON and compile to CSS custom properties. Automated checks catch missing keys, broken layer references and failing WCAG contrast before anything ships."
+      },
+      {
+        "title": "Two attributes switch it",
+        "detail": "The product changes brand and theme with data-brand and data-theme on one element. Same markup, same components, one release for every brand."
+      }
+    ]
+  },
+  "audience": {
+    "eyebrow": "Who it's for",
+    "title": "For teams running more than one brand",
+    "items": [
+      {
+        "title": "iGaming and white-label platforms",
+        "detail": "One product sold under many brands. Every operator gets its own look without a separate codebase."
+      },
+      {
+        "title": "Fintech with sub-brands",
+        "detail": "A main brand plus products for different audiences or markets. Same UX, different look, one library."
+      },
+      {
+        "title": "Agencies on one stack",
+        "detail": "Many clients on the same components. A new client starts from a brand file, not from a fork."
+      }
     ]
   },
   "cta": {
