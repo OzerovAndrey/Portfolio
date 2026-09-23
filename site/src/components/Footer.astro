@@ -1,10 +1,10 @@
 ---
-import { config, links as mk } from "../config";
+import { config, formatPhone, links as mk } from "../config";
 import { t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
-const { email, linkedin, telegram } = config.contacts;
-const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram]);
+const { email, linkedin, telegram, phone } = config.contacts;
+const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram], [formatPhone(phone), phone && `tel:${phone}`]);
 ---
 <footer class="footer">
   <div class="container footer__inner">

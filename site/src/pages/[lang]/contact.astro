@@ -1,15 +1,15 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
-import { config, links } from "../../config";
+import { config, formatPhone, links } from "../../config";
 import { staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
 const c = d.contact;
-const { email, linkedin, telegram, calcom } = config.contacts;
-const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram]);
+const { email, linkedin, telegram, phone, calcom } = config.contacts;
+const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram], [formatPhone(phone), phone && `tel:${phone}`]);
 ---
 <Base lang={lang} page="contact" title={d.meta.contactTitle} description={d.meta.contactDescription}>
   <section class="section">
