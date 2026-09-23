@@ -88,7 +88,7 @@ const lum = (hex) => { const n = parseInt(hex.slice(1, 7), 16);
 const ratio = (x, y) => { const [l1, l2] = [lum(x), lum(y)].sort((p, q) => q - p); return (l1 + 0.05) / (l2 + 0.05); };
 const PAIRS = [
   ["hero.title.color", "hero.bg", 4.5], ["hero.subtitle.color", "hero.bg", 4.5], ["hero.eyebrow.color", "hero.bg", 4.5], ["focus.outline.color", "section.bg.default", 3], ["focus.outline.color", "section.bg.alt", 3],
-  ["button.primary.color.default", "button.primary.bg.default", 4.5], ["button.primary.color.default", "button.primary.bg.hover", 4.5], ["button.primary.color.default", "button.primary.bg.active", 4.5], ["button.secondary.color.default", "button.secondary.bg.default", 4.5],
+  ["button.primary.color.default", "button.primary.bg.default", 4.5], ["button.primary.color.default", "button.primary.bg.hover", 4.5], ["button.primary.color.default", "button.primary.bg.active", 4.5], ["button.secondary.color.default", "section.bg.default", 4.5], ["button.secondary.color.default", "section.bg.alt", 4.5], ["button.secondary.br", "section.bg.default", 3], ["siteFooter.link.color.default", "siteFooter.bg", 4.5], ["accentBar.ink", "section.bg.default", 3],
   ["link.color.default", "section.bg.default", 4.5], ["link.color.default", "section.bg.alt", 4.5],
   ["metric.amount.color", "metric.bg", 4.5], ["metric.label.color", "metric.bg", 4.5], ["metric.typical.color", "metric.typical.bg", 4.5],
   ["caseCard.detail.color", "caseCard.bg.default", 4.5], ["caseCard.tag.color", "caseCard.tag.bg", 4.5],
