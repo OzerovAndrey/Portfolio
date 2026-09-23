@@ -28,13 +28,18 @@
 
 ## Сайт (`site/`)
 - Astro + React-острови (зараз один: `ThemeToggle.tsx`) + TypeScript. Маршрути `/en/*`, `/uk/*`; `/` завжди редіректить на `/en/`.
-- Перший візит — завжди light + EN. Вибір теми живе тільки в межах візиту (`sessionStorage`), системна тема й мова браузера не враховуються.
+- Перший візит — EN і **системна тема** (`prefers-color-scheme`); поки користувач не клацнув перемикач, сайт наживо йде за системою.
+  Ручний вибір теми живе тільки в межах візиту (`sessionStorage`). Мова браузера не враховується.
 - `npm run tokens` генерує `src/styles/tokens.generated.css` і `src/generated/*` через `tools/build-css.mjs`. Не редагувати.
 - Стилі — тільки `var(--…)` компонентних токенів, оболонка сторінки — theme/brand-семантика (`--color-*`, `--space-*`, `--layout-*`).
-  Жодного hex / px / font-family. Виняток: брейкпоінти в `@media`.
+  Жодного hex / px / font-family. Виняток: брейкпоінти в `@media`. Це перевіряє `tools/check-styles.mjs` (входить у `build`);
+  свідомий виняток — коментар `/* allow: причина */` у тому ж рядку.
 - Текст — тільки класи text styles `ts-*` (`ts-display-d1`, `ts-title-t1`, `ts-body-md-regular`…), не `font-size` руками.
 - Копі — тільки в `src/i18n/en.json` і `uk.json`. EN і UK рівноправні, UK не скорочена; ключі однакові (TS це перевіряє).
-- Контакти, URL демо, endpoint форми — `src/config.ts`. Порожнє поле = блок не показується.
+- Контакти, URL демо, endpoint форми, аналітика — `src/config.ts`. Порожнє поле = блок не показується.
+- Аналітика — Umami Cloud (`PUBLIC_UMAMI_ID`). Подія = атрибут `data-event="назва"` на елементі, без коду провайдера в компонентах.
+  Назви подій: `snake_case`, `<об'єкт>_<дія>` (`cta_demo`, `demo_open_fullscreen`, `lang_uk`, `theme_dark`, `contact_sent`).
+- OG-картинки — `site/public/og/en.png`, `uk.png` (1200×630). Змінився hero-текст → оновити картинки.
 - Цифри на сайті — тільки реальні або з плашкою `metric.typical`. Не вигадувати обіцянок від імені Андрія.
 - Нова сторінка → спершу розділ у брифі проєкту, потім код.
 - Перевірка перед комітом: `npm --prefix site run build` без помилок (включає check-tokens і astro check).

@@ -40,7 +40,7 @@ const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin]
           </div>
           <input type="hidden" name="_language" value={lang} />
           <div class="form__actions">
-            <Button type="submit" size="lg" data-event="cta_contact">{c.submit}</Button>
+            <Button type="submit" size="lg">{c.submit}</Button>
             <p class="form__status ts-body-md-regular" role="status" aria-live="polite"></p>
           </div>
         </form>
@@ -75,6 +75,8 @@ const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin]
       const r = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
       if (!r.ok) throw new Error(String(r.status));
       form.reset();
+      // Подія тільки після реальної відправки, не на клік (клік із помилкою валідації не рахуємо)
+      (window as unknown as { umami?: { track: (e: string) => void } }).umami?.track("contact_sent");
       status.classList.add("is-success");
       status.textContent = form.dataset.success ?? "";
     } catch {

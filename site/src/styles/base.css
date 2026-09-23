@@ -51,7 +51,7 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .section__lead { color: var(--section-lead-color); }
 @media (min-width: 1024px) { .section { padding-block: var(--section-paddingV); } }
 
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* allow: стандартний sr-only патерн, 1px — не дизайн-значення */
 .skip { position: absolute; left: var(--l-padH); top: calc(var(--siteHeader-height) * -2); z-index: 10; }
 .skip:focus { top: var(--space-gap-md); }
 

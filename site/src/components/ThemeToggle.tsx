@@ -3,10 +3,18 @@ import { useEffect, useState } from "react";
 type Theme = "light" | "dark";
 interface Props { labelToDark: string; labelToLight: string }
 
-// React-острів: перемикає data-theme на <html>. Початкову тему ставить inline-скрипт у <head>.
+// React-острів: перемикає data-theme на <html>. Початкову тему (системну або вибрану у візиті) ставить inline-скрипт у <head>.
 export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
   const [theme, setTheme] = useState<Theme>("light");
-  useEffect(() => { setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light"); }, []);
+  useEffect(() => {
+    // Тема може змінитись і без кліку (системна тема змінилась) — іконка стежить за атрибутом
+    const root = document.documentElement;
+    const sync = () => setTheme(root.dataset.theme === "dark" ? "dark" : "light");
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => mo.disconnect();
+  }, []);
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
@@ -17,7 +25,7 @@ export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
   const label = theme === "dark" ? labelToLight : labelToDark;
 
   return (
-    <button type="button" className="theme-toggle" onClick={toggle} aria-label={label} title={label}>
+    <button type="button" className="theme-toggle" onClick={toggle} data-event={`theme_${theme === "dark" ? "light" : "dark"}`} aria-label={label} title={label}>
       <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
         {theme === "dark" ? (
           <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>

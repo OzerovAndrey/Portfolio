@@ -4,12 +4,15 @@ import "../styles/base.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { locales, swapLang, t, type Locale } from "../i18n";
+import { config } from "../config";
 
 interface Props { lang: Locale; title: string; description: string; page: "home" | "contact" }
 const { lang, title, description, page } = Astro.props;
 const d = t(lang);
 const path = Astro.url.pathname;
 const abs = (p: string) => new URL(p, Astro.site).href;
+const ogImage = abs(`${import.meta.env.BASE_URL}og/${lang}.png`);
+const { umamiId, umamiSrc } = config.analytics;
 ---
 <!doctype html>
 <html lang={lang} data-brand="site" data-theme="light">
@@ -27,13 +30,25 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <meta property="og:url" content={abs(path)} />
     <meta property="og:site_name" content={d.meta.siteName} />
     <meta property="og:locale" content={lang === "uk" ? "uk_UA" : "en_US"} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={d.meta.homeTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
-    <!-- тема до першого рендера: вибір у межах візиту (sessionStorage) → light. Системна тема не враховується -->
+    <!-- тема до першого рендера: вибір у межах візиту (sessionStorage) → інакше системна (prefers-color-scheme).
+         Поки вибору немає, сайт іде за системою й наживо реагує на її зміну -->
     <script is:inline>
       (() => {
-        let t = null;
-        try { t = sessionStorage.getItem("theme"); } catch {}
-        document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+        const root = document.documentElement;
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        const saved = () => { try { const v = sessionStorage.getItem("theme"); return v === "dark" || v === "light" ? v : null; } catch { return null; } };
+        const apply = () => { root.dataset.theme = saved() ?? (mq.matches ? "dark" : "light"); };
+        apply();
+        mq.addEventListener?.("change", () => { if (!saved()) apply(); });
       })();
     </script>
   </head>
@@ -42,5 +57,17 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <Header lang={lang} page={page} />
     <main id="main"><slot /></main>
     <Footer lang={lang} />
+    {umamiId && (
+      <>
+        <script is:inline defer src={umamiSrc} data-website-id={umamiId}></script>
+        <!-- Події: будь-який елемент з data-event="назва" → umami.track("назва"). Провайдер-агностично: у розмітці тільки data-event -->
+        <script is:inline>
+          document.addEventListener("click", (e) => {
+            const el = e.target instanceof Element ? e.target.closest("[data-event]") : null;
+            if (el && window.umami) window.umami.track(el.getAttribute("data-event"));
+          }, { capture: true });
+        </script>
+      </>
+    )}
   </body>
 </html>

@@ -23,4 +23,4 @@ node ../tools/sync-demo-tokens.mjs --github  # те саме з GitHub
 
 Пуш у `main` з правками в `site/`, `tokens/` або `tools/` сам оновлює сайт на GitHub Pages.
 Змінні репо (Settings → Secrets and variables → Actions → Variables): `SITE_BASE` (`/Portfolio/`, з доменом — `/`),
-`SITE_URL`, `PUBLIC_FORM_ENDPOINT` (Formspree).
+`SITE_URL`, `PUBLIC_FORM_ENDPOINT` (Formspree), `PUBLIC_UMAMI_ID` (Umami Cloud).

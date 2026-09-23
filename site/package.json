@@ -7,9 +7,10 @@
     "tokens": "node ../tools/build-css.mjs --out-manifest src/generated/tokens-manifest.json",
     "check:tokens": "node ../tools/check-tokens.mjs",
     "dev": "npm run tokens && astro dev",
-    "build": "npm run check:tokens && npm run tokens && astro check && astro build",
+    "build": "npm run check:tokens && npm run check:styles && npm run tokens && astro check && astro build",
     "preview": "astro preview",
-    "check:upstream": "node ../tools/sync-demo-tokens.mjs --github --check"
+    "check:upstream": "node ../tools/sync-demo-tokens.mjs --github --check",
+    "check:styles": "node ../tools/check-styles.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

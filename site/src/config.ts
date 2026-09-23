@@ -1,17 +1,23 @@
 // Дані, які надає Андрій (бриф, розділ 8). Порожнє поле = блок на сайті не показується.
-type Contacts = { email: string; linkedin: string; telegram: string; phone: string; calcom: string };
+type Contacts = { email: string; linkedin: string; telegram: string; phone: string; calcom: string; github: string };
 
 export const config = {
   name: "Andrey Ozerov",
   demoUrl: "https://ozerovandrey.github.io/multibrand-design-system/",
   // Formspree / Resend endpoint. Можна задати через PUBLIC_FORM_ENDPOINT у GitHub → Settings → Variables.
   formEndpoint: (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) ?? "",
+  // Umami Cloud (безкоштовний Hobby). Website ID → GitHub → Settings → Variables → PUBLIC_UMAMI_ID. Порожньо = без аналітики.
+  analytics: {
+    umamiId: (import.meta.env.PUBLIC_UMAMI_ID as string | undefined) ?? "",
+    umamiSrc: "https://cloud.umami.is/script.js",
+  },
   contacts: {
     email: "vorezo@gmail.com",
     linkedin: "https://www.linkedin.com/in/andrey-ozerov-162b3737/",
     telegram: "https://t.me/ozerov_design",
     phone: "+380630710271",
     calcom: "",
+    github: "https://github.com/OzerovAndrey",
   } satisfies Contacts as Contacts,
 };
 

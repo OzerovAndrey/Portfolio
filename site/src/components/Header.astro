@@ -22,7 +22,7 @@ const path = Astro.url.pathname;
     <div class="header__tools">
       <div class="lang" role="group" aria-label={d.a11y.lang}>
         {locales.map((l) => (
-          <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined}>{l.toUpperCase()}</a>
+          <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} data-event={l === lang ? undefined : `lang_${l}`}>{l.toUpperCase()}</a>
         ))}
       </div>
       <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
