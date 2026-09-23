@@ -1,11 +1,11 @@
 /* Глобальна оболонка сайту. Тільки var(--…) з tokens.generated.css.
    Виняток — брейкпоінти в @media (CSS не читає змінні в media queries). */
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/inter-tight/600.css";
-@import "@fontsource/inter-tight/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+/* Серіф вантажиться тільки у 300: заголовки (bold/semibold у typography) рендеряться тонкими — «плакатний» тонкий серіф.
+   font-synthesis: none не дає браузеру домалювати фальшивий жирний. */
+@import "@fontsource/noto-serif-display/300.css";
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; color-scheme: light dark; }
@@ -16,6 +16,7 @@ body {
   background: var(--section-bg-default);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
 h1, h2, h3, p, ol, ul { margin: 0; }
@@ -45,11 +46,16 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 
 .section { background: var(--section-bg-default); padding-block: var(--l-row); }
 .section--alt { background: var(--section-bg-alt); }
-.section__head { display: flex; flex-direction: column; gap: var(--space-gap-md); margin-bottom: var(--section-gap); }
+.section__head { display: flex; flex-direction: column; align-items: center; gap: var(--space-gap-md); margin-bottom: var(--section-gap); text-align: center; }
 .section__eyebrow { color: var(--section-eyebrow-color); }
 .section__title { color: var(--section-title-color); }
 .section__lead { color: var(--section-lead-color); }
 @media (min-width: 1024px) { .section { padding-block: var(--section-paddingV); } }
+
+/* Декоративні смужки: тонка чорна + товста жовта (маркер). Не більше одного кластера на екран */
+.bars { display: flex; align-items: center; gap: var(--accentBar-gap); }
+.bars__ink { width: var(--size-control-xl); height: var(--accentBar-thin); background: var(--accentBar-ink); }
+.bars__accent { width: calc(var(--size-control-xl) * 2); height: var(--accentBar-thickness); background: var(--accentBar-accent); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: var(--l-padH); top: calc(var(--siteHeader-height) * -2); z-index: 10; }

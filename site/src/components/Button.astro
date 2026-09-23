@@ -35,7 +35,8 @@ const Tag = href ? "a" : "button";
   .btn--primary:active { --btn-bg: var(--button-primary-bg-active); --btn-color: var(--button-primary-color-active); }
   .btn--primary:disabled { --btn-bg: var(--button-primary-bg-disabled); --btn-color: var(--button-primary-color-disabled); cursor: not-allowed; }
 
-  .btn--secondary { --btn-bg: var(--button-secondary-bg-default); --btn-color: var(--button-secondary-color-default); }
+  .btn--primary:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .btn--secondary { --btn-bg: var(--button-secondary-bg-default); --btn-color: var(--button-secondary-color-default); border: var(--button-borderWidth-secondary) solid var(--button-secondary-br); }
   .btn--secondary:hover { --btn-bg: var(--button-secondary-bg-hover); --btn-color: var(--button-secondary-color-hover); }
   .btn--secondary:active { --btn-bg: var(--button-secondary-bg-active); --btn-color: var(--button-secondary-color-active); }
 
