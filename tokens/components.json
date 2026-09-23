@@ -7,11 +7,11 @@
           "type": "color"
         },
         "hover": {
-          "value": "{color.fill.primary.default}",
+          "value": "{color.fill.primary.hover}",
           "type": "color"
         },
         "active": {
-          "value": "{color.fill.primary.default}",
+          "value": "{color.fill.primary.active}",
           "type": "color"
         },
         "disabled": {
@@ -41,15 +41,15 @@
     "secondary": {
       "bg": {
         "default": {
-          "value": "{color.fill.ghost.default}",
+          "value": "{color.fill.secondary.default}",
           "type": "color"
         },
         "hover": {
-          "value": "{color.fill.ghost.hover}",
+          "value": "{color.fill.secondary.hover}",
           "type": "color"
         },
         "active": {
-          "value": "{color.fill.ghost.active}",
+          "value": "{color.fill.secondary.active}",
           "type": "color"
         },
         "disabled": {
@@ -74,10 +74,6 @@
           "value": "{color.text.tertiary}",
           "type": "color"
         }
-      },
-      "br": {
-        "value": "{color.text.primary}",
-        "type": "color"
       }
     },
     "text": {
@@ -216,7 +212,7 @@
         "type": "borderWidth"
       },
       "secondary": {
-        "value": "{borderWidth.control}",
+        "value": "{borderWidth.none}",
         "type": "borderWidth"
       },
       "text": {
@@ -501,7 +497,7 @@
       },
       "indicator": {
         "bg": {
-          "value": "{color.fill.accent.default}",
+          "value": "{color.fill.primary.default}",
           "type": "color"
         },
         "height": {
@@ -746,11 +742,12 @@
     },
     "typical": {
       "bg": {
-        "value": "{color.fill.accent.default}",
-        "type": "color"
+        "value": "{color.fill.warning.subtle}",
+        "type": "color",
+        "description": "плашка «типове значення», не з реального білду"
       },
       "color": {
-        "value": "{color.text.onAccent}",
+        "value": "{color.text.primary}",
         "type": "color"
       }
     }
@@ -917,11 +914,11 @@
   },
   "ctaBand": {
     "bg": {
-      "value": "{color.bg.secondary}",
+      "value": "{color.fill.primary.subtle}",
       "type": "color"
     },
     "br": {
-      "value": "{color.border.secondary}",
+      "value": "{color.border.accent}",
       "type": "color"
     },
     "borderRadius": {
@@ -985,7 +982,7 @@
   },
   "siteFooter": {
     "bg": {
-      "value": "{color.fill.primary.default}",
+      "value": "{color.bg.tertiary}",
       "type": "color"
     },
     "br": {
@@ -993,7 +990,7 @@
       "type": "color"
     },
     "borderWidth": {
-      "value": "{borderWidth.none}",
+      "value": "{borderWidth.control}",
       "type": "borderWidth"
     },
     "paddingV": {
@@ -1009,42 +1006,20 @@
       "type": "spacing"
     },
     "color": {
-      "value": "{color.text.onPrimary}",
+      "value": "{color.text.secondary}",
       "type": "color"
     },
     "link": {
       "color": {
         "default": {
-          "value": "{color.text.onPrimary}",
+          "value": "{color.text.secondary}",
           "type": "color"
         },
         "hover": {
-          "value": "{color.text.onPrimary}",
+          "value": "{color.text.primary}",
           "type": "color"
         }
       }
-    }
-  },
-  "accentBar": {
-    "accent": {
-      "value": "{color.fill.accent.default}",
-      "type": "color"
-    },
-    "ink": {
-      "value": "{color.text.primary}",
-      "type": "color"
-    },
-    "thickness": {
-      "value": "{space.gap.xs}",
-      "type": "spacing"
-    },
-    "thin": {
-      "value": "{borderWidth.control}",
-      "type": "borderWidth"
-    },
-    "gap": {
-      "value": "{space.gap.sm}",
-      "type": "spacing"
     }
   }
 }

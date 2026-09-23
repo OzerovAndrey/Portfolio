@@ -11,7 +11,6 @@ const d = t(lang);
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
   <section class="hero">
     <div class="container hero__inner">
-      <div class="bars" aria-hidden="true"><span class="bars__ink"></span><span class="bars__accent"></span></div>
       <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
       <h1 class="hero__title ts-display-d1">{d.hero.title}</h1>
       <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
@@ -65,11 +64,11 @@ const d = t(lang);
 
 <style>
   .hero { background: var(--hero-bg); padding-block: var(--l-row); }
-  .hero__inner { display: flex; flex-direction: column; align-items: center; gap: var(--hero-gap); text-align: center; }
+  .hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
   .hero__eyebrow { color: var(--hero-eyebrow-color); }
   .hero__title { color: var(--hero-title-color); max-width: 18ch; text-wrap: balance; }
   .hero__subtitle { color: var(--hero-subtitle-color); }
-  .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   .hero__title { hyphens: auto; }
   /* Мобільний розмір = значення ts-display-d3. Прибрати, коли в typography з'являться адаптивні стилі (tasks/demo-03). */
   @media (max-width: 767px) { .hero__title { font-size: var(--fontSize-40); line-height: var(--lineHeight-48); } }

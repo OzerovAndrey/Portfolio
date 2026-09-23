@@ -91,7 +91,7 @@ function formatValue(v, type) {
   if (["sizing", "spacing", "borderRadius", "borderWidth", "fontSizes", "lineHeights", "dimension"].includes(type) && /^-?\d+(\.\d+)?$/.test(v)) return v + "px";
   if (type === "letterSpacing" && /%$/.test(v)) return (parseFloat(v) / 100).toFixed(3).replace(/0+$/, "").replace(/\.$/, "") + "em";
   if (type === "fontFamilies") {
-    const fallback = { "Montserrat": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Manrope": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Space Grotesk": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Nunito": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Unbounded": "'Arial Black', system-ui, sans-serif", "Inter": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Noto Serif Display": "Georgia, 'Times New Roman', serif", "IBM Plex Mono": "ui-monospace, SFMono-Regular, Menlo, monospace" }[v] ?? "system-ui, sans-serif";
+    const fallback = { "Montserrat": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Manrope": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Space Grotesk": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Nunito": "system-ui, -apple-system, 'Segoe UI', sans-serif", "Unbounded": "'Arial Black', system-ui, sans-serif", "Inter": "system-ui, -apple-system, 'Segoe UI', sans-serif" }[v] ?? "system-ui, sans-serif";
     return `'${v}', ${fallback}`;
   }
   return v;

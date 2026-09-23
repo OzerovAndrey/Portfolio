@@ -1,29 +1,27 @@
 {
   "color": {
     "product1": {
-      "value": "#2C2C26",
+      "value": "#8CB4FF",
       "type": "color",
-      "description": "carbon — теплий майже-чорний: єдина заливка дії (CTA), темний футер. Текст на ньому — білий"
+      "description": "periwinkle — єдиний акцент сайту: CTA-заливки, індикатори, м’які фони. Текст на ньому — чорний"
     },
     "product2": {
-      "value": "#FFF347",
+      "value": "#C8562F",
       "type": "color",
-      "description": "highlighter yellow — тільки декоративний маркер (смужки, підсвітка), не колір дії й не текст. ≤4 рази на екран"
+      "description": "clay — маркер «типове значення», рідкісні акценти"
     },
     "product3": {
-      "value": "#6D6E5E",
-      "type": "color",
-      "description": "lichen — олив'яний, інформаційні акценти"
+      "value": "#0B7FAB",
+      "type": "color"
     },
     "onProduct1": {
-      "value": "{color.white}",
+      "value": "{color.black}",
       "type": "color",
-      "description": "текст на заливці product1 (carbon)"
+      "description": "текст на заливці product1"
     },
     "onProduct2": {
       "value": "{color.black}",
-      "type": "color",
-      "description": "текст на жовтому маркері"
+      "type": "color"
     },
     "success": {
       "value": "#1F9D5B",
@@ -38,21 +36,21 @@
       "type": "color"
     },
     "ink": {
-      "value": "#0A0807",
+      "value": "#0B0C0E",
       "type": "color",
-      "description": "база нейтральної шкали — теплий майже-чорний (hue≈20°). Олив'яні відтінки з рампою map не проходять AA для text.secondary — перевірено перебором"
+      "description": "база нейтральної шкали — майже чорний графіт (підібрано під AA для text.secondary)"
     }
   },
   "fontFamily": {
     "display": {
-      "value": "Noto Serif Display",
+      "value": "Inter Tight",
       "type": "fontFamilies",
-      "description": "заголовки: display / title — тонкий контрастний серіф (вантажиться тільки 300, див. base.css)"
+      "description": "заголовки: display / title"
     },
     "base": {
-      "value": "IBM Plex Mono",
+      "value": "Inter",
       "type": "fontFamilies",
-      "description": "текст і UI: body / label / caption / overline — моноширинний"
+      "description": "текст: body / label / caption / overline"
     }
   },
   "space": {
@@ -103,11 +101,11 @@
   },
   "borderRadius": {
     "control": {
-      "value": "{borderRadius.4}",
+      "value": "{borderRadius.8}",
       "type": "borderRadius"
     },
     "surface": {
-      "value": "{borderRadius.8}",
+      "value": "{borderRadius.12}",
       "type": "borderRadius"
     }
   },

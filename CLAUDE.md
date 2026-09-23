@@ -21,7 +21,7 @@
   `components.json` (`button`, `input` взяті з демо; решта — компоненти сторінок), `$themes.json`, `$metadata.json`.
 - `components` посилаються тільки на theme / brand-семантику (включно з `layout.*`). Ніколи на `core.*` / `map.*`.
 - Назви груп `value` / `type` / `description` зарезервовані Token Studio → `amount` / `percent` / `detail`.
-- Текст на `color.fill.primary.*` — тільки `color.text.onPrimary` (білий на carbon). Посилання й фокус — `color.text.primary`,
+- Текст на `color.fill.primary.*` — тільки `color.text.onPrimary` (чорний). Посилання й фокус — `color.text.primary`,
   не `text.accent` (у light-темі це світлий product1, не проходить AA).
 - Перед комітом токенів: `node tools/check-tokens.mjs` (паритет ключів, шари, зарезервовані імена, резолв у light/dark,
   WCAG-контраст). Червоне = не комітити. Нова пара «текст на фоні» → додати в `PAIRS` у чекері.
