@@ -1,0 +1,68 @@
+diff --git a/tools/build-css.mjs b/tools/build-css.mjs
+index 5f4e82e..1170d78 100644
+--- a/tools/build-css.mjs
++++ b/tools/build-css.mjs
+@@ -6,13 +6,25 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+ import { dirname, resolve } from "node:path";
+ import { fileURLToPath } from "node:url";
+ 
+-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "tokens");
+-const OUT_CSS = resolve(dirname(fileURLToPath(import.meta.url)), "..", "site", "src", "styles", "tokens.generated.css");
+-const OUT_META = resolve(dirname(fileURLToPath(import.meta.url)), "..", "site", "src", "generated", "meta.json");
+-const OUT_MANIFEST = resolve(dirname(fileURLToPath(import.meta.url)), "..", "site", "public", "tokens-manifest.json");
++// CLI (all optional; defaults = demo site):
++//   --tokens <dir>               token root (default ../tokens)
++//   --brand-file <name>=<path>   extra brand set outside the repo, repeatable (e.g. site=../tokens/brand/site.json)
++//   --brands <a,b,…>             brands to emit (default: aurum,nova,fiesta,ultra + every --brand-file)
++//   --components-file <path>     extra component set appended after components.json, repeatable
++//   --no-demo-components         skip tokens/components.json (consumer ships only its own components)
++//   --out-css / --out-meta / --out-manifest <path>
++const HERE = dirname(fileURLToPath(import.meta.url));
++const argv = process.argv.slice(2);
++const argAll = (k) => argv.flatMap((a, i) => (a === `--${k}` ? [argv[i + 1]] : []));
++const arg = (k, d) => argAll(k).at(-1) ?? d;
++const ROOT = resolve(arg("tokens", resolve(HERE, "..", "tokens")));
++const OUT_CSS = resolve(arg("out-css", resolve(HERE, "..", "site", "src", "styles", "tokens.generated.css")));
++const OUT_META = resolve(arg("out-meta", resolve(HERE, "..", "site", "src", "generated", "meta.json")));
++const OUT_MANIFEST = resolve(arg("out-manifest", resolve(HERE, "..", "site", "public", "tokens-manifest.json")));
+ for (const f of [OUT_META, OUT_MANIFEST, OUT_CSS]) mkdirSync(dirname(f), { recursive: true });
+ 
+-const BRANDS = ["aurum", "nova", "fiesta", "ultra"];
++const EXTRA_BRANDS = Object.fromEntries(argAll("brand-file").map((s) => { const [n, p] = s.split("="); return [n, resolve(p)]; }));
++const BRANDS = arg("brands") ? arg("brands").split(",") : ["aurum", "nova", "fiesta", "ultra", ...Object.keys(EXTRA_BRANDS)];
+ const THEMES = ["light", "dark"];
+ const read = (p) => JSON.parse(readFileSync(resolve(ROOT, p), "utf8"));
+ 
+@@ -28,10 +40,12 @@ function flatten(obj, prefix = "", out = new Map()) {
+ 
+ const core = flatten(read("core.json"));
+ const mapRaw = flatten(read("map.json"));
+-const brand = Object.fromEntries(BRANDS.map((b) => [b, flatten(read(`brand/${b}.json`))]));
++const brand = Object.fromEntries(BRANDS.map((b) => [b, flatten(EXTRA_BRANDS[b] ? JSON.parse(readFileSync(EXTRA_BRANDS[b], "utf8")) : read(`brand/${b}.json`))]));
++const BRAND0 = BRANDS[0];
+ const theme = Object.fromEntries(THEMES.map((t) => [t, flatten(read(`theme/${t}.json`))]));
+ const typography = flatten(read("typography.json").typography ? { typography: read("typography.json").typography } : read("typography.json"));
+-const components = flatten(read("components.json"));
++const components = argv.includes("--no-demo-components") ? new Map() : flatten(read("components.json"));
++for (const p of argAll("components-file")) flatten(JSON.parse(readFileSync(resolve(p), "utf8")), "", components);
+ 
+ const cssName = (n) => "--" + n.replace(/\./g, "-");
+ const isRef = (v) => typeof v === "string" && /^\{[^}]+\}$/.test(v);
+@@ -155,7 +169,7 @@ for (const [n, t] of typography) {
+ writeFileSync(OUT_CSS, lines.join("\n") + "\n");
+ 
+ // ---------- manifest (for the "under the hood" diff panel) ----------
+-const layers = { brand: [...brand.aurum.keys()], map: [...mapRaw.keys()], theme: [...theme.light.keys()], components: [...components.keys()] };
++const layers = { brand: [...brand[BRAND0].keys()], map: [...mapRaw.keys()], theme: [...theme.light.keys()], components: [...components.keys()] };
+ const values = {};
+ for (const b of BRANDS) for (const t of THEMES) {
+   const o = {};
+@@ -200,7 +214,7 @@ writeFileSync(OUT_MANIFEST, JSON.stringify({ layers, aliases, values, chains }))
+ // component counts by prefix
+ const compGroups = {};
+ for (const n of components.keys()) { const g = n.split(".")[0]; compGroups[g] = (compGroups[g] ?? 0) + 1; }
+-const counts = { core: core.size, brand: brand.aurum.size * BRANDS.length, map: mapRaw.size, theme: theme.light.size * 2, typography: typography.size, components: components.size };
++const counts = { core: core.size, brand: brand[BRAND0].size * BRANDS.length, map: mapRaw.size, theme: theme.light.size * 2, typography: typography.size, components: components.size };
+ counts.total = Object.values(counts).reduce((a, b) => a + b, 0);
+ const css = lines.join("\n");
+ writeFileSync(OUT_META, JSON.stringify({ counts, brandCount: BRANDS.length, comboCount: BRANDS.length * THEMES.length, componentGroups: compGroups, componentCount: Object.keys(compGroups).length, cssBytes: Buffer.byteLength(css), textStyles: tsNames.length }, null, 2));

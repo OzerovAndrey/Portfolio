@@ -1,0 +1,47 @@
+---
+import "../styles/tokens.generated.css";
+import "../styles/base.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { locales, swapLang, t, type Locale } from "../i18n";
+
+interface Props { lang: Locale; title: string; description: string; page: "home" | "contact" }
+const { lang, title, description, page } = Astro.props;
+const d = t(lang);
+const path = Astro.url.pathname;
+const abs = (p: string) => new URL(p, Astro.site).href;
+---
+<!doctype html>
+<html lang={lang} data-brand="site" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={abs(path)} />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={abs(swapLang(path, l))} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(swapLang(path, "en"))} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={abs(path)} />
+    <meta property="og:site_name" content={d.meta.siteName} />
+    <meta property="og:locale" content={lang === "uk" ? "uk_UA" : "en_US"} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <!-- тема до першого рендера: збережений вибір → системна → light -->
+    <script is:inline>
+      (() => {
+        let t = null;
+        try { t = localStorage.getItem("theme"); } catch {}
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+  <body class="ts-body-md-regular">
+    <a class="skip" href="#main">{d.a11y.skip}</a>
+    <Header lang={lang} page={page} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+  </body>
+</html>

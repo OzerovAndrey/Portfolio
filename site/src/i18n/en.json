@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "siteName": "Andrey Ozerov — Multi-brand design systems",
+    "homeTitle": "Multi-brand design systems that ship — Andrey Ozerov",
+    "homeDescription": "One component library, one token architecture, every brand you need. Live demo: a casino lobby that re-skins between brands and themes in real time.",
+    "contactTitle": "Contact — Andrey Ozerov",
+    "contactDescription": "Have more than one brand? Tell me about your product and your brands — I reply personally."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "nav": "Main navigation",
+    "lang": "Language",
+    "themeToDark": "Switch to dark theme",
+    "themeToLight": "Switch to light theme",
+    "home": "Andrey Ozerov — home"
+  },
+  "nav": {
+    "home": "Home",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Andrey Ozerov · Product UI/UX Designer",
+    "title": "Multi-brand design systems that ship.",
+    "subtitle": "One component library. One token architecture. Every brand you'll ever need — without rebuilding a thing.",
+    "ctaDemo": "See it live",
+    "ctaHow": "How it works"
+  },
+  "demo": {
+    "eyebrow": "Live demo",
+    "title": "Same product. Same code.",
+    "lead": "Switch the brand — watch what changes and what doesn't.",
+    "frameTitle": "Aurum Multibrand live demo",
+    "openFull": "Open full screen",
+    "mobileNote": "The demo is interactive and works best full screen.",
+    "loading": "Loading demo…"
+  },
+  "how": {
+    "eyebrow": "How it works",
+    "title": "From Figma to production in three steps",
+    "steps": [
+      { "title": "Design in Figma", "detail": "Brand, theme and component tokens live in Token Studio. A new brand is one file of values — components stay untouched." },
+      { "title": "Sync to code", "detail": "Tokens go to GitHub as JSON and compile into CSS custom properties. No hand-copied hex codes, no drift." },
+      { "title": "Ship any brand", "detail": "The product switches brand and theme with two attributes on the page. Same markup, same components, same release." }
+    ]
+  },
+  "cta": {
+    "title": "Have more than one brand? Let's talk.",
+    "lead": "Audit, token architecture, a full multi-brand system or just the pipeline — tell me where you are.",
+    "button": "Get in touch"
+  },
+  "contact": {
+    "title": "Let's talk",
+    "lead": "Tell me about your product and your brands. I reply personally.",
+    "name": "Name",
+    "email": "Email",
+    "company": "Company",
+    "companyHint": "Optional",
+    "need": "What do you need?",
+    "needHint": "Number of brands, platforms, where the system is today.",
+    "submit": "Send message",
+    "sending": "Sending…",
+    "success": "Thank you — message sent. I'll get back to you soon.",
+    "error": "Something went wrong. Please try again or write directly.",
+    "direct": "Or reach me directly",
+    "book": "Book a call",
+    "noForm": "The contact form is coming soon."
+  },
+  "footer": {
+    "rights": "Built on its own design tokens.",
+    "demo": "Live demo"
+  }
+}

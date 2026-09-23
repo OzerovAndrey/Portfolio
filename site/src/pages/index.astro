@@ -1,0 +1,21 @@
+---
+// Корінь: мова з браузера → /en/ або /uk/. Без JS — посилання.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+<!doctype html>
+<html lang="en" data-brand="site">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Andrey Ozerov</title>
+    <link rel="alternate" hreflang="en" href={`${base}en/`} />
+    <link rel="alternate" hreflang="uk" href={`${base}uk/`} />
+    <script is:inline define:vars={{ base }}>
+      const uk = (navigator.languages || [navigator.language]).some((l) => /^(uk|ru)\b/i.test(l));
+      location.replace(base + (uk ? "uk/" : "en/"));
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${base}en/`} /></noscript>
+  </head>
+  <body><p><a href={`${base}en/`}>English</a> · <a href={`${base}uk/`}>Українська</a></p></body>
+</html>

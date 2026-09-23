@@ -1,0 +1,61 @@
+/* Глобальна оболонка сайту. Тільки var(--…) з tokens.generated.css.
+   Виняток — брейкпоінти в @media (CSS не читає змінні в media queries). */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter-tight/600.css";
+@import "@fontsource/inter-tight/700.css";
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+body {
+  margin: 0;
+  background: var(--section-bg-default);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, p, ol, ul { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+img, svg, iframe { display: block; max-width: 100%; }
+button, input, textarea { font: inherit; color: inherit; }
+::selection { background: var(--color-fill-primary-default); color: var(--color-text-onPrimary); }
+
+a { color: var(--link-color-default); text-decoration: underline; text-decoration-color: var(--link-br-default); text-underline-offset: 0.2em; }
+a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-hover); }
+
+:focus-visible {
+  outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--focus-outline-color);
+  outline-offset: calc(var(--focus-outline-borderWidth) * 2);
+}
+
+/* Сітка сторінки: layout-токени бренду по брейкпоінтах (як у демо) */
+:root { --l-padH: var(--layout-paddingH-xs); --l-gap: var(--layout-columnGap-xs); --l-row: var(--layout-rowGap-xs); }
+@media (min-width: 768px) { :root { --l-padH: var(--layout-paddingH-sm); --l-gap: var(--layout-columnGap-sm); --l-row: var(--layout-rowGap-sm); } }
+@media (min-width: 1024px) { :root { --l-padH: var(--layout-paddingH-md); --l-gap: var(--layout-columnGap-md); --l-row: var(--layout-rowGap-md); } }
+@media (min-width: 1200px) { :root { --l-padH: var(--layout-paddingH-lg); --l-gap: var(--layout-columnGap-lg); --l-row: var(--layout-rowGap-lg); } }
+@media (min-width: 1440px) { :root { --l-padH: var(--layout-paddingH-xl); --l-gap: var(--layout-columnGap-xl); --l-row: var(--layout-rowGap-xl); } }
+
+/* Ширина контенту похідна від токена контролу, а не від магічного числа: 56 × 22 = 1232 */
+.container { width: 100%; max-width: calc(var(--size-control-xl) * 22 + var(--l-padH) * 2); margin-inline: auto; padding-inline: var(--l-padH); }
+.measure { max-width: 60ch; }
+
+.section { background: var(--section-bg-default); padding-block: var(--l-row); }
+.section--alt { background: var(--section-bg-alt); }
+.section__head { display: flex; flex-direction: column; gap: var(--space-gap-md); margin-bottom: var(--section-gap); }
+.section__eyebrow { color: var(--section-eyebrow-color); }
+.section__title { color: var(--section-title-color); }
+.section__lead { color: var(--section-lead-color); }
+@media (min-width: 1024px) { .section { padding-block: var(--section-paddingV); } }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--l-padH); top: calc(var(--siteHeader-height) * -2); z-index: 10; }
+.skip:focus { top: var(--space-gap-md); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }

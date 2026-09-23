@@ -1,0 +1,71 @@
+---
+import ThemeToggle from "./ThemeToggle.tsx";
+import { href, locales, swapLang, t, type Locale } from "../i18n";
+
+interface Props { lang: Locale; page: "home" | "contact" }
+const { lang, page } = Astro.props;
+const d = t(lang);
+const nav = [
+  { id: "home", label: d.nav.home, url: href(lang) },
+  { id: "contact", label: d.nav.contact, url: href(lang, "contact") },
+] as const;
+const path = Astro.url.pathname;
+---
+<header class="header">
+  <div class="container header__inner">
+    <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
+    <nav class="nav" aria-label={d.a11y.nav}>
+      {nav.map((n) => (
+        <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <div class="header__tools">
+      <div class="lang" role="group" aria-label={d.a11y.lang}>
+        {locales.map((l) => (
+          <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined}>{l.toUpperCase()}</a>
+        ))}
+      </div>
+      <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .header { position: sticky; top: 0; z-index: 5; background: var(--siteHeader-bg); border-bottom: var(--siteHeader-borderWidth) solid var(--siteHeader-br); }
+  .header__inner { display: flex; align-items: center; gap: var(--siteHeader-gap); height: var(--siteHeader-height); }
+  .header__logo { color: var(--siteHeader-logo-color); text-decoration: none; white-space: nowrap; }
+  .nav { display: flex; gap: var(--siteNav-gap); margin-inline-start: auto; }
+  .nav__item {
+    position: relative; display: inline-flex; align-items: center;
+    height: var(--siteNav-item-size); padding-inline: var(--siteNav-item-paddingH);
+    color: var(--siteNav-item-color-default); text-decoration: none;
+  }
+  .nav__item:hover { color: var(--siteNav-item-color-hover); }
+  .nav__item[aria-current="page"] { color: var(--siteNav-item-color-active); }
+  .nav__item[aria-current="page"]::after {
+    content: ""; position: absolute; inset-inline: var(--siteNav-item-paddingH); bottom: 0;
+    height: calc(var(--siteNav-item-indicator-height) * 2); background: var(--siteNav-item-indicator-bg);
+  }
+  .header__tools { display: flex; align-items: center; gap: var(--siteHeader-gap); }
+  .lang { display: inline-flex; padding: var(--langSwitch-padding); background: var(--langSwitch-bg); border-radius: var(--langSwitch-borderRadius); }
+  .lang__item {
+    display: inline-flex; align-items: center; height: calc(var(--langSwitch-size) - var(--langSwitch-padding) * 2);
+    padding-inline: var(--langSwitch-item-paddingH); border-radius: var(--langSwitch-item-borderRadius);
+    background: var(--langSwitch-item-bg-default); color: var(--langSwitch-item-color-default);
+    text-decoration: none;
+  }
+  .lang__item:hover { background: var(--langSwitch-item-bg-hover); color: var(--langSwitch-item-color-hover); }
+  .lang__item[aria-current="true"] { background: var(--langSwitch-item-bg-active); color: var(--langSwitch-item-color-active); }
+  :global(.theme-toggle) {
+    display: inline-grid; place-items: center; width: var(--langSwitch-size); height: var(--langSwitch-size);
+    border: 0; border-radius: var(--button-borderRadius); background: var(--button-text-bg-default); color: var(--button-text-color-default); cursor: pointer;
+  }
+  :global(.theme-toggle:hover) { background: var(--button-text-bg-hover); }
+  .logo-short { display: none; }
+  @media (max-width: 559px) {
+    .logo-full { display: none; }
+    .logo-short { display: inline; }
+    .nav { gap: 0; }
+    .header__tools { gap: var(--space-gap-sm); }
+  }
+</style>

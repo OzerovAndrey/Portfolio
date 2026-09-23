@@ -1,0 +1,24 @@
+---
+import { config, links as mk } from "../config";
+import { t, type Locale } from "../i18n";
+interface Props { lang: Locale }
+const d = t(Astro.props.lang);
+const { email, linkedin, telegram } = config.contacts;
+const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram]);
+---
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
+    <ul class="footer__links">
+      {links.map((l) => <li><a class="ts-body-sm-strong" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: var(--siteFooter-paddingV); }
+  .footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--siteFooter-gap); }
+  .footer__links { display: flex; flex-wrap: wrap; gap: var(--siteFooter-gap); }
+  .footer__links a { color: var(--siteFooter-link-color-default); text-decoration: none; }
+  .footer__links a:hover { color: var(--siteFooter-link-color-hover); text-decoration: underline; }
+</style>

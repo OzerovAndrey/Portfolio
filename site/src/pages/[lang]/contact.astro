@@ -1,0 +1,110 @@
+---
+import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import { config, links } from "../../config";
+import { staticLangPaths, t, type Locale } from "../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const c = d.contact;
+const { email, linkedin, telegram, calcom } = config.contacts;
+const direct = links([email, email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram]);
+---
+<Base lang={lang} page="contact" title={d.meta.contactTitle} description={d.meta.contactDescription}>
+  <section class="section">
+    <div class="container contact">
+      <div class="section__head">
+        <h1 class="section__title ts-display-d3">{c.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure">{c.lead}</p>
+      </div>
+
+      {config.formEndpoint ? (
+        <form class="form" action={config.formEndpoint} method="POST" data-form data-sending={c.sending} data-success={c.success} data-error={c.error}>
+          <div class="field">
+            <label class="field__label ts-label-md" for="f-name">{c.name}</label>
+            <input class="field__input ts-body-md-regular" id="f-name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label class="field__label ts-label-md" for="f-email">{c.email}</label>
+            <input class="field__input ts-body-md-regular" id="f-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label class="field__label ts-label-md" for="f-company">{c.company} <span class="field__hint ts-body-sm-regular">· {c.companyHint}</span></label>
+            <input class="field__input ts-body-md-regular" id="f-company" name="company" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label class="field__label ts-label-md" for="f-need">{c.need}</label>
+            <textarea class="field__input field__input--area ts-body-md-regular" id="f-need" name="message" rows="5" required aria-describedby="f-need-hint"></textarea>
+            <p class="field__hint ts-body-sm-regular" id="f-need-hint">{c.needHint}</p>
+          </div>
+          <input type="hidden" name="_language" value={lang} />
+          <div class="form__actions">
+            <Button type="submit" size="lg" data-event="cta_contact">{c.submit}</Button>
+            <p class="form__status ts-body-md-regular" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      ) : (
+        !direct.length && !calcom && <p class="field__hint ts-body-md-regular">{c.noForm}</p>
+      )}
+
+      {(direct.length > 0 || calcom) && (
+        <div class="direct">
+          <h2 class="ts-title-t4">{c.direct}</h2>
+          <ul class="direct__list">
+            {direct.map((l) => <li><a class="ts-body-md-strong" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
+          </ul>
+          {calcom && <Button variant="secondary" href={calcom} target="_blank" rel="noopener">{c.book} ↗</Button>}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Прогресивне покращення: без JS форма відправляється звичайним POST.
+  const form = document.querySelector<HTMLFormElement>("[data-form]");
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const status = form.querySelector<HTMLElement>(".form__status")!;
+    const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    btn.disabled = true;
+    status.className = "form__status ts-body-md-regular";
+    status.textContent = form.dataset.sending ?? "";
+    try {
+      const r = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+      if (!r.ok) throw new Error(String(r.status));
+      form.reset();
+      status.classList.add("is-success");
+      status.textContent = form.dataset.success ?? "";
+    } catch {
+      status.classList.add("is-error");
+      status.textContent = form.dataset.error ?? "";
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .contact { display: flex; flex-direction: column; gap: var(--contactForm-gap); }
+  .contact .section__head { margin-bottom: 0; }
+  .form { display: flex; flex-direction: column; gap: var(--contactForm-gap); max-width: 40rem; }
+  .field { display: flex; flex-direction: column; gap: var(--input-wrapper-gap); }
+  .field__label { color: var(--input-label-color-default); }
+  .field__hint { color: var(--contactForm-hint-color); }
+  .field__input {
+    min-height: var(--input-size-lg); padding-inline: var(--input-paddingH-lg);
+    background: var(--input-bg-default); color: var(--input-color-default);
+    border: var(--input-borderWidth) solid var(--input-br-default); border-radius: var(--input-borderRadius);
+  }
+  .field__input:hover { border-color: var(--input-br-hover); }
+  .field__input:focus-visible { border-color: var(--input-br-active); }
+  .field__input--area { padding-block: var(--input-paddingH-lg); resize: vertical; }
+  .form__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--contactForm-actions-gap); }
+  .form__status { color: var(--contactForm-hint-color); }
+  .form__status:global(.is-success) { color: var(--contactForm-success-color); }
+  .form__status:global(.is-error) { color: var(--contactForm-error-color); }
+  .direct { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-gap-xl); }
+  .direct__list { display: flex; flex-wrap: wrap; gap: var(--space-gap-xl); }
+</style>

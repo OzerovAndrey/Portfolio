@@ -1,0 +1,66 @@
+---
+// Живе демо в iframe. Десктоп (≥768): iframe вставляється, коли секція підходить до в'юпорту — не б'є по Lighthouse.
+// Мобільні: iframe не вантажиться взагалі, лише кнопка «на весь екран».
+// Параметри ?brand/mode/lang/embed демо поки ігнорує — задача tasks/demo-02-embed-mode.md.
+import Button from "./Button.astro";
+import { config } from "../config";
+import { t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const d = t(lang);
+const url = new URL(config.demoUrl);
+url.searchParams.set("lang", lang);
+const full = url.href;
+url.searchParams.set("embed", "1");
+const embed = url.href;
+---
+<figure class="demo" data-demo-src={embed}>
+  <div class="demo__toolbar" aria-hidden="true">
+    <span class="demo__dot"></span><span class="demo__dot"></span><span class="demo__dot"></span>
+  </div>
+  <div class="demo__stage">
+    <p class="demo__placeholder ts-body-sm-regular">
+      <span class="demo__loading">{d.demo.loading}</span>
+      <span class="demo__mobile">{d.demo.mobileNote}</span>
+    </p>
+  </div>
+  <figcaption class="demo__caption">
+    <span class="ts-body-sm-regular">{d.demo.lead}</span>
+    <Button variant="secondary" size="md" href={full} target="_blank" rel="noopener" data-event="demo_open_fullscreen">{d.demo.openFull} ↗</Button>
+  </figcaption>
+</figure>
+
+<script define:vars={{ title: d.demo.frameTitle }}>
+  (() => {
+    const fig = document.querySelector("[data-demo-src]");
+    if (!fig || !matchMedia("(min-width: 768px)").matches) return;
+    const mount = () => {
+      const f = document.createElement("iframe");
+      f.src = fig.dataset.demoSrc; f.title = title; f.loading = "lazy";
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      f.addEventListener("load", () => fig.classList.add("is-loaded"), { once: true });
+      fig.querySelector(".demo__stage").append(f);
+    };
+    if (!("IntersectionObserver" in window)) return mount();
+    const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); mount(); } }, { rootMargin: "400px 0px" });
+    io.observe(fig);
+  })();
+</script>
+
+<style>
+  .demo { margin: 0; display: flex; flex-direction: column; background: var(--demoFrame-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius); overflow: hidden; }
+  .demo__toolbar { display: flex; align-items: center; gap: var(--space-gap-sm); height: var(--demoFrame-toolbar-height); padding-inline: var(--demoFrame-toolbar-paddingH); background: var(--demoFrame-toolbar-bg); border-bottom: var(--demoFrame-borderWidth) solid var(--demoFrame-br); }
+  .demo__dot { width: var(--space-gap-lg); height: var(--space-gap-lg); border-radius: var(--borderRadius-control); background: var(--demoFrame-br); }
+  .demo__stage { position: relative; background: var(--demoFrame-placeholder-bg); aspect-ratio: 4 / 3; }
+  .demo__stage :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 200ms ease-out; }
+  .demo.is-loaded .demo__stage :global(iframe) { opacity: 1; }
+  .demo__placeholder { position: absolute; inset: 0; display: grid; place-items: center; padding: var(--demoFrame-padding); text-align: center; color: var(--demoFrame-placeholder-color); }
+  .demo__loading { display: none; }
+  .demo__caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--demoFrame-gap); padding: var(--space-padding-md); color: var(--demoFrame-caption-color); }
+  @media (min-width: 768px) {
+    .demo__stage { aspect-ratio: 16 / 10; }
+    .demo__loading { display: inline; }
+    .demo__mobile { display: none; }
+  }
+</style>

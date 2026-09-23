@@ -1,0 +1,64 @@
+[
+  {
+    "id": "base",
+    "name": "Default",
+    "group": "Base",
+    "selectedTokenSets": {
+      "core": "enabled"
+    }
+  },
+  {
+    "id": "brand-site",
+    "name": "Site",
+    "group": "Brand",
+    "selectedTokenSets": {
+      "core": "source",
+      "brand/site": "enabled",
+      "map": "enabled"
+    }
+  },
+  {
+    "id": "theme-light",
+    "name": "Light",
+    "group": "Theme",
+    "selectedTokenSets": {
+      "core": "source",
+      "brand/site": "source",
+      "map": "source",
+      "theme/light": "enabled"
+    }
+  },
+  {
+    "id": "theme-dark",
+    "name": "Dark",
+    "group": "Theme",
+    "selectedTokenSets": {
+      "core": "source",
+      "brand/site": "source",
+      "map": "source",
+      "theme/dark": "enabled"
+    }
+  },
+  {
+    "id": "typography",
+    "name": "Default",
+    "group": "Typography",
+    "selectedTokenSets": {
+      "core": "source",
+      "brand/site": "source",
+      "typography": "enabled"
+    }
+  },
+  {
+    "id": "components",
+    "name": "Default",
+    "group": "Components",
+    "selectedTokenSets": {
+      "core": "source",
+      "brand/site": "source",
+      "map": "source",
+      "theme/light": "source",
+      "components": "enabled"
+    }
+  }
+]

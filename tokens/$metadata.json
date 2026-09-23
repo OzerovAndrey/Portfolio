@@ -1,0 +1,11 @@
+{
+  "tokenSetOrder": [
+    "core",
+    "brand/site",
+    "map",
+    "theme/light",
+    "theme/dark",
+    "typography",
+    "components"
+  ]
+}
