@@ -21,6 +21,9 @@
   З неї `npm run tokens:demo` генерує `src/generated/demo/` (meta + ланцюжки резолву) для секції «Під капотом». Цифри на сайті беруться звідти, не пишуться руками.
 - **Свої файли портфоліо:** `brand/site.json` (ключі ідентичні брендам демо — змінюються тільки значення),
   `components.json` (`button`, `input` взяті з демо; решта — компоненти сторінок), `$themes.json`, `$metadata.json`.
+- **`tokens/site/`** — власні сети портфоліо, яких немає в демо: `core.json` (time, curve, filter, opacity), `map.json` (альфа-рампи),
+  `theme/light|dark.json` (glass, stage, boxShadow, duration, easing), `demo-motion.json` (easing брендів демо). `map.json` і `demo-motion.json` —
+  тимчасові до `tasks/demo-04`. Словник нових властивостей — `docs/token-properties.md`.
 - `components` посилаються тільки на theme / brand-семантику (включно з `layout.*`). Ніколи на `core.*` / `map.*`.
 - Назви груп `value` / `type` / `description` зарезервовані Token Studio → `amount` / `percent` / `detail`.
 - Текст на `color.fill.primary.*` — тільки `color.text.onPrimary` (чорний). Посилання й фокус — `color.text.primary`,

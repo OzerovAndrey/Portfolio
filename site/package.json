@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "tokens": "node ../tools/build-css.mjs --out-manifest src/generated/tokens-manifest.json",
+    "tokens": "node ../tools/build-css.mjs --site-sets ../tokens/site --out-manifest src/generated/tokens-manifest.json",
     "check:tokens": "node ../tools/check-tokens.mjs",
     "dev": "npm run tokens && npm run tokens:demo && astro dev",
     "build": "npm run check:tokens && npm run check:styles && npm run tokens && npm run tokens:demo && astro check && astro build",

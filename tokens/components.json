@@ -1266,5 +1266,73 @@
         "type": "borderRadius"
       }
     }
+  },
+  "glass": {
+    "bg": {
+      "value": "{color.glass.bg}",
+      "type": "color"
+    },
+    "br": {
+      "value": "{color.glass.br}",
+      "type": "color"
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "borderRadius": {
+      "value": "{borderRadius.pill}",
+      "type": "borderRadius"
+    },
+    "backdropFilter": {
+      "value": "{backdropFilter.glass}",
+      "type": "backdropFilter"
+    },
+    "boxShadow": {
+      "value": "{boxShadow.glass}",
+      "type": "boxShadow"
+    },
+    "solid": {
+      "bg": {
+        "value": "{color.glass.solid}",
+        "type": "color"
+      }
+    }
+  },
+  "grain": {
+    "opacity": {
+      "value": "{opacity.grain}",
+      "type": "opacity"
+    }
+  },
+  "motion": {
+    "duration": {
+      "fast": {
+        "value": "{duration.fast}",
+        "type": "duration"
+      },
+      "base": {
+        "value": "{duration.base}",
+        "type": "duration"
+      },
+      "scene": {
+        "value": "{duration.scene}",
+        "type": "duration"
+      }
+    },
+    "easing": {
+      "standard": {
+        "value": "{easing.standard}",
+        "type": "cubicBezier"
+      },
+      "out": {
+        "value": "{easing.out}",
+        "type": "cubicBezier"
+      },
+      "emphasized": {
+        "value": "{easing.emphasized}",
+        "type": "cubicBezier"
+      }
+    }
   }
 }

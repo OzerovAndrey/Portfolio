@@ -2,7 +2,7 @@
 // Portfolio (copied from multibrand-design-system/tools/build-css.mjs, params patch demo-01) — tokens (Token Studio JSON) → CSS custom properties + manifest.
 // Chain in CSS mirrors the token architecture: core → brand → map → theme → components,
 // every alias stays a var() reference so the browser resolves brand/theme at runtime.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -13,6 +13,12 @@ import { fileURLToPath } from "node:url";
 //   --components-file <path>     extra component set appended after components.json, repeatable
 //   --no-demo-components         skip tokens/components.json (consumer ships only its own components)
 //   --out-css / --out-meta / --out-manifest <path>
+// Portfolio-only (no-op when absent — output stays byte-identical):
+//   --site-sets <dir>            own sets of the portfolio (tokens/site): core.json, map.json (alpha ramps per brand), theme/<t>.json
+//   --brand-extra <path>         per-brand extra tokens { "<brand>": {…} } (tokens/site/demo-motion.json, temporary until demo-04)
+//   --scope <selector>           emit brand / theme / components on <selector>[data-brand] instead of :root, so a nested
+//                                data-brand re-skins its subtree; core, swatches and text styles are skipped (the page has them)
+//   --only-components <a,b,…>    keep only these component groups
 const HERE = dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
 const argAll = (k) => argv.flatMap((a, i) => (a === `--${k}` ? [argv[i + 1]] : []));
@@ -46,6 +52,22 @@ const theme = Object.fromEntries(THEMES.map((t) => [t, flatten(read(`theme/${t}.
 const typography = flatten(read("typography.json").typography ? { typography: read("typography.json").typography } : read("typography.json"));
 const components = argv.includes("--no-demo-components") ? new Map() : flatten(read("components.json"));
 for (const p of argAll("components-file")) flatten(JSON.parse(readFileSync(resolve(p), "utf8")), "", components);
+if (arg("only-components")) { const keep = new Set(arg("only-components").split(",")); for (const n of [...components.keys()]) if (!keep.has(n.split(".")[0])) components.delete(n); }
+
+// portfolio-own sets (tokens/site) — kept apart from the mirror so counts and manifest layers stay the demo's
+const SITE = arg("site-sets") ? resolve(arg("site-sets")) : null;
+const readSite = (p) => (SITE && existsSync(resolve(SITE, p)) ? flatten(JSON.parse(readFileSync(resolve(SITE, p), "utf8"))) : new Map());
+const siteCore = readSite("core.json");
+const siteMap = readSite("map.json");
+const siteTheme = Object.fromEntries(THEMES.map((t) => [t, readSite(`theme/${t}.json`)]));
+const EXTRA = arg("brand-extra") ? JSON.parse(readFileSync(resolve(arg("brand-extra")), "utf8")) : {};
+const brandExtra = Object.fromEntries(BRANDS.map((b) => [b, EXTRA[b] ? flatten(EXTRA[b]) : new Map()]));
+const SCOPE = arg("scope");
+const sel = {
+  brand: (b) => (SCOPE ? `${SCOPE}[data-brand="${b}"]` : `:root[data-brand="${b}"]`),
+  theme: (t) => (SCOPE ? `:root[data-theme="${t}"] ${SCOPE}[data-brand]` : `:root[data-theme="${t}"]`),
+  components: SCOPE ? `${SCOPE}[data-brand]` : ":root",
+};
 
 const cssName = (n) => "--" + n.replace(/\./g, "-");
 const isRef = (v) => typeof v === "string" && /^\{[^}]+\}$/.test(v);
@@ -82,10 +104,14 @@ function modify(hex, mod) {
   const v = parseFloat(mod.value);
   if (mod.type === "lighten") return hslToHex(h, s, l + (1 - l) * v);
   if (mod.type === "darken") return hslToHex(h, s, l * (1 - v));
+  if (mod.type === "alpha") return hex.toUpperCase() + Math.round(v * 255).toString(16).padStart(2, "0").toUpperCase();
   throw new Error("unsupported modify " + mod.type);
 }
 
 // ---------- resolution ----------
+// Token Studio boxShadow composite → CSS; col() turns a colour ({ref} or literal) into var() or a final value
+const px = (n) => (/^-?\d+(\.\d+)?$/.test(String(n)) && Number(n) !== 0 ? `${n}px` : String(n));
+const shadowCss = (v, col) => (Array.isArray(v) ? v : [v]).map((s) => `${s.type === "innerShadow" ? "inset " : ""}${[s.x, s.y, s.blur, s.spread].map(px).join(" ")} ${col(s.color)}`).join(", ");
 function formatValue(v, type) {
   if (typeof v !== "string") return String(v);
   if (["sizing", "spacing", "borderRadius", "borderWidth", "fontSizes", "lineHeights", "dimension"].includes(type) && /^-?\d+(\.\d+)?$/.test(v)) return v + "px";
@@ -116,15 +142,28 @@ for (const b of BRANDS) {
   }
 }
 
+// site alpha ramps: base = brand colour (or core), one modify per step
+const siteMapValues = {};
+for (const b of BRANDS) {
+  siteMapValues[b] = new Map();
+  for (const [name, tok] of siteMap) {
+    let v = tok.value, guard = 0;
+    while (isRef(v) && guard++ < 8) v = (brand[b].get(refName(v)) ?? core.get(refName(v)) ?? siteCore.get(refName(v))).value;
+    siteMapValues[b].set(name, tok.ext?.modify ? modify(v, tok.ext.modify) : v);
+  }
+}
+
 // resolve a token to a final literal for a given brand × theme
 function lookup(name, b, t) {
-  return theme[t].get(name) ?? brand[b].get(name) ?? (mapValues[b].has(name) ? { value: mapValues[b].get(name), type: "color", literal: true } : null) ?? core.get(name) ?? null;
+  const lit = (m) => (m.has(name) ? { value: m.get(name), type: "color", literal: true } : null);
+  return theme[t].get(name) ?? siteTheme[t].get(name) ?? brand[b].get(name) ?? brandExtra[b].get(name) ?? lit(mapValues[b]) ?? lit(siteMapValues[b]) ?? core.get(name) ?? siteCore.get(name) ?? null;
 }
 function resolveFinal(name, b, t, depth = 0) {
   if (depth > 12) throw new Error("ref cycle at " + name);
   const tok = lookup(name, b, t);
   if (!tok) throw new Error("unresolved token " + name);
   if (tok.literal) return tok.value;
+  if (tok.type === "boxShadow" && typeof tok.value === "object") return shadowCss(tok.value, (c) => (isRef(c) ? resolveFinal(refName(c), b, t, depth + 1) : c));
   if (isRef(tok.value)) return resolveFinal(refName(tok.value), b, t, depth + 1);
   return formatValue(tok.value, tok.type);
 }
@@ -132,35 +171,44 @@ const layerOf = (name, b, t) => (theme[t].has(name) ? "theme" : brand[b].has(nam
 
 // ---------- CSS emission ----------
 function decl(name, tok, refOk = true) {
-  const val = isRef(tok.value) && refOk ? `var(${cssName(refName(tok.value))})` : formatValue(tok.value, tok.type);
+  const toVar = (v) => (isRef(v) ? `var(${cssName(refName(v))})` : v);
+  const val = tok.type === "boxShadow" && typeof tok.value === "object" ? shadowCss(tok.value, toVar) : isRef(tok.value) && refOk ? toVar(tok.value) : formatValue(tok.value, tok.type);
   return `  ${cssName(name)}: ${val};`;
 }
 const lines = [];
 lines.push("/* GENERATED by tools/build-css.mjs from ../tokens — do not edit. */");
-lines.push("/* core */\n:root {");
-for (const [n, t] of core) lines.push(decl(n, t));
-lines.push("}");
+if (!SCOPE) {
+  lines.push("/* core */\n:root {");
+  for (const [n, t] of core) lines.push(decl(n, t));
+  for (const [n, t] of siteCore) lines.push(decl(n, t));
+  lines.push("}");
+}
 for (const b of BRANDS) {
-  lines.push(`/* brand: ${b} (+ map ramps) */\n:root[data-brand="${b}"] {`);
+  lines.push(`/* brand: ${b} (+ map ramps) */\n${sel.brand(b)} {`);
   for (const [n, t] of brand[b]) lines.push(decl(n, t));
+  for (const [n, t] of brandExtra[b]) lines.push(decl(n, t));
   for (const [n, v] of mapValues[b]) lines.push(`  ${cssName(n)}: ${v};`);
+  for (const [n, v] of siteMapValues[b]) lines.push(`  ${cssName(n)}: ${v};`);
   lines.push("}");
 }
 for (const t of THEMES) {
-  lines.push(`/* theme: ${t} */\n:root[data-theme="${t}"] {`);
+  lines.push(`/* theme: ${t} */\n${sel.theme(t)} {`);
   for (const [n, tok] of theme[t]) lines.push(decl(n, tok));
+  for (const [n, tok] of siteTheme[t]) lines.push(decl(n, tok));
   lines.push("}");
 }
-lines.push("/* brand swatches (used by the control panel) */\n:root {");
-for (const b of BRANDS) { lines.push(`  --swatch-${b}-1: ${brand[b].get("color.product1").value};`); lines.push(`  --swatch-${b}-2: ${brand[b].get("color.product2").value};`); }
-lines.push("}");
-lines.push("/* components */\n:root {");
+if (!SCOPE) {
+  lines.push("/* brand swatches (used by the control panel) */\n:root {");
+  for (const b of BRANDS) { lines.push(`  --swatch-${b}-1: ${brand[b].get("color.product1").value};`); lines.push(`  --swatch-${b}-2: ${brand[b].get("color.product2").value};`); }
+  lines.push("}");
+}
+lines.push(`/* components */\n${sel.components} {`);
 for (const [n, t] of components) lines.push(decl(n, t));
 lines.push("}");
 // typography → utility classes
 const tsNames = [...typography.keys()];
 lines.push("/* typography (text styles) */");
-for (const [n, t] of typography) {
+for (const [n, t] of SCOPE ? [] : typography) {
   const v = t.value;
   const g = (key) => `var(${cssName(refName(v[key]))})`;
   const cls = ".ts-" + n.replace(/^typography\./, "").replace(/\./g, "-");

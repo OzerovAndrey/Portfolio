@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Portfolio tokens check: brand/site ↔ demo brand keys (tools/upstream.json), every {ref} resolves
 // for site × light|dark, components read only theme/brand semantics, reserved names, WCAG contrast.
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,6 +25,10 @@ const theme = { light: flatten(read(resolve(OWN, "theme/light.json"))), dark: fl
 const upstreamKeys = read(resolve(ROOT, "tools/upstream.json")).brandKeys;
 const site = flatten(read(resolve(OWN, "brand/site.json")));
 const comps = flatten(read(resolve(OWN, "components.json")));
+// власні сети портфоліо (tokens/site): core-примітиви, альфа-рампи (map), семантика light/dark
+const readSite = (p) => (existsSync(resolve(OWN, "site", p)) ? flatten(read(resolve(OWN, "site", p))) : new Map());
+const siteCore = readSite("core.json"), siteMap = readSite("map.json");
+const siteTheme = { light: readSite("theme/light.json"), dark: readSite("theme/dark.json") };
 
 const errors = [];
 const isRef = (v) => typeof v === "string" && /^\{[^}]+\}$/.test(v);
@@ -34,14 +38,18 @@ const refName = (v) => v.slice(1, -1);
 const a = [...upstreamKeys].sort().join("\n"), b = [...site.keys()].sort().join("\n");
 if (a !== b) errors.push("brand/site keys differ from demo brands (tools/upstream.json)");
 
+// 1a. site theme: light і dark мають однакові ключі
+const sl = [...siteTheme.light.keys()].sort().join(), sd = [...siteTheme.dark.keys()].sort().join();
+if (sl !== sd) errors.push("tokens/site/theme: light and dark keys differ");
+
 // 1b. reserved Token Studio group names
-for (const n of comps.keys()) { const segs = n.split(".").slice(0, -1); for (const r of ["value", "type", "description"]) if (segs.includes(r)) errors.push(`${n}: group name "${r}" is reserved — use amount / percent / detail`); }
+for (const n of [...comps.keys(), ...siteCore.keys(), ...siteMap.keys(), ...siteTheme.light.keys()]) { const segs = n.split(".").slice(0, -1); for (const r of ["value", "type", "description"]) if (segs.includes(r)) errors.push(`${n}: group name "${r}" is reserved — use amount / percent / detail`); }
 
 // 2. layer rule: components → theme | brand only
 for (const [n, t] of comps) {
   if (!isRef(t.value)) { errors.push(`${n}: raw value "${t.value}" (components must alias)`); continue; }
   const r = refName(t.value);
-  if (core.has(r) || map.has(r)) errors.push(`${n} → ${r}: components must not read core/map`);
+  if (core.has(r) || map.has(r) || siteCore.has(r) || siteMap.has(r)) errors.push(`${n} → ${r}: components must not read core/map`);
 }
 
 // colour math identical to tools/build-css.mjs (Token Studio modify, hsl)
@@ -59,23 +67,27 @@ function hslToHex(h, s, l) {
   return ("#" + to(r) + to(g) + to(b)).toUpperCase();
 }
 const modify = (hex, m) => { const [h, s, l] = hexToHsl(hex), v = parseFloat(m.value);
+  if (m.type === "alpha") return hex.toUpperCase() + Math.round(v * 255).toString(16).padStart(2, "0").toUpperCase();
   return m.type === "lighten" ? hslToHex(h, s, l + (1 - l) * v) : hslToHex(h, s, l * (1 - v)); };
 
 function resolveFinal(name, mode, depth = 0) {
   if (depth > 12) throw new Error("cycle at " + name);
-  const tok = comps.get(name) ?? theme[mode].get(name) ?? site.get(name) ?? map.get(name) ?? core.get(name);
+  const tok = comps.get(name) ?? theme[mode].get(name) ?? siteTheme[mode].get(name) ?? site.get(name) ?? map.get(name) ?? siteMap.get(name) ?? core.get(name) ?? siteCore.get(name);
   if (!tok) throw new Error("unresolved " + name);
-  if (map.has(name) && !comps.has(name) && !theme[mode].has(name) && !site.has(name)) {
+  if ((map.has(name) || siteMap.has(name)) && !comps.has(name) && !theme[mode].has(name) && !siteTheme[mode].has(name) && !site.has(name)) {
     const base = resolveFinal(refName(tok.value), mode, depth + 1);
     return tok.mod ? modify(base, tok.mod) : base;
   }
+  // boxShadow-композит: кожен колір шару має резолвитись
+  if (tok.type === "boxShadow" && typeof tok.value === "object")
+    return (Array.isArray(tok.value) ? tok.value : [tok.value]).map((l) => ({ ...l, color: isRef(l.color) ? resolveFinal(refName(l.color), mode, depth + 1) : l.color }));
   return isRef(tok.value) ? resolveFinal(refName(tok.value), mode, depth + 1) : tok.value;
 }
 
 // 3. every ref resolves in both modes
 const resolved = { light: {}, dark: {} };
 for (const mode of ["light", "dark"]) {
-  for (const set of [site, theme[mode], comps]) for (const n of set.keys()) {
+  for (const set of [site, theme[mode], siteTheme[mode], comps]) for (const n of set.keys()) {
     try { resolved[mode][n] = resolveFinal(n, mode); } catch (e) { errors.push(`[${mode}] ${n}: ${e.message}`); }
   }
 }
@@ -86,6 +98,13 @@ const lum = (hex) => { const n = parseInt(hex.slice(1, 7), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; })
     .reduce((s, c, i) => s + c * [0.2126, 0.7152, 0.0722][i], 0); };
 const ratio = (x, y) => { const [l1, l2] = [lum(x), lum(y)].sort((p, q) => q - p); return (l1 + 0.05) / (l2 + 0.05); };
+// Напівпрозорий фон (#RRGGBBAA) — компонуємо поверх найгіршого, що може опинитись під ним (контент під шапкою, підсвітка сцени):
+// чорний і білий. Беремо мінімальний контраст із двох.
+const WORST = ["#000000", "#FFFFFF"];
+const over = (top, under) => { const a = parseInt(top.slice(7, 9), 16) / 255, t = parseInt(top.slice(1, 7), 16), u = parseInt(under.slice(1, 7), 16);
+  const ch = (sh) => Math.round(((t >> sh) & 255) * a + ((u >> sh) & 255) * (1 - a)).toString(16).padStart(2, "0");
+  return ("#" + ch(16) + ch(8) + ch(0)).toUpperCase(); };
+const contrast = (fg, bg) => (/^#[0-9a-f]{8}$/i.test(bg) ? Math.min(...WORST.map((w) => ratio(fg, over(bg, w)))) : ratio(fg, bg));
 const PAIRS = [
   ["hero.title.color", "hero.bg", 4.5], ["hero.subtitle.color", "hero.bg", 4.5], ["hero.eyebrow.color", "hero.bg", 4.5], ["focus.outline.color", "section.bg.default", 3], ["focus.outline.color", "section.bg.alt", 3],
   ["button.primary.color.default", "button.primary.bg.default", 4.5], ["button.primary.color.default", "button.primary.bg.hover", 4.5], ["button.primary.color.default", "button.primary.bg.active", 4.5], ["button.secondary.color.default", "button.secondary.bg.default", 4.5],
@@ -101,7 +120,7 @@ const PAIRS = [
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];
 for (const mode of ["light", "dark"]) for (const [fg, bg, min] of PAIRS) {
-  const f = pick(fg, mode), k = pick(bg, mode), r = ratio(f, k);
+  const f = pick(fg, mode), k = pick(bg, mode), r = contrast(f, k);
   if (r < min) errors.push(`[${mode}] contrast ${fg} on ${bg} = ${r.toFixed(2)} < ${min}`);
   report.push({ mode, fg, bg, f, k, ratio: +r.toFixed(2), min });
 }

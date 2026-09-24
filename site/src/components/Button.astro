@@ -24,7 +24,7 @@ const Tag = href ? "a" : "button";
     border: var(--button-borderWidth-primary) solid transparent;
     background: var(--btn-bg); color: var(--btn-color);
     text-decoration: none; white-space: nowrap; cursor: pointer;
-    transition: background-color 120ms ease-out;
+    transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
   }
   .btn--sm { --btn-size: var(--button-size-sm); --btn-padH: var(--button-paddingH-sm); --btn-gap: var(--button-gap-sm); }
   .btn--md { --btn-size: var(--button-size-md); --btn-padH: var(--button-paddingH-md); --btn-gap: var(--button-gap-md); }

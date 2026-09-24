@@ -1,0 +1,122 @@
+{
+  "color": {
+    "glass": {
+      "bg": {
+        "value": "{color.neutral.dark.alpha72}",
+        "type": "color"
+      },
+      "br": {
+        "value": "{color.neutral.light.alpha08}",
+        "type": "color"
+      },
+      "highlight": {
+        "value": "{color.neutral.light.alpha16}",
+        "type": "color"
+      },
+      "shadow": {
+        "value": "{color.neutral.dark.alpha60}",
+        "type": "color"
+      },
+      "solid": {
+        "value": "{color.bg.secondary}",
+        "type": "color"
+      }
+    },
+    "stage": {
+      "light": {
+        "value": "{color.product1.alpha40}",
+        "type": "color"
+      },
+      "shadow": {
+        "value": "{color.neutral.dark.alpha60}",
+        "type": "color"
+      }
+    }
+  },
+  "boxShadow": {
+    "glass": {
+      "value": [
+        {
+          "x": "0",
+          "y": "1",
+          "blur": "0",
+          "spread": "0",
+          "color": "{color.glass.highlight}",
+          "type": "innerShadow"
+        },
+        {
+          "x": "0",
+          "y": "8",
+          "blur": "24",
+          "spread": "0",
+          "color": "{color.glass.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
+    },
+    "stage": {
+      "value": [
+        {
+          "x": "0",
+          "y": "24",
+          "blur": "48",
+          "spread": "-12",
+          "color": "{color.stage.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
+    }
+  },
+  "backdropFilter": {
+    "glass": {
+      "value": "{filter.glass}",
+      "type": "backdropFilter"
+    },
+    "none": {
+      "value": "{filter.none}",
+      "type": "backdropFilter"
+    }
+  },
+  "opacity": {
+    "grain": {
+      "value": "{opacity.6}",
+      "type": "opacity"
+    }
+  },
+  "duration": {
+    "fast": {
+      "value": "{time.120}",
+      "type": "duration"
+    },
+    "base": {
+      "value": "{time.200}",
+      "type": "duration"
+    },
+    "scene": {
+      "value": "{time.600}",
+      "type": "duration"
+    }
+  },
+  "easing": {
+    "standard": {
+      "value": "{curve.standard}",
+      "type": "cubicBezier"
+    },
+    "out": {
+      "value": "{curve.easeOut}",
+      "type": "cubicBezier"
+    },
+    "emphasized": {
+      "value": "{curve.emphasized}",
+      "type": "cubicBezier"
+    }
+  },
+  "borderRadius": {
+    "pill": {
+      "value": "{borderRadius.999}",
+      "type": "borderRadius"
+    }
+  }
+}
