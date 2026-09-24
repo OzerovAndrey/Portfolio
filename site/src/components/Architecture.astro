@@ -83,15 +83,15 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
         const ch = chains[`${b}|${th}`][TOKENS[k]];
         return (
           <ol class="steps" data-view-token={k} data-view-brand={b} data-view-theme={th} hidden={!(k === "fill" && b === "aurum" && th === "light")}>
-            {ch.steps.map((s) => (
-              <li class="cstep">
+            {ch.steps.map((s, i) => (
+              <li class="cstep" style={`--i: ${i}`}>
                 <span class="cstep__layer ts-overline-sm">{layerName(s.layer)}</span>
                 <code class="cstep__name ts-body-sm-strong">{s.name}</code>
                 {s.note && <span class="cstep__note ts-body-xs-regular">{note(s.note)}</span>}
                 {s.value && !s.ref && <span class="cstep__value ts-body-sm-regular">{isColor(s.value) && <i class="swatch" style={`--swatch: ${s.value}`} aria-hidden="true"></i>}{s.value}</span>}
               </li>
             ))}
-            <li class="cstep cstep--result">
+            <li class="cstep cstep--result" style={`--i: ${ch.steps.length}`}>
               <span class="cstep__layer ts-overline-sm">{d.explorer.result}</span>
               <span class="cstep__value ts-body-md-strong">
                 {isColor(ch.value) ? <i class="swatch" style={`--swatch: ${ch.value}`} aria-hidden="true"></i> : <i class="swatch swatch--radius" style={`--swatch-radius: ${ch.value}`} aria-hidden="true"></i>}
@@ -127,6 +127,12 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
     });
     new MutationObserver(render).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     render();
+    // Єдина поява в секції: ланцюжок будується згори вниз — показує напрям резолву (component → … → значення).
+    // Кроки нічим не приховані заздалегідь (видно без JS і для перевірок контрасту); анімація стартує, щойно верх ланцюжка в екрані
+    if ("IntersectionObserver" in window && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+      const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); root.classList.add("is-revealed"); } }, { threshold: 0 });
+      io.observe(root.querySelector(".chain")!);
+    }
   }
 </script>
 
@@ -182,5 +188,8 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
     background: var(--swatch); border: var(--tokenChain-borderWidth) solid var(--tokenChain-swatch-br); border-radius: var(--tokenChain-swatch-borderRadius);
   }
   .swatch--radius { background: var(--tokenChain-step-bg); border-radius: var(--swatch-radius); }
+
+  @keyframes chain-step { from { opacity: var(--motion-reveal-opacity); transform: translateY(calc(var(--space-gap-md) * -1)); } }
+  .arch.is-revealed .cstep { animation: chain-step var(--motion-duration-scene) var(--motion-easing-emphasized) both; animation-delay: calc(var(--motion-duration-fast) * var(--i)); }
 
 </style>

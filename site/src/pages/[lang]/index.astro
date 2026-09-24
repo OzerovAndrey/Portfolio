@@ -50,7 +50,7 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
         <p class="section__eyebrow ts-overline-md">{d.demo.eyebrow}</p>
         <h2 class="section__title ts-title-t1" id="demo-title">{d.demo.title}</h2>
       </div>
-      <DemoFrame lang={lang} />
+      <div class="demo-light"><DemoFrame lang={lang} /></div>
     </div>
   </section>
 
@@ -175,6 +175,12 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
   .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding: var(--metric-padding); background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
   .metric__amount { color: var(--metric-amount-color); }
+  .metric, .audience__item { transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
+  .metric:hover { border-color: var(--metric-hover-br); }
+  .audience__item:hover { border-color: var(--audience-hover-br); }
+  /* Живе демо в рамці, як лобі в hero: м'яке світло за рамкою (сам iframe не чіпаємо) */
+  .demo-light { position: relative; }
+  .demo-light::before { content: ""; position: absolute; inset: calc(var(--l-row) * -1) calc(var(--l-gap) * -1); pointer-events: none; background: radial-gradient(closest-side, var(--demoLight-bg), transparent); }
   .metric__label { color: var(--metric-label-color); }
   /* Вузькі екрани: одна колонка, число зліва від підпису — підпис не ламається у стовпчик */
   @media (max-width: 559px) {

@@ -701,6 +701,10 @@
         "value": "{color.text.secondary}",
         "type": "color"
       }
+    },
+    "boxShadow": {
+      "value": "{boxShadow.stage}",
+      "type": "boxShadow"
     }
   },
   "metric": {
@@ -748,6 +752,12 @@
       },
       "color": {
         "value": "{color.text.primary}",
+        "type": "color"
+      }
+    },
+    "hover": {
+      "br": {
+        "value": "{color.border.primary}",
         "type": "color"
       }
     }
@@ -912,6 +922,12 @@
     "detail": {
       "color": {
         "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "hover": {
+      "br": {
+        "value": "{color.border.primary}",
         "type": "color"
       }
     }
@@ -1569,6 +1585,12 @@
           "type": "color"
         }
       }
+    }
+  },
+  "demoLight": {
+    "bg": {
+      "value": "{color.stage.light}",
+      "type": "color"
     }
   }
 }
