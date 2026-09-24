@@ -19,13 +19,11 @@
   Потрібна зміна в цих сетах → задача в `tasks/demo-NN-*.md`, правка в демо, потім sync.
 - **`tokens/demo/`** — read-only копія брендів (aurum/nova/fiesta/ultra) і `components.json` демо. Оновлюється тільки `sync-demo-tokens`.
   З неї `npm run tokens:demo` генерує `src/generated/demo/` (meta + ланцюжки резолву) для секції «Під капотом». Цифри на сайті беруться звідти, не пишуться руками.
-- **`site/src/lib/demo-illustrations.ts`** — дзеркало ілюстрацій демо (SVG-спрайт на токенах `--illustration-*`), оновлюється тільки `sync-demo-tokens`.
-  З нього `pages/demo-art.svg.ts` збирає статичний спрайт для лобі-мокапу в hero. Нових растрових картинок для мокапу не додаємо.
 - **Свої файли портфоліо:** `brand/site.json` (ключі ідентичні брендам демо — змінюються тільки значення),
   `components.json` (`button`, `input` взяті з демо; решта — компоненти сторінок), `$themes.json`, `$metadata.json`.
-- **`tokens/site/`** — власні сети портфоліо, яких немає в демо: `core.json` (time, curve, filter, opacity), `map.json` (альфа-рампи),
-  `theme/light|dark.json` (glass, stage, boxShadow, duration, easing), `demo-motion.json` (easing брендів демо). `map.json` і `demo-motion.json` —
-  тимчасові до `tasks/demo-04`. Словник нових властивостей — `docs/token-properties.md`.
+- **`tokens/site/`** — власні сети портфоліо, яких немає в демо: `core.json` (time, curve, filter, fluid-типографіка), `map.json` (альфа-рампи),
+  `theme/light|dark.json` (glass, action, boxShadow, duration, easing, display). `map.json` — тимчасовий до `tasks/demo-04`.
+  Словник нових властивостей — `docs/token-properties.md`.
 - `components` посилаються тільки на theme / brand-семантику (включно з `layout.*`). Ніколи на `core.*` / `map.*`.
 - Назви груп `value` / `type` / `description` зарезервовані Token Studio → `amount` / `percent` / `detail`.
 - Текст на `color.fill.primary.*` — тільки `color.text.onPrimary` (чорний). Посилання й фокус — `color.text.primary`,

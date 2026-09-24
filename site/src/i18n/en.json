@@ -25,37 +25,6 @@
     "ctaDemo": "Switch brands live",
     "ctaHow": "See how it's built"
   },
-  "stage": {
-    "brandGroup": "Brand in the preview",
-    "status": "Pick a brand: only the brand file changes.",
-    "announceBrand": "{brand}: {n} values in the brand file changed. Components changed: 0.",
-    "lobby": {
-      "join": "Join",
-      "chips": [
-        "Top",
-        "Slots",
-        "Live",
-        "Tables"
-      ],
-      "promoTitle": "Weekly tournament",
-      "promoText": "Every spin moves you up the leaderboard.",
-      "promoCta": "Play",
-      "tiles": [
-        {
-          "title": "Golden Reels"
-        },
-        {
-          "title": "Neon Drift"
-        },
-        {
-          "title": "Carnival Wheel"
-        },
-        {
-          "title": "Royal Blackjack"
-        }
-      ]
-    }
-  },
   "metrics": {
     "title": "Key numbers",
     "items": [
@@ -70,16 +39,10 @@
       {
         "amount": "55",
         "label": "values in a brand file. That file is the whole brand"
-      },
-      {
-        "amount": "0",
-        "label": "component changes needed to add a brand",
-        "emphasis": true
       }
     ]
   },
   "demo": {
-    "eyebrow": "Live demo",
     "title": "Switch the brand. The code stays put.",
     "lead": "Pick Aurum, Nova, Fiesta or Ultra, then flip light and dark. Colors, fonts, radii and spacing change. The components underneath don't.",
     "frameTitle": "Aurum Multibrand live demo",
@@ -87,11 +50,9 @@
     "loading": "Loading demo…"
   },
   "architecture": {
-    "eyebrow": "Under the hood",
     "title": "Six layers. Only one of them is the brand.",
     "lead": "A component never knows which brand it is in. It asks for a meaning, the theme picks a step on a color ramp, and only the brand file holds real colors, fonts and radii. Every number below is counted from the demo's tokens at build time.",
     "layersTitle": "The layers, top to bottom",
-    "layersHint": "Hover or focus a layer to highlight it in the stack. Click to pin it.",
     "brandTag": "Per brand",
     "layers": {
       "components": {
@@ -151,7 +112,6 @@
     }
   },
   "how": {
-    "eyebrow": "How it works",
     "title": "How a brand gets from Figma to production",
     "steps": [
       {
@@ -169,7 +129,6 @@
     ]
   },
   "audience": {
-    "eyebrow": "Who it's for",
     "title": "For teams running more than one brand",
     "items": [
       {

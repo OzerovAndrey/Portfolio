@@ -2,7 +2,6 @@
 // Дзеркало спільних сетів з демо (multibrand-design-system) у tokens/ портфоліо.
 // Копіює тільки те, що належить системі: core, map, theme/light|dark, typography.
 // Плюс read-only копія демо-брендів і демо-компонентів у tokens/demo/ — з неї будується секція «Архітектура» (tokens:demo).
-// Плюс ілюстрації демо (SVG-спрайт на токенах --illustration-*) — з них лобі-мокап у hero і площини «Під капотом».
 // Свої файли портфоліо (brand/site.json, components.json, $themes, $metadata) не чіпає.
 //
 //   node tools/sync-demo-tokens.mjs            # з локальної папки ../multibrand-design-system (або DEMO_DIR)
@@ -19,8 +18,6 @@ const SETS = ["core.json", "map.json", "theme/light.json", "theme/dark.json", "t
 const DEMO_BRANDS = ["aurum", "nova", "fiesta", "ultra"];
 // [файл у демо, куди в портфоліо] — дзеркало для секції «Архітектура», руками не редагувати
 const DEMO_MIRROR = [...DEMO_BRANDS.map((b) => [`brand/${b}.json`, `demo/brand/${b}.json`]), ["components.json", "demo/components.json"]];
-// [файл від кореня демо, куди в портфоліо] — згенеровані артефакти демо, копія байт-у-байт
-const DEMO_FILES = [["site/src/art/illustrations.ts", "site/src/lib/demo-illustrations.ts"]];
 const SHARED_COMPONENTS = ["button", "input"]; // групи, взяті з демо один раз — стежимо, щоб не розійшлись
 const useGithub = process.argv.includes("--github");
 const checkOnly = process.argv.includes("--check");
@@ -55,10 +52,6 @@ for (const [from, to] of DEMO_MIRROR) {
   const upstream = await src.get(from), local = resolve(ROOT, "tokens", to);
   const same = existsSync(local) && canon(readFileSync(local, "utf8")) === canon(upstream);
   if (!same) { drift.push(to); if (!checkOnly) { mkdirSync(dirname(local), { recursive: true }); writeFileSync(local, upstream.endsWith("\n") ? upstream : upstream + "\n"); } }
-}
-for (const [from, to] of DEMO_FILES) {
-  const upstream = await src.raw(from), local = resolve(ROOT, to);
-  if (!existsSync(local) || readFileSync(local, "utf8") !== upstream) { drift.push(to); if (!checkOnly) writeFileSync(local, upstream); }
 }
 const demoComponents = JSON.parse(await src.get("components.json"));
 const ownComponents = JSON.parse(readFileSync(resolve(ROOT, "tokens/components.json"), "utf8"));

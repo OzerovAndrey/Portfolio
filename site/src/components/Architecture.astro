@@ -1,14 +1,12 @@
 ---
 // «Під капотом»: стек шарів + ланцюжок резолву токена. Усі цифри й значення — з токенів демо,
 // згенерованих `npm run tokens:demo` (tokens/demo/ ← sync-demo-tokens). Руками тут нічого не пишеться.
-import "../generated/stage/stage.css";
 import meta from "../generated/demo/meta.json";
 import manifest from "../generated/demo/manifest.json";
 import { t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
-const all = t(Astro.props.lang);
-const d = all.architecture;
+const d = t(Astro.props.lang).architecture;
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 
 const c = meta.counts;
@@ -42,47 +40,21 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
 <div class="arch" data-arch data-token="fill" data-brand="aurum">
   <div class="stack">
     <h3 class="stack__title ts-title-t4">{d.layersTitle}</h3>
-    <p class="stack__hint ts-body-sm-regular">{d.layersHint}</p>
     <ol class="stack__list">
       {layers.map((l) => {
         const L = d.layers[l.id];
         return (
-          <li>
-            <button type="button" class:list={["layer", l.id === "brand" && "layer--brand"]} aria-pressed="false" data-layer={l.id}>
-              <span class="layer__head">
-                <span class="layer__name ts-title-t5">{L.name}</span>
-                {l.id === "brand" && <span class="layer__tag ts-label-sm">{d.brandTag}</span>}
-                <span class="layer__count ts-body-sm-strong">{fill(L.count, { n: l.n, g: l.g ?? "", b: l.b ?? "" })}</span>
-              </span>
-              <span class="layer__detail ts-body-sm-regular">{L.detail}</span>
-            </button>
+          <li class:list={["layer", l.id === "brand" && "layer--brand"]}>
+            <div class="layer__head">
+              <span class="layer__name ts-title-t5">{L.name}</span>
+              {l.id === "brand" && <span class="layer__tag ts-label-sm">{d.brandTag}</span>}
+              <span class="layer__count ts-body-sm-strong">{fill(L.count, { n: l.n, g: l.g ?? "", b: l.b ?? "" })}</span>
+            </div>
+            <p class="layer__detail ts-body-sm-regular">{L.detail}</p>
           </li>
         );
       })}
     </ol>
-  </div>
-
-  <!-- Розведений стек тих самих 6 шарів. aria-hidden: зміст несе список ліворуч. Кольори — бренд, вибраний у ланцюжку нижче -->
-  <div class="arch__visual" aria-hidden="true">
-    <div class="arch__light stage-scope" data-brand="aurum" data-arch-brand></div>
-    <div class="p3stack">
-      {layers.map((l, i) => (
-        <div class="p3" data-plane={l.id} style={`--k: ${(layers.length - 1) / 2 - i}`}>
-          <div class="p3__body">
-            <span class="p3__num ts-display-d3">{l.n}</span>
-            <span class="p3__name ts-title-t4">{d.layers[l.id].name}</span>
-            <span class="p3__art">
-              {l.id === "components" && <span class="p3__btn stage-scope ts-label-md" data-brand="aurum" data-arch-brand>{all.stage.lobby.promoCta}</span>}
-              {l.id === "theme" && ["--color-bg-primary", "--color-fill-primary-default", "--color-text-primary"].map((v) => <i class="sw stage-scope" data-brand="aurum" data-arch-brand style={`--sw: var(${v})`}></i>)}
-              {l.id === "typography" && <span class="p3__aa stage-scope ts-display-d3" data-brand="aurum" data-arch-brand>Aa</span>}
-              {l.id === "map" && ["light", "base", "dark", "deep"].map((v) => <i class="sw stage-scope" data-brand="aurum" data-arch-brand style={`--sw: var(--illustration-primary-${v})`}></i>)}
-              {l.id === "brand" && ["--illustration-primary-base", "--illustration-accent-base", "--illustration-info-base", "--illustration-ink"].map((v) => <i class="sw stage-scope" data-brand="aurum" data-arch-brand style={`--sw: var(${v})`}></i>)}
-              {l.id === "core" && [1, 2, 3, 4, 5].map((w) => <i class="p3__bar" style={`--w: ${w}`}></i>)}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
   </div>
 
   <div class="chain">
@@ -111,15 +83,15 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
         const ch = chains[`${b}|${th}`][TOKENS[k]];
         return (
           <ol class="steps" data-view-token={k} data-view-brand={b} data-view-theme={th} hidden={!(k === "fill" && b === "aurum" && th === "light")}>
-            {ch.steps.map((s, i) => (
-              <li class="cstep" style={`--i: ${i}`}>
+            {ch.steps.map((s) => (
+              <li class="cstep">
                 <span class="cstep__layer ts-overline-sm">{layerName(s.layer)}</span>
                 <code class="cstep__name ts-body-sm-strong">{s.name}</code>
                 {s.note && <span class="cstep__note ts-body-xs-regular">{note(s.note)}</span>}
                 {s.value && !s.ref && <span class="cstep__value ts-body-sm-regular">{isColor(s.value) && <i class="swatch" style={`--swatch: ${s.value}`} aria-hidden="true"></i>}{s.value}</span>}
               </li>
             ))}
-            <li class="cstep cstep--result" style={`--i: ${ch.steps.length}`}>
+            <li class="cstep cstep--result">
               <span class="cstep__layer ts-overline-sm">{d.explorer.result}</span>
               <span class="cstep__value ts-body-md-strong">
                 {isColor(ch.value) ? <i class="swatch" style={`--swatch: ${ch.value}`} aria-hidden="true"></i> : <i class="swatch swatch--radius" style={`--swatch-radius: ${ch.value}`} aria-hidden="true"></i>}
@@ -151,59 +123,26 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
       const key = btn.dataset.set as "token" | "brand";
       root.dataset[key] = btn.dataset.value;
       root.querySelectorAll<HTMLButtonElement>(`[data-set="${key}"]`).forEach((b) => b.setAttribute("aria-checked", String(b === btn)));
-      if (key === "brand") root.querySelectorAll<HTMLElement>("[data-arch-brand]").forEach((el) => (el.dataset.brand = btn.dataset.value));
       render();
     });
     new MutationObserver(render).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     render();
-
-    // Список шарів = легенда стеку: наведення/фокус підсвічує площину, клік закріплює (aria-pressed)
-    const layerButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-layer]")];
-    let pinned = "";
-    const show = (id: string) => { if (id) root.dataset.focus = id; else delete root.dataset.focus; };
-    for (const b of layerButtons) {
-      const id = b.dataset.layer!;
-      b.addEventListener("pointerenter", () => show(id));
-      b.addEventListener("focus", () => show(id));
-      b.addEventListener("pointerleave", () => show(pinned));
-      b.addEventListener("blur", () => show(pinned));
-      b.addEventListener("click", () => {
-        pinned = pinned === id ? "" : id;
-        layerButtons.forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.layer === pinned)));
-        show(pinned || id);
-      });
-    }
-    // Єдина поява в секції: ланцюжок будується згори вниз — показує напрям резолву (component → … → значення).
-    // Кроки нічим не приховані заздалегідь (видно без JS і для перевірок контрасту); анімація стартує, щойно верх ланцюжка в екрані
-    if ("IntersectionObserver" in window && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-      const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); root.classList.add("is-revealed"); } }, { threshold: 0 });
-      io.observe(root.querySelector(".chain")!);
-    }
   }
 </script>
 
 <style>
   .arch { display: grid; gap: var(--l-gap); }
-  /* Ряд 1: список шарів (легенда) + розведений стек; ряд 2: «Простежте один токен» — без змін, на всю ширину */
-  @media (min-width: 1024px) {
-    .arch { grid-template-columns: 5fr 7fr; grid-template-areas: "list visual" "chain chain"; align-items: center; row-gap: var(--section-gap); }
-    .stack { grid-area: list; } .arch__visual { grid-area: visual; } .chain { grid-area: chain; }
-  }
+  @media (min-width: 1024px) { .arch { grid-template-columns: 5fr 7fr; align-items: start; } }
 
   .stack, .chain { display: flex; flex-direction: column; gap: var(--tokenChain-gap); }
   .stack__title, .chain__title { color: var(--tokenChain-name-color); }
   .stack__list { display: flex; flex-direction: column; gap: var(--layerStack-gap); }
-  .stack__hint { color: var(--layerStack-detail-color); }
   .layer {
-    width: 100%; text-align: start; cursor: pointer; color: inherit;
-    transition: border-color var(--motion-duration-fast) var(--motion-easing-out);
     display: flex; flex-direction: column; gap: var(--layerStack-item-gap);
     padding: var(--layerStack-item-padding); background: var(--layerStack-item-bg);
     border: var(--layerStack-item-borderWidth) solid var(--layerStack-item-br); border-radius: var(--layerStack-item-borderRadius);
   }
   .layer--brand { background: var(--layerStack-highlight-bg); border-color: var(--layerStack-highlight-br); }
-  .layer:hover, .layer:focus-visible, .layer[aria-pressed="true"] { border-color: var(--legend-item-br-active); }
-  .layer[aria-pressed="true"] { background: var(--legend-item-bg-active); }
   .layer__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-sm); }
   .layer__name { color: var(--layerStack-name-color); }
   .layer__tag { padding-inline: var(--layerStack-tag-paddingH); border-radius: var(--layerStack-tag-borderRadius); background: var(--layerStack-tag-bg); color: var(--layerStack-tag-color); }
@@ -244,57 +183,4 @@ const layerName = (l: string) => d.explorer.layerNames[l as keyof typeof d.explo
   }
   .swatch--radius { background: var(--tokenChain-step-bg); border-radius: var(--swatch-radius); }
 
-  @keyframes chain-step { from { opacity: var(--motion-reveal-opacity); transform: translateY(calc(var(--space-gap-md) * -1)); } }
-  .arch.is-revealed .cstep { animation: chain-step var(--motion-duration-scene) var(--motion-easing-emphasized) both; animation-delay: calc(var(--motion-duration-fast) * var(--i)); }
-
-
-  /* ---------- розведений стек 6 шарів ----------
-     Площини в одній клітинці сітки, рознесені по Z (--k від +2.5 зверху до −2.5 знизу). Мало елементів, великі підписи —
-     читаються на 1280 px. Скрол: CSS scroll-driven animation, без pin і без JS; без підтримки / reduced-motion — одразу розведений */
-  .arch__visual { display: none; }
-  @media (min-width: 900px) {
-    .arch__visual { display: block; position: relative; perspective: var(--stage-perspective); padding-block: calc(var(--stage-depth) * 2); }
-  }
-  .arch__light { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(closest-side, var(--stageLight-bg), transparent); }
-  .p3stack { display: grid; transform-style: preserve-3d; transform: scale(var(--stage-scale)) rotateX(var(--stage-rotateX)) rotateZ(calc(var(--stage-rotateZ) * -1)); }
-  .p3 { grid-area: 1 / 1; transform-style: preserve-3d; transform: translateZ(calc(var(--stage-depth) * var(--k))); }
-  .p3__body {
-    display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: var(--stage-plane-gap);
-    padding: var(--stage-plane-padding); background: var(--stage-plane-bg);
-    border: var(--stage-plane-borderWidth) solid var(--stage-plane-br); border-radius: var(--stage-plane-borderRadius);
-    box-shadow: var(--stage-plane-boxShadow);
-    transition: opacity var(--motion-duration-base) var(--motion-easing-standard), border-color var(--motion-duration-base) var(--motion-easing-standard);
-  }
-  .p3__num { color: var(--stage-name-color); font-variant-numeric: tabular-nums; }
-  .p3__name { color: var(--stage-name-color); }
-  .p3__art { display: inline-flex; align-items: center; gap: var(--space-gap-sm); }
-  .p3__btn { display: inline-flex; align-items: center; height: var(--button-size-md); padding-inline: var(--button-paddingH-md); border-radius: var(--button-borderRadius); background: var(--button-primary-bg-default); color: var(--button-primary-color-default); }
-  .p3__aa { color: var(--color-text-primary); }
-  .p3__bar { display: inline-block; width: calc(var(--space-gap-md) * var(--w)); height: var(--stage-swatch-size); border-radius: var(--stage-swatch-borderRadius); background: var(--stage-swatch-br); }
-  .p3__art .sw {
-    display: inline-block; width: calc(var(--stage-swatch-size) * 1.5); height: calc(var(--stage-swatch-size) * 1.5);
-    background: var(--sw); border: var(--stage-plane-borderWidth) solid var(--stage-swatch-br); border-radius: var(--stage-swatch-borderRadius);
-  }
-
-  /* Легенда: підсвічена площина, інші приглушені */
-  .arch[data-focus="components"] .p3:not([data-plane="components"]) .p3__body,
-  .arch[data-focus="theme"] .p3:not([data-plane="theme"]) .p3__body,
-  .arch[data-focus="typography"] .p3:not([data-plane="typography"]) .p3__body,
-  .arch[data-focus="map"] .p3:not([data-plane="map"]) .p3__body,
-  .arch[data-focus="brand"] .p3:not([data-plane="brand"]) .p3__body,
-  .arch[data-focus="core"] .p3:not([data-plane="core"]) .p3__body { opacity: var(--stage-plane-dim-opacity); }
-  .arch[data-focus="components"] [data-plane="components"] .p3__body,
-  .arch[data-focus="theme"] [data-plane="theme"] .p3__body,
-  .arch[data-focus="typography"] [data-plane="typography"] .p3__body,
-  .arch[data-focus="map"] [data-plane="map"] .p3__body,
-  .arch[data-focus="brand"] [data-plane="brand"] .p3__body,
-  .arch[data-focus="core"] [data-plane="core"] .p3__body { border-color: var(--legend-item-br-active); }
-
-  @keyframes p3-spread { from { transform: translateZ(0); } }
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .arch__visual { view-timeline-name: --arch-stack; }
-      .p3 { animation: p3-spread linear both; animation-duration: auto; animation-timeline: --arch-stack; animation-range: entry 10% cover 45%; }
-    }
-  }
 </style>

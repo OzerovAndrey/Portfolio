@@ -3,28 +3,22 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import DemoFrame from "../../components/DemoFrame.astro";
 import Architecture from "../../components/Architecture.astro";
-import HeroStage from "../../components/HeroStage.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
-// H1 по реченнях — для появи рядок за рядком. Текст той самий, що в i18n
-const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
-  <section class="hero" data-hero>
+  <section class="hero">
     <div class="container hero__inner">
-      <div class="hero__copy" data-hero-copy>
-        <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
-        <h1 class="hero__title ts-display-d1">{titleLines.map((line, i) => <><span class="hero__line" style={`--i: ${i}`}>{line}</span>{i < titleLines.length - 1 && " "}</>)}</h1>
-        <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
-        <div class="hero__actions">
-          <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
-          <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
-        </div>
+      <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
+      <h1 class="hero__title ts-display-d1">{d.hero.title}</h1>
+      <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
+      <div class="hero__actions">
+        <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
+        <Button size="lg" variant="secondary" href="#how">{d.hero.ctaHow}</Button>
       </div>
-      <HeroStage lang={lang} />
     </div>
   </section>
 
@@ -33,7 +27,7 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
       <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
       <ul class="metrics">
         {d.metrics.items.map((m) => (
-          <li class:list={["metric", "emphasis" in m && m.emphasis && "metric--key"]}>
+          <li class="metric">
             <span class="metric__amount ts-display-d2">{m.amount}</span>
             <span class="metric__label ts-body-md-regular">{m.label}</span>
           </li>
@@ -47,7 +41,7 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="demo-title">{d.demo.title}</h2>
       </div>
-      <div class="demo-light"><DemoFrame lang={lang} /></div>
+      <DemoFrame lang={lang} />
     </div>
   </section>
 
@@ -110,13 +104,9 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
 </Base>
 
 <style>
-  /* Hero компактний: висота = вміст (≤ одного екрана на desktop), без pin і скролу. Метрики йдуть одразу під ним.
-     Контейнер ширший за звичайний (56 × 24 = 1344 проти 1232), щоб великий H1 і лобі-мокап стали поруч.
-     overflow-x: clip — світло за мокапом не дає горизонтального скролу */
-  .hero { background: var(--hero-bg); padding-block: var(--l-gap) var(--l-row); overflow-x: clip; }
-  .hero__inner { display: flex; flex-direction: column; gap: var(--l-row); }
-  @media (min-width: 900px) { .hero__inner { max-width: calc(var(--size-control-xl) * 24 + var(--l-padH) * 2); } }
-  .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
+  /* Hero: eyebrow, H1, підзаголовок, два CTA — у тому самому контейнері, що й уся сторінка */
+  .hero { background: var(--hero-bg); padding-block: var(--l-gap) var(--l-row); }
+  .hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
   .hero__eyebrow { color: var(--hero-eyebrow-color); }
   .hero__title {
     color: var(--hero-title-color); max-width: 14ch; text-wrap: balance; hyphens: auto;
@@ -127,22 +117,6 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
      зсуває все нижче (CLS 0.10 на 412 px) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
-
-  /* Поява: рядки H1 → sub → CTA → мокап. Тільки transform і opacity; старт з opacity 0.04 — інакше LCP чекав кінця анімації */
-  .hero__line { display: block; }
-  @keyframes hero-rise { from { opacity: var(--motion-reveal-opacity); transform: translateY(var(--space-gap-xl)); } }
-  /* Підзаголовок — LCP-елемент (найбільший текстовий блок): тільки зсув, без прозорості, щоб LCP не чекав анімації */
-  @keyframes hero-rise-y { from { transform: translateY(var(--space-gap-xl)); } }
-  @media (prefers-reduced-motion: no-preference) {
-    .hero__line { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; animation-delay: calc(var(--motion-duration-fast) * var(--i)); }
-    .hero__subtitle, .hero__actions, .hero :global(.hero__stage) { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; }
-    .hero__subtitle { animation-name: hero-rise-y; animation-delay: calc(var(--motion-duration-fast) * 2); }
-    .hero__actions { animation-delay: calc(var(--motion-duration-fast) * 3); }
-    .hero :global(.hero__stage) { animation-delay: calc(var(--motion-duration-fast) * 4); }
-  }
-  @media (min-width: 900px) {
-    .hero__inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: var(--l-row); align-items: center; }
-  }
 
   .steps { display: grid; gap: var(--l-gap); }
   @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }
@@ -158,29 +132,16 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   .cta__lead { color: var(--ctaBand-lead-color); }
 
   .section--tight { padding-block: var(--l-row); }
-  /* Метрики: три другорядні — без карток, число + підпис під тонкою лінією; головна «0 змін у компонентах» —
-     акцентна плашка (action.*) на дві колонки й більшим числом */
-  .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--l-gap); align-items: stretch; }
-  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(3, 1fr) 2fr; } }
+  /* Метрики: три рівні колонки одного стилю — число й підпис під тонкою лінією, без карток */
+  .metrics { display: grid; grid-template-columns: 1fr; gap: var(--l-gap); }
+  @media (min-width: 768px) { .metrics { grid-template-columns: repeat(3, 1fr); } }
   .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding-block: var(--metric-padding); border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .metric__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
-  .metric--key {
-    grid-column: 1 / -1; justify-content: flex-end; padding: var(--metric-padding); border: 0;
-    background: var(--metric-key-bg); border-radius: var(--metric-borderRadius);
-  }
-  @media (min-width: 1024px) { .metric--key { grid-column: auto; } }
-  .metric--key .metric__amount { color: var(--metric-key-amount-color); font-size: var(--metric-key-amount-fontSize); line-height: var(--metric-key-amount-lineHeight); letter-spacing: var(--metric-key-amount-letterSpacing); }
-  .metric--key .metric__label { color: var(--metric-key-label-color); }
-  .audience__item { transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
-  .audience__item:hover { border-color: var(--audience-hover-br); }
-  /* Живе демо в рамці, як лобі в hero: м'яке світло за рамкою (сам iframe не чіпаємо) */
-  .demo-light { position: relative; }
-  .demo-light::before { content: ""; position: absolute; inset: calc(var(--l-row) * -1) calc(var(--l-gap) * -1); pointer-events: none; background: radial-gradient(closest-side, var(--demoLight-bg), transparent); }
   .metric__label { color: var(--metric-label-color); }
   /* Вузькі екрани: одна колонка, число зліва від підпису — підпис не ламається у стовпчик */
   @media (max-width: 559px) {
     .metrics { grid-template-columns: 1fr; gap: var(--space-gap-md); }
-    .metric:not(.metric--key) { flex-direction: row; align-items: center; gap: var(--l-gap); }
+    .metric { flex-direction: row; align-items: center; gap: var(--l-gap); }
     .metric__amount { min-width: 2ch; }
   }
 

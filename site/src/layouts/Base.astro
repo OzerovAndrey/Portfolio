@@ -55,8 +55,6 @@ const { umamiId, umamiSrc } = config.analytics;
         const apply = () => { root.dataset.theme = saved() ?? (mq.matches ? "dark" : "light"); };
         apply();
         mq.addEventListener?.("change", () => { if (!saved()) apply(); });
-        // зерно (visual.css) — тільки після шрифтів, щоб не впливати на CLS
-        addEventListener("load", () => (document.fonts?.ready ?? Promise.resolve()).then(() => requestAnimationFrame(() => root.classList.add("has-grain"))), { once: true });
       })();
     </script>
   </head>

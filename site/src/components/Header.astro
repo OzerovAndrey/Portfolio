@@ -12,20 +12,22 @@ const nav = [
 const path = Astro.url.pathname;
 ---
 <header class="header">
-  <div class="container header__inner glass">
-    <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
-    <nav class="nav" aria-label={d.a11y.nav}>
-      {nav.map((n) => (
-        <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
-      ))}
-    </nav>
-    <div class="header__tools">
-      <div class="lang" role="group" aria-label={d.a11y.lang}>
-        {locales.map((l) => (
-          <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} data-event={l === lang ? undefined : `lang_${l}`}>{l.toUpperCase()}</a>
+  <div class="container">
+    <div class="header__inner glass">
+      <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
+      <nav class="nav" aria-label={d.a11y.nav}>
+        {nav.map((n) => (
+          <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
         ))}
+      </nav>
+      <div class="header__tools">
+        <div class="lang" role="group" aria-label={d.a11y.lang}>
+          {locales.map((l) => (
+            <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} data-event={l === lang ? undefined : `lang_${l}`}>{l.toUpperCase()}</a>
+          ))}
+        </div>
+        <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
       </div>
-      <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
     </div>
   </div>
 </header>
@@ -34,9 +36,9 @@ const path = Astro.url.pathname;
   /* Плаваюча glass-таблетка (visual.css → .glass). Загальна висота та сама, що до glass (siteHeader.height):
      відступ згори + таблетка — контент нижче не зсувається */
   .header { position: sticky; top: 0; z-index: 5; padding-block-start: var(--space-gap-md); }
+  /* Бар живе всередині .container — його зовнішні краї = краї контенту кожної секції. Свого max-width / полів сторінки не має */
   .header__inner {
     display: flex; align-items: center; gap: var(--siteHeader-gap); height: calc(var(--siteHeader-height) - var(--space-gap-md));
-    width: calc(100% - var(--l-padH) * 2); max-width: calc(var(--size-control-xl) * 22);
     padding-inline: var(--space-padding-md); border-radius: var(--glass-borderRadius);
   }
   .header__logo { color: var(--siteHeader-logo-color); text-decoration: none; white-space: nowrap; }

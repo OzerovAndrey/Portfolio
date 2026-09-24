@@ -19,19 +19,6 @@
   .glass { background: var(--glass-solid-bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 
-/* ---------- grain ---------- */
-/* SVG-шум одним тайлом, над контентом, але під шапкою й під рамкою демо (iframe не чіпаємо). Кліки проходять крізь.
-   Вмикається класом .has-grain після завантаження шрифтів (Base.astro): повноекранний fixed-шар до цього
-   змушує Lighthouse рахувати зсув від підміни шрифту (CLS 0.002 → 0.119). Без JS — без зерна, це декор. */
-.has-grain body::after {
-  content: "";
-  position: fixed; inset: 0; z-index: 1;
-  pointer-events: none;
-  opacity: var(--grain-opacity);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@media print { .has-grain body::after { display: none; } }
-
 /* Якорі (#demo, #how) не ховаються під плаваючою шапкою */
 html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) * 2); }
 
