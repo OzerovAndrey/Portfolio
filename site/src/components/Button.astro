@@ -1,7 +1,7 @@
 ---
 // Button на токенах button.* (ті самі, що в демо). Рендерить <a>, якщо є href.
 interface Props {
-  variant?: "primary" | "secondary" | "text" | "glass";
+  variant?: "primary" | "secondary" | "text";
   size?: "sm" | "md" | "lg";
   href?: string;
   type?: "button" | "submit";
@@ -43,12 +43,4 @@ const Tag = href ? "a" : "button";
   .btn--text { --btn-bg: var(--button-text-bg-default); --btn-color: var(--button-text-color-default); }
   .btn--text:hover { --btn-bg: var(--button-text-bg-hover); --btn-color: var(--button-text-color-hover); }
   .btn--text:active { --btn-bg: var(--button-text-bg-active); --btn-color: var(--button-text-color-active); }
-
-  /* glass: ті самі токени й fallback, що .glass у visual.css (scoped-стилі кнопки сильніші за глобальний клас) */
-  .btn--glass { --btn-bg: var(--glass-solid-bg); --btn-color: var(--glass-color-default); border-color: var(--glass-br); box-shadow: var(--glass-boxShadow); }
-  @supports ((backdrop-filter: none) or (-webkit-backdrop-filter: none)) {
-    .btn--glass { --btn-bg: var(--glass-bg); -webkit-backdrop-filter: var(--glass-backdropFilter); backdrop-filter: var(--glass-backdropFilter); }
-  }
-  @media (prefers-reduced-transparency: reduce) { .btn--glass { --btn-bg: var(--glass-solid-bg); -webkit-backdrop-filter: none; backdrop-filter: none; } }
-  .btn--glass:hover { border-color: var(--link-br-default); }
 </style>

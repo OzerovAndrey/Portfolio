@@ -10,7 +10,6 @@
     "theme/dark",
     "site/theme/dark",
     "typography",
-    "components",
-    "site/demo-motion"
+    "components"
   ]
 }

@@ -22,16 +22,6 @@
         "type": "color"
       }
     },
-    "stage": {
-      "light": {
-        "value": "{color.product1.alpha24}",
-        "type": "color"
-      },
-      "shadow": {
-        "value": "{color.neutral.dark.alpha16}",
-        "type": "color"
-      }
-    },
     "action": {
       "bg": {
         "default": {
@@ -85,50 +75,12 @@
         }
       ],
       "type": "boxShadow"
-    },
-    "stage": {
-      "value": [
-        {
-          "x": "0",
-          "y": "24",
-          "blur": "48",
-          "spread": "-12",
-          "color": "{color.stage.shadow}",
-          "type": "dropShadow"
-        }
-      ],
-      "type": "boxShadow"
     }
   },
   "backdropFilter": {
     "glass": {
       "value": "{filter.glass}",
       "type": "backdropFilter"
-    },
-    "none": {
-      "value": "{filter.none}",
-      "type": "backdropFilter"
-    }
-  },
-  "opacity": {
-    "grain": {
-      "value": "{opacity.4}",
-      "type": "opacity"
-    },
-    "dim": {
-      "value": "{opacity.40}",
-      "type": "opacity",
-      "description": "приглушені площини, коли підсвічена одна"
-    },
-    "reveal": {
-      "value": "{opacity.4}",
-      "type": "opacity",
-      "description": "стартова прозорість появи: не 0 — інакше Chrome не рахує елемент для LCP до кінця анімації"
-    },
-    "glow": {
-      "value": "{opacity.40}",
-      "type": "opacity",
-      "description": "світіння за ілюстрацією гри (як у демо)"
     }
   },
   "duration": {
@@ -138,10 +90,6 @@
     },
     "base": {
       "value": "{time.200}",
-      "type": "duration"
-    },
-    "scene": {
-      "value": "{time.600}",
       "type": "duration"
     }
   },
@@ -153,46 +101,12 @@
     "out": {
       "value": "{curve.easeOut}",
       "type": "cubicBezier"
-    },
-    "emphasized": {
-      "value": "{curve.emphasized}",
-      "type": "cubicBezier"
     }
   },
   "borderRadius": {
     "pill": {
       "value": "{borderRadius.999}",
       "type": "borderRadius"
-    }
-  },
-  "scene": {
-    "tiltX": {
-      "value": "{angle.52}",
-      "type": "other",
-      "description": "нахил стеку шарів у «Під капотом» — помірний, щоб підписи площин читались"
-    },
-    "tiltZ": {
-      "value": "{angle.4}",
-      "type": "other",
-      "description": "поворот стеку (у CSS зі знаком мінус)"
-    },
-    "depth": {
-      "value": "{depth.64}",
-      "type": "dimension",
-      "description": "відстань між сусідніми площинами по Z (6 площин)"
-    },
-    "perspective": {
-      "value": "{depth.1600}",
-      "type": "dimension"
-    },
-    "parallax": {
-      "value": "{angle.4}",
-      "type": "other",
-      "description": "максимальний нахил від курсора"
-    },
-    "scale": {
-      "value": "{scale.92}",
-      "type": "other"
     }
   },
   "display": {
@@ -231,20 +145,6 @@
       },
       "letterSpacing": {
         "value": "{letterSpacing.title}",
-        "type": "letterSpacing"
-      }
-    },
-    "key": {
-      "fontSize": {
-        "value": "{fontSize.fluid.key}",
-        "type": "fontSizes"
-      },
-      "lineHeight": {
-        "value": "{lineHeight.ratio.display}",
-        "type": "lineHeights"
-      },
-      "letterSpacing": {
-        "value": "{letterSpacing.display}",
         "type": "letterSpacing"
       }
     }

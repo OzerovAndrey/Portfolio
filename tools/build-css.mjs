@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 //   --out-css / --out-meta / --out-manifest <path>
 // Portfolio-only (no-op when absent — output stays byte-identical):
 //   --site-sets <dir>            own sets of the portfolio (tokens/site): core.json, map.json (alpha ramps per brand), theme/<t>.json
-//   --brand-extra <path>         per-brand extra tokens { "<brand>": {…} } (tokens/site/demo-motion.json, temporary until demo-04)
+//   --brand-extra <path>         per-brand extra tokens { "<brand>": {…} }
 //   --scope <selector>           emit brand / theme / components on <selector>[data-brand] instead of :root, so a nested
 //                                data-brand re-skins its subtree; core, swatches and text styles are skipped (the page has them)
 //   --only-components <a,b,…>    keep only these component groups
