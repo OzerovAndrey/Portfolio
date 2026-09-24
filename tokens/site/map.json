@@ -1,0 +1,221 @@
+{
+  "color": {
+    "neutral": {
+      "dark": {
+        "alpha04": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.04",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha08": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.08",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha16": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.16",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha40": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.4",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha60": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.6",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha72": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.72",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha88": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.88",
+                "space": "hsl"
+              }
+            }
+          }
+        }
+      },
+      "light": {
+        "alpha08": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.08",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha16": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.16",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha40": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.4",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha60": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.6",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha72": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.72",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha88": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.88",
+                "space": "hsl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "product1": {
+      "alpha16": {
+        "value": "{color.product1}",
+        "type": "color",
+        "$extensions": {
+          "studio.tokens": {
+            "modify": {
+              "type": "alpha",
+              "value": "0.16",
+              "space": "hsl"
+            }
+          }
+        }
+      },
+      "alpha24": {
+        "value": "{color.product1}",
+        "type": "color",
+        "$extensions": {
+          "studio.tokens": {
+            "modify": {
+              "type": "alpha",
+              "value": "0.24",
+              "space": "hsl"
+            }
+          }
+        }
+      },
+      "alpha40": {
+        "value": "{color.product1}",
+        "type": "color",
+        "$extensions": {
+          "studio.tokens": {
+            "modify": {
+              "type": "alpha",
+              "value": "0.4",
+              "space": "hsl"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$description": "Альфа-рампи сайту: рахуються для кожного бренду з його кольорів (modify alpha), як рампи в map.json. Тимчасово тут — постійно в demo-04."
+}

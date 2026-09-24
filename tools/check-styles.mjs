@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Стилі сайту: тільки var(--…) токенів. Ловить hex-кольори, px-значення, font-family і font-size без var().
+// Стилі сайту: тільки var(--…) токенів. Ловить hex-кольори, px-значення, font-family і font-size без var(),
+// тривалості (ms/s), easing (cubic-bezier, ease-*), blur() і rgba()/hsla().
 // Винятки: рядки з @media (брейкпоінти) і рядки з коментарем /* allow: причина */.
 // Сканує .css і <style>-блоки .astro у site/src; згенеровані файли пропускає.
 import { readFileSync, readdirSync, statSync } from "node:fs";
@@ -18,6 +19,10 @@ const RULES = [
   [/(?<![\w-])\d*\.?\d+px\b/, "px-значення — візьми токен (space/size/borderWidth…)"],
   [/font-family\s*:/, "font-family — тільки через text styles ts-*"],
   [/font-size\s*:\s*(?!var\()/, "font-size без var() — тільки text styles ts-* або токен"],
+  [/(?<![\w-])\d*\.?\d+m?s\b/, "тривалість — токен motion.duration.*"],
+  [/cubic-bezier\(|(?<![\w-])ease(-in|-out|-in-out)?(?![\w-])/, "easing — токен motion.easing.*"],
+  [/(?<![\w-])blur\(/, "blur() — токен glass.backdropFilter"],
+  [/(?<![\w-])(rgba?|hsla?)\(/, "rgba/hsla — прозорість тільки з альфа-рампи (tokens/site/map.json)"],
 ];
 
 const errors = [];

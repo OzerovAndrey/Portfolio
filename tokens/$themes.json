@@ -4,7 +4,8 @@
     "name": "Default",
     "group": "Base",
     "selectedTokenSets": {
-      "core": "enabled"
+      "core": "enabled",
+      "site/core": "enabled"
     }
   },
   {
@@ -13,8 +14,10 @@
     "group": "Brand",
     "selectedTokenSets": {
       "core": "source",
+      "site/core": "source",
       "brand/site": "enabled",
-      "map": "enabled"
+      "map": "enabled",
+      "site/map": "enabled"
     }
   },
   {
@@ -23,9 +26,12 @@
     "group": "Theme",
     "selectedTokenSets": {
       "core": "source",
+      "site/core": "source",
       "brand/site": "source",
       "map": "source",
-      "theme/light": "enabled"
+      "site/map": "source",
+      "theme/light": "enabled",
+      "site/theme/light": "enabled"
     }
   },
   {
@@ -34,9 +40,12 @@
     "group": "Theme",
     "selectedTokenSets": {
       "core": "source",
+      "site/core": "source",
       "brand/site": "source",
       "map": "source",
-      "theme/dark": "enabled"
+      "site/map": "source",
+      "theme/dark": "enabled",
+      "site/theme/dark": "enabled"
     }
   },
   {
@@ -55,9 +64,12 @@
     "group": "Components",
     "selectedTokenSets": {
       "core": "source",
+      "site/core": "source",
       "brand/site": "source",
       "map": "source",
+      "site/map": "source",
       "theme/light": "source",
+      "site/theme/light": "source",
       "components": "enabled"
     }
   }

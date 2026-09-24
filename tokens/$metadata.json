@@ -1,11 +1,16 @@
 {
   "tokenSetOrder": [
     "core",
+    "site/core",
     "brand/site",
     "map",
+    "site/map",
     "theme/light",
+    "site/theme/light",
     "theme/dark",
+    "site/theme/dark",
     "typography",
-    "components"
+    "components",
+    "site/demo-motion"
   ]
 }

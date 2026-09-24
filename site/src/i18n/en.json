@@ -25,6 +25,68 @@
     "ctaDemo": "Switch brands live",
     "ctaHow": "See how it's built"
   },
+  "stage": {
+    "legendTitle": "What you're looking at",
+    "legendHint": "Hover or focus a layer to highlight it. Click to pin it.",
+    "planes": {
+      "component": {
+        "name": "Component",
+        "detail": "The lobby. It asks for meanings like button.primary.bg, never for raw colors."
+      },
+      "semantic": {
+        "name": "Semantic",
+        "detail": "Meanings mapped to steps on a color ramp. Light and dark remap them."
+      },
+      "core": {
+        "name": "Core",
+        "detail": "Raw values: the brand file, its color ramps and the shared scale."
+      }
+    },
+    "count": {
+      "total": "{n} tokens",
+      "changed": "{n} changed",
+      "remapped": "{n} remapped"
+    },
+    "status": "Switch the brand or the theme to see which layer changes.",
+    "announceBrand": "{brand}. Core: {n} values changed. Semantic and component: 0 changed.",
+    "announceMode": "{mode} theme. Semantic: {n} tokens remapped. Core and component: 0 changed.",
+    "modeNames": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "brandGroup": "Brand in the preview",
+    "modeButton": "Dark theme",
+    "semanticTitle": "Semantic tokens",
+    "coreTitle": "Core values",
+    "fontLabel": "Display font",
+    "radiusLabel": "Radius: surface {s} · control {c}",
+    "lobby": {
+      "join": "Join",
+      "chips": [
+        "Top",
+        "Slots",
+        "Live",
+        "Tables"
+      ],
+      "promoTitle": "Weekly tournament",
+      "promoText": "Every spin moves you up the leaderboard.",
+      "promoCta": "Play",
+      "tiles": [
+        {
+          "title": "Golden Reels"
+        },
+        {
+          "title": "Neon Drift"
+        },
+        {
+          "title": "Carnival Wheel"
+        },
+        {
+          "title": "Royal Blackjack"
+        }
+      ]
+    }
+  },
   "metrics": {
     "title": "Key numbers",
     "items": [

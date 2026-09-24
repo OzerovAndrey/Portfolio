@@ -56,6 +56,6 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .skip:focus { top: var(--space-gap-md); }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } /* allow: стандартний reduced-motion ресет, 0.01ms — не дизайн-значення */
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }

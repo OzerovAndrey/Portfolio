@@ -1,0 +1,70 @@
+{
+  "$description": "Тимчасово до demo-04: motion брендів демо (у брендах демо таких ключів ще немає). Використовується тільки сценою в hero.",
+  "aurum": {
+    "motion": {
+      "easing": {
+        "brand": {
+          "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "type": "cubicBezier",
+          "description": "плавний, преміальний"
+        }
+      },
+      "duration": {
+        "brand": {
+          "value": "600ms",
+          "type": "duration"
+        }
+      }
+    }
+  },
+  "nova": {
+    "motion": {
+      "easing": {
+        "brand": {
+          "value": "cubic-bezier(0.7, 0, 0.3, 1)",
+          "type": "cubicBezier",
+          "description": "різкий, технологічний"
+        }
+      },
+      "duration": {
+        "brand": {
+          "value": "360ms",
+          "type": "duration"
+        }
+      }
+    }
+  },
+  "fiesta": {
+    "motion": {
+      "easing": {
+        "brand": {
+          "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+          "type": "cubicBezier",
+          "description": "з перельотом, грайливий"
+        }
+      },
+      "duration": {
+        "brand": {
+          "value": "520ms",
+          "type": "duration"
+        }
+      }
+    }
+  },
+  "ultra": {
+    "motion": {
+      "easing": {
+        "brand": {
+          "value": "cubic-bezier(0.2, 0, 0, 1)",
+          "type": "cubicBezier"
+        }
+      },
+      "duration": {
+        "brand": {
+          "value": "400ms",
+          "type": "duration"
+        }
+      }
+    }
+  }
+}

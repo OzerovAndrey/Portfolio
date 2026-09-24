@@ -701,6 +701,10 @@
         "value": "{color.text.secondary}",
         "type": "color"
       }
+    },
+    "boxShadow": {
+      "value": "{boxShadow.stage}",
+      "type": "boxShadow"
     }
   },
   "metric": {
@@ -748,6 +752,12 @@
       },
       "color": {
         "value": "{color.text.primary}",
+        "type": "color"
+      }
+    },
+    "hover": {
+      "br": {
+        "value": "{color.border.primary}",
         "type": "color"
       }
     }
@@ -912,6 +922,12 @@
     "detail": {
       "color": {
         "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "hover": {
+      "br": {
+        "value": "{color.border.primary}",
         "type": "color"
       }
     }
@@ -1265,6 +1281,316 @@
         "value": "{borderRadius.control}",
         "type": "borderRadius"
       }
+    }
+  },
+  "glass": {
+    "bg": {
+      "value": "{color.glass.bg}",
+      "type": "color"
+    },
+    "br": {
+      "value": "{color.glass.br}",
+      "type": "color"
+    },
+    "color": {
+      "default": {
+        "value": "{color.text.primary}",
+        "type": "color",
+        "description": "текст на glass: secondary не проходить AA поверх найгіршого фону (2.58 у light), тому primary"
+      }
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "borderRadius": {
+      "value": "{borderRadius.pill}",
+      "type": "borderRadius"
+    },
+    "backdropFilter": {
+      "value": "{backdropFilter.glass}",
+      "type": "backdropFilter"
+    },
+    "boxShadow": {
+      "value": "{boxShadow.glass}",
+      "type": "boxShadow"
+    },
+    "solid": {
+      "bg": {
+        "value": "{color.glass.solid}",
+        "type": "color"
+      }
+    }
+  },
+  "grain": {
+    "opacity": {
+      "value": "{opacity.grain}",
+      "type": "opacity"
+    }
+  },
+  "motion": {
+    "duration": {
+      "fast": {
+        "value": "{duration.fast}",
+        "type": "duration"
+      },
+      "base": {
+        "value": "{duration.base}",
+        "type": "duration"
+      },
+      "scene": {
+        "value": "{duration.scene}",
+        "type": "duration"
+      }
+    },
+    "easing": {
+      "standard": {
+        "value": "{easing.standard}",
+        "type": "cubicBezier"
+      },
+      "out": {
+        "value": "{easing.out}",
+        "type": "cubicBezier"
+      },
+      "emphasized": {
+        "value": "{easing.emphasized}",
+        "type": "cubicBezier"
+      }
+    },
+    "reveal": {
+      "opacity": {
+        "value": "{opacity.reveal}",
+        "type": "opacity"
+      }
+    }
+  },
+  "stage": {
+    "rotateX": {
+      "value": "{scene.tiltX}",
+      "type": "other"
+    },
+    "rotateZ": {
+      "value": "{scene.tiltZ}",
+      "type": "other"
+    },
+    "depth": {
+      "value": "{scene.depth}",
+      "type": "dimension"
+    },
+    "perspective": {
+      "value": "{scene.perspective}",
+      "type": "dimension"
+    },
+    "parallax": {
+      "value": "{scene.parallax}",
+      "type": "other"
+    },
+    "scale": {
+      "value": "{scene.scale}",
+      "type": "other"
+    },
+    "gap": {
+      "value": "{space.gap.xl}",
+      "type": "spacing"
+    },
+    "plane": {
+      "bg": {
+        "value": "{color.bg.secondary}",
+        "type": "color"
+      },
+      "br": {
+        "value": "{color.border.tertiary}",
+        "type": "color"
+      },
+      "borderWidth": {
+        "value": "{borderWidth.control}",
+        "type": "borderWidth"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.surface}",
+        "type": "borderRadius"
+      },
+      "padding": {
+        "value": "{space.padding.md}",
+        "type": "spacing"
+      },
+      "gap": {
+        "value": "{space.gap.lg}",
+        "type": "spacing"
+      },
+      "boxShadow": {
+        "value": "{boxShadow.stage}",
+        "type": "boxShadow"
+      },
+      "dim": {
+        "opacity": {
+          "value": "{opacity.dim}",
+          "type": "opacity"
+        }
+      }
+    },
+    "label": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "name": {
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      }
+    },
+    "ref": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "swatch": {
+      "size": {
+        "value": "{size.control.xs}",
+        "type": "sizing"
+      },
+      "br": {
+        "value": "{color.border.secondary}",
+        "type": "color"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.control}",
+        "type": "borderRadius"
+      }
+    }
+  },
+  "stageLight": {
+    "bg": {
+      "value": "{color.stage.light}",
+      "type": "color",
+      "description": "м’яке світло за стеком — колір активного бренду демо (альфа-рампа product1); перевизначається в scope сцени"
+    }
+  },
+  "legend": {
+    "gap": {
+      "value": "{space.gap.md}",
+      "type": "spacing"
+    },
+    "item": {
+      "bg": {
+        "default": {
+          "value": "{color.fill.ghost.default}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.fill.ghost.hover}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.fill.secondary.default}",
+          "type": "color"
+        }
+      },
+      "br": {
+        "default": {
+          "value": "{color.border.none}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.border.primary}",
+          "type": "color"
+        }
+      },
+      "borderWidth": {
+        "value": "{borderWidth.control}",
+        "type": "borderWidth"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.control}",
+        "type": "borderRadius"
+      },
+      "padding": {
+        "value": "{space.padding.sm}",
+        "type": "spacing"
+      },
+      "gap": {
+        "value": "{space.gap.xs}",
+        "type": "spacing"
+      }
+    },
+    "name": {
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      }
+    },
+    "detail": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "count": {
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      }
+    }
+  },
+  "brandSwitch": {
+    "padding": {
+      "value": "{space.gap.xs}",
+      "type": "spacing"
+    },
+    "gap": {
+      "value": "{space.gap.xs}",
+      "type": "spacing"
+    },
+    "item": {
+      "size": {
+        "value": "{size.control.sm}",
+        "type": "sizing"
+      },
+      "paddingH": {
+        "value": "{space.padding.sm}",
+        "type": "spacing"
+      },
+      "gap": {
+        "value": "{space.gap.sm}",
+        "type": "spacing"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.pill}",
+        "type": "borderRadius"
+      },
+      "bg": {
+        "default": {
+          "value": "{color.fill.ghost.default}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.fill.ghost.hover}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.fill.primary.default}",
+          "type": "color"
+        }
+      },
+      "color": {
+        "default": {
+          "value": "{color.text.primary}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.text.onPrimary}",
+          "type": "color"
+        }
+      }
+    }
+  },
+  "demoLight": {
+    "bg": {
+      "value": "{color.stage.light}",
+      "type": "color"
     }
   }
 }

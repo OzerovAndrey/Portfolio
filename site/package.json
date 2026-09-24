@@ -4,20 +4,22 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "tokens": "node ../tools/build-css.mjs --out-manifest src/generated/tokens-manifest.json",
+    "tokens": "node ../tools/build-css.mjs --site-sets ../tokens/site --out-manifest src/generated/tokens-manifest.json",
     "check:tokens": "node ../tools/check-tokens.mjs",
-    "dev": "npm run tokens && npm run tokens:demo && astro dev",
-    "build": "npm run check:tokens && npm run check:styles && npm run tokens && npm run tokens:demo && astro check && astro build",
+    "dev": "npm run tokens && npm run tokens:demo && npm run tokens:stage && astro dev",
+    "build": "npm run check:tokens && npm run check:styles && npm run tokens && npm run tokens:demo && npm run tokens:stage && astro check && astro build",
     "preview": "astro preview",
     "check:upstream": "node ../tools/sync-demo-tokens.mjs --github --check",
     "check:styles": "node ../tools/check-styles.mjs",
-    "tokens:demo": "node ../tools/build-css.mjs --brands aurum,nova,fiesta,ultra --brand-file aurum=../tokens/demo/brand/aurum.json --brand-file nova=../tokens/demo/brand/nova.json --brand-file fiesta=../tokens/demo/brand/fiesta.json --brand-file ultra=../tokens/demo/brand/ultra.json --no-demo-components --components-file ../tokens/demo/components.json --out-css src/generated/demo/tokens.css --out-meta src/generated/demo/meta.json --out-manifest src/generated/demo/manifest.json"
+    "tokens:demo": "node ../tools/build-css.mjs --brands aurum,nova,fiesta,ultra --brand-file aurum=../tokens/demo/brand/aurum.json --brand-file nova=../tokens/demo/brand/nova.json --brand-file fiesta=../tokens/demo/brand/fiesta.json --brand-file ultra=../tokens/demo/brand/ultra.json --no-demo-components --components-file ../tokens/demo/components.json --out-css src/generated/demo/tokens.css --out-meta src/generated/demo/meta.json --out-manifest src/generated/demo/manifest.json",
+    "tokens:stage": "node ../tools/build-css.mjs --brands aurum,nova,fiesta --brand-file aurum=../tokens/demo/brand/aurum.json --brand-file nova=../tokens/demo/brand/nova.json --brand-file fiesta=../tokens/demo/brand/fiesta.json --site-sets ../tokens/site --brand-extra ../tokens/site/demo-motion.json --no-demo-components --components-file ../tokens/components.json --components-file ../tokens/demo/components.json --only-components card,header,chip,promo,art,gameTile,button,illustration,stageLight --scope .stage-scope --out-css src/generated/stage/stage.css --out-meta src/generated/stage/meta.json --out-manifest src/generated/stage/manifest.json"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/inter-tight": "^5.3.0",
     "astro": "^7.3.4",
+    "gsap": "^3.15.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

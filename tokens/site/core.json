@@ -1,0 +1,99 @@
+{
+  "time": {
+    "120": {
+      "value": "120ms",
+      "type": "duration",
+      "description": "мікро-відгук: hover, focus"
+    },
+    "200": {
+      "value": "200ms",
+      "type": "duration"
+    },
+    "320": {
+      "value": "320ms",
+      "type": "duration"
+    },
+    "600": {
+      "value": "600ms",
+      "type": "duration",
+      "description": "вхід і великі переходи сцени"
+    }
+  },
+  "curve": {
+    "easeOut": {
+      "value": "cubic-bezier(0, 0, 0.58, 1)",
+      "type": "cubicBezier",
+      "description": "= CSS ease-out"
+    },
+    "standard": {
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "type": "cubicBezier"
+    },
+    "emphasized": {
+      "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "type": "cubicBezier"
+    }
+  },
+  "filter": {
+    "glass": {
+      "value": "blur(16px) saturate(140%)",
+      "type": "backdropFilter"
+    },
+    "none": {
+      "value": "none",
+      "type": "backdropFilter"
+    }
+  },
+  "opacity": {
+    "0": {
+      "value": "0",
+      "type": "opacity"
+    },
+    "4": {
+      "value": "0.04",
+      "type": "opacity"
+    },
+    "6": {
+      "value": "0.06",
+      "type": "opacity"
+    },
+    "40": {
+      "value": "0.4",
+      "type": "opacity"
+    },
+    "100": {
+      "value": "1",
+      "type": "opacity"
+    }
+  },
+  "angle": {
+    "4": {
+      "value": "4deg",
+      "type": "other"
+    },
+    "34": {
+      "value": "34deg",
+      "type": "other"
+    },
+    "56": {
+      "value": "56deg",
+      "type": "other"
+    }
+  },
+  "depth": {
+    "200": {
+      "value": "200",
+      "type": "dimension"
+    },
+    "1600": {
+      "value": "1600",
+      "type": "dimension"
+    }
+  },
+  "scale": {
+    "80": {
+      "value": "0.8",
+      "type": "other"
+    }
+  }
+}

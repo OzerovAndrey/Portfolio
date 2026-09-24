@@ -1,0 +1,163 @@
+{
+  "color": {
+    "glass": {
+      "bg": {
+        "value": "{color.neutral.light.alpha72}",
+        "type": "color"
+      },
+      "br": {
+        "value": "{color.neutral.dark.alpha08}",
+        "type": "color"
+      },
+      "highlight": {
+        "value": "{color.neutral.light.alpha88}",
+        "type": "color"
+      },
+      "shadow": {
+        "value": "{color.neutral.dark.alpha08}",
+        "type": "color"
+      },
+      "solid": {
+        "value": "{color.bg.secondary}",
+        "type": "color"
+      }
+    },
+    "stage": {
+      "light": {
+        "value": "{color.product1.alpha24}",
+        "type": "color"
+      },
+      "shadow": {
+        "value": "{color.neutral.dark.alpha16}",
+        "type": "color"
+      }
+    }
+  },
+  "boxShadow": {
+    "glass": {
+      "value": [
+        {
+          "x": "0",
+          "y": "1",
+          "blur": "0",
+          "spread": "0",
+          "color": "{color.glass.highlight}",
+          "type": "innerShadow"
+        },
+        {
+          "x": "0",
+          "y": "8",
+          "blur": "24",
+          "spread": "0",
+          "color": "{color.glass.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
+    },
+    "stage": {
+      "value": [
+        {
+          "x": "0",
+          "y": "24",
+          "blur": "48",
+          "spread": "-12",
+          "color": "{color.stage.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
+    }
+  },
+  "backdropFilter": {
+    "glass": {
+      "value": "{filter.glass}",
+      "type": "backdropFilter"
+    },
+    "none": {
+      "value": "{filter.none}",
+      "type": "backdropFilter"
+    }
+  },
+  "opacity": {
+    "grain": {
+      "value": "{opacity.4}",
+      "type": "opacity"
+    },
+    "dim": {
+      "value": "{opacity.40}",
+      "type": "opacity",
+      "description": "приглушені площини, коли підсвічена одна"
+    },
+    "reveal": {
+      "value": "{opacity.4}",
+      "type": "opacity",
+      "description": "стартова прозорість появи: не 0 — інакше Chrome не рахує елемент для LCP до кінця анімації"
+    }
+  },
+  "duration": {
+    "fast": {
+      "value": "{time.120}",
+      "type": "duration"
+    },
+    "base": {
+      "value": "{time.200}",
+      "type": "duration"
+    },
+    "scene": {
+      "value": "{time.600}",
+      "type": "duration"
+    }
+  },
+  "easing": {
+    "standard": {
+      "value": "{curve.standard}",
+      "type": "cubicBezier"
+    },
+    "out": {
+      "value": "{curve.easeOut}",
+      "type": "cubicBezier"
+    },
+    "emphasized": {
+      "value": "{curve.emphasized}",
+      "type": "cubicBezier"
+    }
+  },
+  "borderRadius": {
+    "pill": {
+      "value": "{borderRadius.999}",
+      "type": "borderRadius"
+    }
+  },
+  "scene": {
+    "tiltX": {
+      "value": "{angle.56}",
+      "type": "other",
+      "description": "нахил стеку шарів у hero"
+    },
+    "tiltZ": {
+      "value": "{angle.34}",
+      "type": "other",
+      "description": "поворот стеку (у CSS зі знаком мінус)"
+    },
+    "depth": {
+      "value": "{depth.200}",
+      "type": "dimension",
+      "description": "відстань між площинами по Z"
+    },
+    "perspective": {
+      "value": "{depth.1600}",
+      "type": "dimension"
+    },
+    "parallax": {
+      "value": "{angle.4}",
+      "type": "other",
+      "description": "максимальний нахил від курсора"
+    },
+    "scale": {
+      "value": "{scale.80}",
+      "type": "other",
+      "description": "масштаб розведеного стеку, щоб площини вмістились у колонку"
+    }
+  }
+}
