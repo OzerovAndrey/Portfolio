@@ -594,12 +594,32 @@
       "color": {
         "value": "{color.text.primary}",
         "type": "color"
+      },
+      "fontSize": {
+        "value": "{display.hero.fontSize}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{display.hero.lineHeight}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{display.hero.letterSpacing}",
+        "type": "letterSpacing"
       }
     },
     "subtitle": {
       "color": {
         "value": "{color.text.secondary}",
         "type": "color"
+      },
+      "fontSize": {
+        "value": "{display.lead.fontSize}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{display.lead.lineHeight}",
+        "type": "lineHeights"
       }
     },
     "actions": {
@@ -1459,6 +1479,12 @@
       "borderRadius": {
         "value": "{borderRadius.control}",
         "type": "borderRadius"
+      }
+    },
+    "glow": {
+      "opacity": {
+        "value": "{opacity.glow}",
+        "type": "opacity"
       }
     }
   },

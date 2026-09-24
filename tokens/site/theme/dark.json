@@ -93,6 +93,11 @@
       "value": "{opacity.4}",
       "type": "opacity",
       "description": "стартова прозорість появи: не 0 — інакше Chrome не рахує елемент для LCP до кінця анімації"
+    },
+    "glow": {
+      "value": "{opacity.40}",
+      "type": "opacity",
+      "description": "світіння за ілюстрацією гри (як у демо)"
     }
   },
   "duration": {
@@ -158,6 +163,32 @@
       "value": "{scale.80}",
       "type": "other",
       "description": "масштаб розведеного стеку, щоб площини вмістились у колонку"
+    }
+  },
+  "display": {
+    "hero": {
+      "fontSize": {
+        "value": "{fontSize.fluid.hero}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.display}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.display}",
+        "type": "letterSpacing"
+      }
+    },
+    "lead": {
+      "fontSize": {
+        "value": "{fontSize.fluid.lead}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.lead}",
+        "type": "lineHeights"
+      }
     }
   }
 }

@@ -3,10 +3,12 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import meta from "../generated/demo/meta.json";
+import { ILLUSTRATIONS, SPRITE, type IllusKey } from "./demo-illustrations";
 
-export const STAGE_BRANDS = ["aurum", "nova", "fiesta"] as const;
+// Ті самі бренди, що в живому демо (реєстр фактів: 4)
+export const STAGE_BRANDS = ["aurum", "nova", "fiesta", "ultra"] as const;
 export type StageBrand = (typeof STAGE_BRANDS)[number];
-export const BRAND_NAME: Record<StageBrand, string> = { aurum: "Aurum", nova: "Nova", fiesta: "Fiesta" };
+export const BRAND_NAME: Record<StageBrand, string> = { aurum: "Aurum", nova: "Nova", fiesta: "Fiesta", ultra: "Ultra" };
 
 type Tok = { value: unknown };
 type Tree = { [k: string]: Tree | Tok };
@@ -60,3 +62,18 @@ export const coreOf = Object.fromEntries(STAGE_BRANDS.map((b) => [b, {
   radiusSurface: radius(b, "borderRadius.surface"),
   radiusControl: radius(b, "borderRadius.control"),
 }])) as Record<StageBrand, { colors: { key: string; value: string }[]; font: string; radiusSurface: string; radiusControl: string }>;
+
+/** Ілюстрації демо (дзеркало, sync-demo-tokens): тільки потрібні символи спрайту + сцена jackpot.
+ *  Кольори — токени --illustration-* / --art-*, тому арт перефарбовується разом із брендом. */
+export const LOBBY_ART = [
+  { art: "a", ill: "slots" }, { art: "b", ill: "roulette" }, { art: "c", ill: "cards" }, { art: "f", ill: "gem" },
+] as const satisfies readonly { art: string; ill: IllusKey }[];
+const symbolOf = (k: string) => new RegExp(`<symbol id="ill-${k}"[\\s\\S]*?</symbol>`).exec(SPRITE)?.[0] ?? "";
+const refsIn = (svg: string) => [...svg.matchAll(/href="#ill-([a-z]+)"/g)].map((m) => m[1]);
+/** Символи спрайту для потрібних ілюстрацій + усі, на які вони посилаються (<use href="#ill-…">), рекурсивно */
+export function artSprite(keys: readonly string[], extra = "") {
+  const done = new Set<string>(), queue = [...keys, ...refsIn(extra)];
+  while (queue.length) { const k = queue.shift()!; if (done.has(k)) continue; done.add(k); queue.push(...refsIn(symbolOf(k))); }
+  return [...done].map(symbolOf).join("");
+}
+export const illustration = (k: IllusKey) => ILLUSTRATIONS[k];

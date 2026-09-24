@@ -95,5 +95,38 @@
       "value": "0.8",
       "type": "other"
     }
+  },
+  "fontSize": {
+    "fluid": {
+      "hero": {
+        "value": "clamp(3.5rem, 1.67rem + 4.26vw, 5.5rem)",
+        "type": "fontSizes",
+        "description": "56 px до ~690 → 88 px на 1440; «One codebase.» лишається в один рядок від 900 px"
+      },
+      "lead": {
+        "value": "clamp(1.125rem, 1.04rem + 0.36vw, 1.25rem)",
+        "type": "fontSizes",
+        "description": "18 → 20 px"
+      }
+    }
+  },
+  "lineHeight": {
+    "ratio": {
+      "display": {
+        "value": "100%",
+        "type": "lineHeights"
+      },
+      "lead": {
+        "value": "150%",
+        "type": "lineHeights"
+      }
+    }
+  },
+  "letterSpacing": {
+    "display": {
+      "value": "-3.5%",
+      "type": "letterSpacing",
+      "description": "щільніший трекінг для великих розмірів"
+    }
   }
 }

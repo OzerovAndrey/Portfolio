@@ -14,19 +14,17 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
   <section class="hero" data-hero>
-    <div class="hero__pin">
-      <div class="container hero__inner">
-        <div class="hero__copy" data-hero-copy>
-          <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
-          <h1 class="hero__title ts-display-d1">{titleLines.map((line, i) => <><span class="hero__line" style={`--i: ${i}`}>{line}</span>{i < titleLines.length - 1 && " "}</>)}</h1>
-          <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
-          <div class="hero__actions">
-            <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
-            <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
-          </div>
+    <div class="container hero__inner">
+      <div class="hero__copy" data-hero-copy>
+        <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
+        <h1 class="hero__title ts-display-d1">{titleLines.map((line, i) => <><span class="hero__line" style={`--i: ${i}`}>{line}</span>{i < titleLines.length - 1 && " "}</>)}</h1>
+        <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
+        <div class="hero__actions">
+          <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
+          <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
         </div>
-        <HeroStage lang={lang} />
       </div>
+      <HeroStage lang={lang} />
     </div>
   </section>
 
@@ -116,47 +114,39 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
 </Base>
 
 <style>
-  /* overflow-x: clip — 3D-стек і світло виходять за колонку, але не дають горизонтального скролу (sticky працює: clip не scroll-контейнер) */
-  .hero { background: var(--hero-bg); padding-block: var(--l-row); overflow-x: clip; }
-  .hero__inner { display: flex; flex-direction: column; gap: var(--hero-gap); }
+  /* Hero компактний: висота = вміст (≤ одного екрана на desktop), без pin і скролу. Метрики йдуть одразу під ним.
+     Контейнер ширший за звичайний (56 × 24 = 1344 проти 1232), щоб великий H1 і лобі-мокап стали поруч.
+     overflow-x: clip — світло за мокапом не дає горизонтального скролу */
+  .hero { background: var(--hero-bg); padding-block: var(--l-gap) var(--l-row); overflow-x: clip; }
+  .hero__inner { display: flex; flex-direction: column; gap: var(--l-row); }
+  @media (min-width: 900px) { .hero__inner { max-width: calc(var(--size-control-xl) * 24 + var(--l-padH) * 2); } }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
   .hero__eyebrow { color: var(--hero-eyebrow-color); }
-  .hero__title { color: var(--hero-title-color); max-width: 18ch; text-wrap: balance; }
-  .hero__subtitle { color: var(--hero-subtitle-color); }
+  .hero__title {
+    color: var(--hero-title-color); max-width: 14ch; text-wrap: balance; hyphens: auto;
+    font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
+  }
+  .hero__subtitle { color: var(--hero-subtitle-color); font-size: var(--hero-subtitle-fontSize); line-height: var(--hero-subtitle-lineHeight); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
-     зсуває все нижче (CLS 0.10 на 412 px — було й до візуального шару, Lighthouse ловив через раз) */
+     зсуває все нижче (CLS 0.10 на 412 px) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
 
-  /* Hero зі сценою шарів (HeroStage). Анімується тільки transform і opacity; тривалості й easing — токени */
+  /* Поява: рядки H1 → sub → CTA → мокап. Тільки transform і opacity; старт з opacity 0.04 — інакше LCP чекав кінця анімації */
   .hero__line { display: block; }
   @keyframes hero-rise { from { opacity: var(--motion-reveal-opacity); transform: translateY(var(--space-gap-xl)); } }
+  /* Підзаголовок — LCP-елемент (найбільший текстовий блок): тільки зсув, без прозорості, щоб LCP не чекав анімації */
+  @keyframes hero-rise-y { from { transform: translateY(var(--space-gap-xl)); } }
   @media (prefers-reduced-motion: no-preference) {
     .hero__line { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; animation-delay: calc(var(--motion-duration-fast) * var(--i)); }
     .hero__subtitle, .hero__actions, .hero :global(.hero__stage) { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; }
-    .hero__subtitle { animation-delay: calc(var(--motion-duration-fast) * 2); }
+    .hero__subtitle { animation-name: hero-rise-y; animation-delay: calc(var(--motion-duration-fast) * 2); }
     .hero__actions { animation-delay: calc(var(--motion-duration-fast) * 3); }
     .hero :global(.hero__stage) { animation-delay: calc(var(--motion-duration-fast) * 4); }
   }
   @media (min-width: 900px) {
-    .hero__inner { display: grid; grid-template-columns: 6fr 5fr; grid-template-areas: "copy stage" "copy legend"; column-gap: var(--l-gap); row-gap: var(--hero-gap); align-items: start; }
-    .hero__copy { grid-area: copy; align-self: start; }
-    .hero :global(.hero__stage) { grid-area: stage; }
-    .hero :global(.hero__legend) { grid-area: legend; }
+    .hero__inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: var(--l-row); align-items: center; }
   }
-  /* Скрол-сцена (JS + рух + висота): hero вищий за екран, вміст липне (position: sticky), GSAP скрабить стек.
-     Клас js-motion ставить inline-скрипт у <head> до першого рендера → макет не стрибає. Без JS / GSAP впав — звичайний hero */
-  @media (min-width: 900px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
-    :global(html.js-motion) .hero { height: calc(100svh * 2.5); padding-block: 0; }
-    :global(html.js-motion) .hero__pin { position: sticky; top: 0; display: flex; align-items: center; min-height: 100svh; padding-block: var(--siteHeader-height); }
-    :global(html.js-motion) .hero__inner { grid-template-areas: "copy stage"; }
-    :global(html.js-motion) .hero__copy { align-self: center; }
-    :global(html.js-motion) .hero :global(.hero__legend) { grid-area: copy; align-self: center; opacity: 0; }
-  }
-  .hero__title { hyphens: auto; }
-  /* Мобільний розмір = значення ts-display-d3. Прибрати, коли в typography з'являться адаптивні стилі (tasks/demo-03). */
-  @media (max-width: 767px) { .hero__title { font-size: var(--fontSize-40); line-height: var(--lineHeight-48); } }
-  @media (min-width: 1024px) { .hero { padding-block: var(--hero-paddingV); } }
 
   .steps { display: grid; gap: var(--l-gap); }
   @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }

@@ -2,6 +2,7 @@
 // Дзеркало спільних сетів з демо (multibrand-design-system) у tokens/ портфоліо.
 // Копіює тільки те, що належить системі: core, map, theme/light|dark, typography.
 // Плюс read-only копія демо-брендів і демо-компонентів у tokens/demo/ — з неї будується секція «Архітектура» (tokens:demo).
+// Плюс ілюстрації демо (SVG-спрайт на токенах --illustration-*) — з них лобі-мокап у hero і площини «Під капотом».
 // Свої файли портфоліо (brand/site.json, components.json, $themes, $metadata) не чіпає.
 //
 //   node tools/sync-demo-tokens.mjs            # з локальної папки ../multibrand-design-system (або DEMO_DIR)
@@ -18,6 +19,8 @@ const SETS = ["core.json", "map.json", "theme/light.json", "theme/dark.json", "t
 const DEMO_BRANDS = ["aurum", "nova", "fiesta", "ultra"];
 // [файл у демо, куди в портфоліо] — дзеркало для секції «Архітектура», руками не редагувати
 const DEMO_MIRROR = [...DEMO_BRANDS.map((b) => [`brand/${b}.json`, `demo/brand/${b}.json`]), ["components.json", "demo/components.json"]];
+// [файл від кореня демо, куди в портфоліо] — згенеровані артефакти демо, копія байт-у-байт
+const DEMO_FILES = [["site/src/art/illustrations.ts", "site/src/lib/demo-illustrations.ts"]];
 const SHARED_COMPONENTS = ["button", "input"]; // групи, взяті з демо один раз — стежимо, щоб не розійшлись
 const useGithub = process.argv.includes("--github");
 const checkOnly = process.argv.includes("--check");
@@ -28,13 +31,14 @@ async function source() {
     if (!existsSync(resolve(DEMO_DIR, "tokens"))) throw new Error(`немає ${DEMO_DIR}/tokens — вкажи DEMO_DIR або запусти з --github`);
     let commit = "local";
     try { commit = execSync("git rev-parse HEAD", { cwd: DEMO_DIR }).toString().trim(); } catch {}
-    return { commit, get: async (p) => readFileSync(resolve(DEMO_DIR, "tokens", p), "utf8") };
+    return { commit, get: async (p) => readFileSync(resolve(DEMO_DIR, "tokens", p), "utf8"), raw: async (p) => readFileSync(resolve(DEMO_DIR, p), "utf8") };
   }
   // sha коміту — для tools/upstream.json; якщо API недоступне (rate limit), беремо просто main
   const headers = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
   let commit = "main";
   try { const r = await fetch(`https://api.github.com/repos/${REPO}/commits/main`, { headers }); if (r.ok) commit = (await r.json()).sha; } catch {}
-  return { commit, get: async (p) => { const r = await fetch(`https://raw.githubusercontent.com/${REPO}/${commit}/tokens/${p}`); if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.text(); } };
+  const raw = async (p) => { const r = await fetch(`https://raw.githubusercontent.com/${REPO}/${commit}/${p}`); if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.text(); };
+  return { commit, get: (p) => raw(`tokens/${p}`), raw };
 }
 
 const keysOf = (o, pre = "", out = []) => { for (const [k, v] of Object.entries(o)) { if (k.startsWith("$")) continue; const n = pre ? `${pre}.${k}` : k; v && typeof v === "object" && "value" in v ? out.push(n) : v && typeof v === "object" && keysOf(v, n, out); } return out; };
@@ -51,6 +55,10 @@ for (const [from, to] of DEMO_MIRROR) {
   const upstream = await src.get(from), local = resolve(ROOT, "tokens", to);
   const same = existsSync(local) && canon(readFileSync(local, "utf8")) === canon(upstream);
   if (!same) { drift.push(to); if (!checkOnly) { mkdirSync(dirname(local), { recursive: true }); writeFileSync(local, upstream.endsWith("\n") ? upstream : upstream + "\n"); } }
+}
+for (const [from, to] of DEMO_FILES) {
+  const upstream = await src.raw(from), local = resolve(ROOT, to);
+  if (!existsSync(local) || readFileSync(local, "utf8") !== upstream) { drift.push(to); if (!checkOnly) writeFileSync(local, upstream); }
 }
 const demoComponents = JSON.parse(await src.get("components.json"));
 const ownComponents = JSON.parse(readFileSync(resolve(ROOT, "tokens/components.json"), "utf8"));
