@@ -39,10 +39,6 @@
       {
         "amount": "55",
         "label": "values in a brand file. That file is the whole brand"
-      },
-      {
-        "amount": "0",
-        "label": "component changes needed to add a brand"
       }
     ]
   },

@@ -132,9 +132,9 @@ const d = t(lang);
   .cta__lead { color: var(--ctaBand-lead-color); }
 
   .section--tight { padding-block: var(--l-row); }
-  /* Метрики: чотири рівні колонки одного стилю — число й підпис під тонкою лінією, без карток */
-  .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--l-gap); }
-  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
+  /* Метрики: три рівні колонки одного стилю — число й підпис під тонкою лінією, без карток */
+  .metrics { display: grid; grid-template-columns: 1fr; gap: var(--l-gap); }
+  @media (min-width: 768px) { .metrics { grid-template-columns: repeat(3, 1fr); } }
   .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding-block: var(--metric-padding); border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .metric__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
   .metric__label { color: var(--metric-label-color); }
