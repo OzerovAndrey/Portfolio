@@ -1,0 +1,296 @@
+---
+// Сцена шарів у hero: лобі (компоненти демо) → семантика → core. Бренд перемикається атрибутом data-brand
+// на елементах .stage-scope (токени демо оголошені на scope — src/generated/stage/stage.css, npm run tokens:stage).
+// Сцена aria-hidden: зміст несе легенда (кнопки + лічильники + aria-live). Цифри — з токенів під час білду (lib/stage.ts).
+// Інтерактив — plain-скрипт (scripts/hero-stage.ts, ≈2 KB), 3D-скрол — GSAP тільки на desktop після load (scripts/hero-motion.ts).
+import "../generated/stage/stage.css";
+import { BRAND_NAME, STAGE_BRANDS, SEMANTIC, brandDiff, coreOf, modeRemap, planeCount } from "../lib/stage";
+import { t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const d = t(Astro.props.lang);
+const s = d.stage;
+const fill = (str: string, v: Record<string, string | number>) => str.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+const PLANES = ["component", "semantic", "core"] as const;
+const first = STAGE_BRANDS[0];
+const i18n = {
+  count: s.count, announceBrand: s.announceBrand, announceMode: s.announceMode, modeNames: s.modeNames, names: BRAND_NAME,
+  total: Object.fromEntries(PLANES.map((p) => [p, planeCount[p]])),
+};
+const SWATCH_VAR: Record<string, string> = { product1: "--illustration-primary-base", product2: "--illustration-accent-base", product3: "--illustration-info-base", ink: "--illustration-ink" };
+---
+<div class="hero__stage stage" data-stage data-current={first} data-diff={JSON.stringify(brandDiff)} data-remap={modeRemap} data-i18n={JSON.stringify(i18n)}>
+  <div class="stage__viewport" aria-hidden="true">
+    <div class="stage__light stage-scope" data-brand={first} data-stage-brand></div>
+    <div class="stage__tilt" data-tilt>
+      <div class="stack" data-stack>
+        <div class="plane plane--core" data-plane="core">
+          <div class="plane__body">
+            <p class="plane__label ts-overline-sm">{s.planes.core.name}</p>
+            <div class="core" data-swap>
+              <ul class="core__swatches">
+                {coreOf[first].colors.map((c) => (
+                  <li class="core__swatch">
+                    <i class="sw sw--lg stage-scope" data-brand={first} data-stage-brand style={`--sw: var(${SWATCH_VAR[c.key]})`}></i>
+                    <span class="core__key ts-body-xs-regular">{c.key}</span>
+                    {STAGE_BRANDS.map((b) => <code class="core__value ts-body-xs-regular" data-for={b}>{coreOf[b].colors.find((x) => x.key === c.key)?.value}</code>)}
+                  </li>
+                ))}
+              </ul>
+              <div class="core__specimens">
+                <div class="core__font stage-scope" data-brand={first} data-stage-brand>
+                  <span class="core__aa ts-display-d2">Aa</span>
+                  <span class="core__key ts-body-xs-regular">{s.fontLabel}</span>
+                  {STAGE_BRANDS.map((b) => <span class="core__value ts-body-xs-regular" data-for={b}>{coreOf[b].font}</span>)}
+                </div>
+                <div class="core__radius stage-scope" data-brand={first} data-stage-brand>
+                  <span class="core__box core__box--surface"></span>
+                  <span class="core__box core__box--control"></span>
+                  {STAGE_BRANDS.map((b) => <span class="core__value ts-body-xs-regular" data-for={b}>{fill(s.radiusLabel, { s: coreOf[b].radiusSurface, c: coreOf[b].radiusControl })}</span>)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="plane plane--semantic" data-plane="semantic">
+          <div class="plane__body">
+            <p class="plane__label ts-overline-sm">{s.planes.semantic.name}</p>
+            <ul class="sem">
+              {SEMANTIC.map((row) => (
+                <li class="sem__row">
+                  <i class="sw stage-scope" data-brand={first} data-stage-brand style={`--sw: var(${row.css})`}></i>
+                  <code class="sem__name ts-body-xs-strong">{row.name}</code>
+                  <code class="sem__ref sem__ref--light ts-body-xs-regular">→ {row.light}</code>
+                  <code class="sem__ref sem__ref--dark ts-body-xs-regular">→ {row.dark}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="plane plane--component" data-plane="component">
+          <div class="plane__body">
+            <p class="plane__label ts-overline-sm">{s.planes.component.name}</p>
+            <div class="lobby stage-scope" data-brand={first} data-stage-brand>
+              <div class="lobby__bar">
+                <span class="lobby__logo ts-title-t5"><i class="lobby__mark"></i>{STAGE_BRANDS.map((b) => <span data-for={b}>{BRAND_NAME[b]}</span>)}</span>
+                <span class="lobby__btn lobby__btn--sm ts-label-sm">{s.lobby.join}</span>
+              </div>
+              <ul class="lobby__chips">
+                {s.lobby.chips.map((c, i) => <li class:list={["lobby__chip ts-label-sm", i === 0 && "is-selected"]}>{c}</li>)}
+              </ul>
+              <div class="lobby__promo">
+                <div class="lobby__promoText">
+                  <p class="lobby__promoTitle ts-title-t5">{s.lobby.promoTitle}</p>
+                  <p class="lobby__promoLead ts-body-xs-regular">{s.lobby.promoText}</p>
+                </div>
+                <span class="lobby__btn ts-label-sm">{s.lobby.promoCta}</span>
+              </div>
+              <ul class="lobby__tiles">
+                {s.lobby.tiles.map((tile, i) => (
+                  <li class="tile">
+                    <span class={`tile__art tile__art--${i}`}></span>
+                    <span class="tile__title ts-body-sm-strong">{tile.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="switch glass" role="group" aria-label={s.brandGroup}>
+    {STAGE_BRANDS.map((b, i) => (
+      <button type="button" class="switch__item ts-label-sm" aria-pressed={i === 0 ? "true" : "false"} data-set-brand={b} data-event="hero_switch_brand">
+        <i class="switch__dot stage-scope" data-brand={b} aria-hidden="true"></i>{BRAND_NAME[b]}
+      </button>
+    ))}
+    <span class="switch__sep" aria-hidden="true"></span>
+    <button type="button" class="switch__item ts-label-sm" aria-pressed="false" data-set-mode data-event="hero_switch_mode">{s.modeButton}</button>
+  </div>
+</div>
+
+<div class="hero__legend legend" data-legend>
+  <p class="legend__title ts-label-md">{s.legendTitle}</p>
+  <p class="legend__hint ts-body-sm-regular">{s.legendHint}</p>
+  <ul class="legend__list">
+    {PLANES.map((p) => (
+      <li>
+        <button type="button" class="legend__item" aria-pressed="false" data-legend-plane={p}>
+          <span class="legend__head">
+            <span class="legend__name ts-title-t5">{s.planes[p].name}</span>
+            <span class="legend__count ts-body-sm-strong" data-count={p}>{fill(s.count.total, { n: planeCount[p] })}</span>
+          </span>
+          <span class="legend__detail ts-body-sm-regular">{s.planes[p].detail}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+  <p class="legend__status ts-body-sm-regular" aria-live="polite" data-live>{s.status}</p>
+</div>
+
+<script>
+  import "../scripts/hero-stage";
+</script>
+
+<style>
+  /* ---------- сцена ---------- */
+  .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--stage-gap); min-width: 0; }
+  .stage__viewport { position: relative; width: 100%; max-width: calc(var(--size-control-xl) * 8); }
+  .stage__light {
+    position: absolute; inset: calc(var(--stage-depth) * -1); z-index: 0; pointer-events: none;
+    background: radial-gradient(closest-side, var(--stageLight-bg), transparent);
+  }
+  .stage__tilt { position: relative; z-index: 1; }
+  /* Базово (мобільні, без JS): площини статичним списком component → semantic → core. У DOM порядок знизу вгору (для 3D) */
+  .stack { display: flex; flex-direction: column-reverse; gap: var(--stage-gap); }
+  .plane { min-width: 0; }
+  .plane__body {
+    display: flex; flex-direction: column; gap: var(--stage-plane-gap);
+    padding: var(--stage-plane-padding); background: var(--stage-plane-bg);
+    border: var(--stage-plane-borderWidth) solid var(--stage-plane-br); border-radius: var(--stage-plane-borderRadius);
+    box-shadow: var(--stage-plane-boxShadow);
+    transition: opacity var(--motion-duration-base) var(--motion-easing-standard);
+  }
+  .plane__label { color: var(--stage-label-color); }
+  /* Легенда підсвічує площину — інші приглушуються */
+  .stage[data-focus="component"] .plane:not(.plane--component) .plane__body,
+  .stage[data-focus="semantic"] .plane:not(.plane--semantic) .plane__body,
+  .stage[data-focus="core"] .plane:not(.plane--core) .plane__body { opacity: var(--stage-plane-dim-opacity); }
+
+  /* Бренд-специфічні підписи (назва, hex, шрифт, радіус): видно тільки поточний бренд сцени */
+  .stage[data-current="aurum"] [data-for]:not([data-for="aurum"]),
+  .stage[data-current="nova"] [data-for]:not([data-for="nova"]),
+  .stage[data-current="fiesta"] [data-for]:not([data-for="fiesta"]) { display: none; }
+
+  .sw {
+    display: inline-block; flex: none; width: var(--stage-swatch-size); height: var(--stage-swatch-size);
+    background: var(--sw); border: var(--stage-plane-borderWidth) solid var(--stage-swatch-br); border-radius: var(--stage-swatch-borderRadius);
+  }
+  .sw--lg { width: calc(var(--stage-swatch-size) * 1.5); height: calc(var(--stage-swatch-size) * 1.5); }
+
+  /* semantic */
+  .sem { display: flex; flex-direction: column; gap: var(--space-gap-sm); }
+  .sem__row { display: grid; grid-template-columns: auto 1fr; column-gap: var(--space-gap-md); align-items: center; }
+  .sem__row .sw { grid-row: span 2; }
+  .sem__name { color: var(--stage-name-color); overflow-wrap: anywhere; }
+  .sem__ref { color: var(--stage-ref-color); overflow-wrap: anywhere; }
+  :root[data-theme="dark"] .sem__ref--light, :root:not([data-theme="dark"]) .sem__ref--dark { display: none; }
+
+  /* core */
+  .core { display: flex; flex-direction: column; gap: var(--stage-plane-gap); }
+  .core__swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-gap-md); }
+  .core__swatch { display: flex; flex-direction: column; gap: var(--space-gap-xs); min-width: 0; }
+  .core__key { color: var(--stage-label-color); }
+  .core__value { color: var(--stage-name-color); overflow-wrap: anywhere; }
+  .core__specimens { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-gap-md); }
+  .core__font, .core__radius { display: flex; flex-direction: column; gap: var(--space-gap-xs); min-width: 0; }
+  .core__aa { color: var(--stage-name-color); }
+  .core__radius { flex-direction: row; flex-wrap: wrap; align-items: flex-end; }
+  .core__radius .core__value { flex-basis: 100%; }
+  .core__box { display: block; width: var(--size-control-lg); height: var(--size-control-lg); background: var(--stage-plane-bg); border: var(--stage-plane-borderWidth) solid var(--stage-swatch-br); box-shadow: var(--stage-plane-boxShadow); }
+  .core__box--surface { border-radius: var(--card-default-borderRadius); }
+  .core__box--control { width: var(--size-control-md); height: var(--size-control-md); border-radius: var(--button-borderRadius); }
+  /* Зміна бренду: анімується тільки core-площина, easing і тривалість — власні токени бренду (tokens/site/demo-motion.json) */
+  @keyframes stage-swap { from { transform: scale(0.6); opacity: 0; } }
+  .core.is-swapping .stage-scope { animation: stage-swap var(--motion-duration-brand, var(--motion-duration-base)) var(--motion-easing-brand, var(--motion-easing-standard)) both; }
+  .core.is-swapping .core__value { animation: stage-swap var(--motion-duration-base) var(--motion-easing-standard) both; }
+
+  /* ---------- лобі: тільки компонентні токени демо (card, header, chip, promo, art, gameTile, button) ----------
+     Мокап показує тільки стани, що проходять AA в усіх 3 брендах × 2 темах: chip default/selected, text.tertiary
+     і білий на art.jackpot у light — не проходять (tasks/demo-05). Тому: chip.*.hover, promo з overlay, плитка без провайдера */
+  .lobby {
+    display: flex; flex-direction: column; gap: var(--card-default-gap-sm);
+    padding: var(--card-default-paddingV-sm) var(--card-default-paddingH-sm);
+    background: var(--card-default-bg); border: var(--card-default-borderWidth) solid var(--card-default-br); border-radius: var(--card-default-borderRadius);
+  }
+  .lobby__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--header-gap); }
+  .lobby__logo { display: inline-flex; align-items: center; gap: var(--header-actions-gap); color: var(--header-logo-color); }
+  .lobby__mark { display: inline-block; width: var(--chip-iconSize); height: var(--chip-iconSize); border-radius: var(--button-borderRadius); background: var(--header-logo-iconColor); }
+  .lobby__btn {
+    display: inline-flex; align-items: center; flex: none; height: var(--button-size-sm); padding-inline: var(--button-paddingH-sm);
+    border-radius: var(--button-borderRadius); background: var(--button-primary-bg-default); color: var(--button-primary-color-default);
+  }
+  .lobby__chips { display: flex; flex-wrap: wrap; gap: var(--chip-gap); }
+  .lobby__chip {
+    display: inline-flex; align-items: center; height: var(--chip-size-sm); padding-inline: var(--chip-paddingH-sm);
+    border: var(--chip-borderWidth) solid var(--chip-br-default); border-radius: var(--chip-borderRadius);
+    background: var(--chip-bg-default); color: var(--chip-color-hover);
+  }
+  .lobby__chip.is-selected { background: var(--chip-selected-bg-hover); border-color: var(--chip-selected-br-hover); color: var(--chip-selected-color-hover); }
+  .lobby__promo {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--promo-gap-xs);
+    padding: var(--promo-paddingV-xs) var(--promo-paddingH-xs); border-radius: var(--promo-borderRadius);
+    background: linear-gradient(var(--promo-overlay-bg), var(--promo-overlay-bg)), var(--art-jackpot-bg); /* як у демо: арт + overlay під текстом */
+  }
+  .lobby__promoText { display: flex; flex-direction: column; gap: var(--space-gap-xs); }
+  .lobby__promoTitle { color: var(--promo-title-color); }
+  .lobby__promoLead { color: var(--promo-text-color); }
+  .lobby__tiles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gameTile-gap); }
+  .tile { display: flex; flex-direction: column; gap: var(--gameTile-info-gap); min-width: 0; }
+  .tile__art { display: block; aspect-ratio: 2 / 1; border-radius: var(--gameTile-borderRadius); }
+  .tile__art--0 { background: var(--art-a-bg); } .tile__art--1 { background: var(--art-b-bg); }
+  .tile__art--2 { background: var(--art-c-bg); } .tile__art--3 { background: var(--art-h-bg); }
+  .tile__title { color: var(--gameTile-title-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---------- перемикач (glass) ---------- */
+  .switch { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--brandSwitch-gap); padding: var(--brandSwitch-padding); border-radius: var(--glass-borderRadius); position: relative; z-index: 2; }
+  .switch__item {
+    display: inline-flex; align-items: center; gap: var(--brandSwitch-item-gap); min-height: var(--brandSwitch-item-size); padding-inline: var(--brandSwitch-item-paddingH);
+    border: 0; border-radius: var(--brandSwitch-item-borderRadius); cursor: pointer;
+    background: var(--brandSwitch-item-bg-default); color: var(--brandSwitch-item-color-default);
+    transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
+  }
+  .switch__item:hover { background: var(--brandSwitch-item-bg-hover); }
+  .switch__item[aria-pressed="true"] { background: var(--brandSwitch-item-bg-active); color: var(--brandSwitch-item-color-active); }
+  .switch__dot { display: inline-block; width: var(--space-gap-lg); height: var(--space-gap-lg); border-radius: var(--brandSwitch-item-borderRadius); background: var(--illustration-primary-base); }
+  .switch__sep { align-self: stretch; width: var(--glass-borderWidth); margin-block: var(--space-gap-sm); background: var(--glass-br); }
+
+  /* ---------- легенда ---------- */
+  .legend { display: flex; flex-direction: column; gap: var(--legend-gap); min-width: 0; }
+  .legend__title { color: var(--legend-name-color); }
+  .legend__hint, .legend__status { color: var(--legend-detail-color); }
+  .legend__list { display: flex; flex-direction: column; gap: var(--legend-gap); }
+  .legend__item {
+    display: flex; flex-direction: column; gap: var(--legend-item-gap); width: 100%; text-align: start;
+    padding: var(--legend-item-padding); cursor: pointer;
+    background: var(--legend-item-bg-default); border: var(--legend-item-borderWidth) solid var(--legend-item-br-default); border-radius: var(--legend-item-borderRadius);
+    transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
+  }
+  .legend__item:hover, .legend__item:focus-visible { background: var(--legend-item-bg-hover); }
+  .legend__item[aria-pressed="true"] { background: var(--legend-item-bg-active); border-color: var(--legend-item-br-active); }
+  .legend__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-gap-md); }
+  .legend__name, .legend__count { color: var(--legend-name-color); }
+  .legend__count { font-variant-numeric: tabular-nums; }
+  .legend__detail { color: var(--legend-detail-color); }
+
+  /* ---------- desktop: 3D-стек ---------- */
+  /* Площини в одній клітинці сітки, розведені по Z. Вмикається: reduced-motion (статично, розведено) або JS + рух (GSAP) */
+  @media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+    .stage__viewport { perspective: var(--stage-perspective); padding-block: calc(var(--stage-depth) / 4); }
+    .stage__tilt, .plane { transform-style: preserve-3d; }
+    .stack { display: grid; transform-style: preserve-3d; transform: scale(var(--stage-scale)) rotateX(var(--stage-rotateX)) rotateZ(calc(var(--stage-rotateZ) * -1)); }
+    .plane { grid-area: 1 / 1; align-self: center; }
+    .plane--component { transform: translateZ(var(--stage-depth)); }
+    .plane--core { transform: translateZ(calc(var(--stage-depth) * -1)); }
+  }
+  @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+    :global(html.js-motion) .stage__viewport { perspective: var(--stage-perspective); padding-block: calc(var(--stage-depth) / 4); }
+    :global(html.js-motion) .stage__tilt, :global(html.js-motion) .plane { transform-style: preserve-3d; }
+    :global(html.js-motion) .stack { display: grid; transform-style: preserve-3d; }
+    :global(html.js-motion) .plane { grid-area: 1 / 1; align-self: center; }
+  }
+  /* Висоти вистачає на скрол-сцену: стек пласкій (лобі зверху), GSAP розводить його скролом */
+  @media (min-width: 900px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
+    :global(html.js-motion) .plane--semantic, :global(html.js-motion) .plane--core { opacity: 0; }
+  }
+  /* Низький екран: без скрол-сцени, стек одразу розведений */
+  @media (min-width: 900px) and (max-height: 719px) and (prefers-reduced-motion: no-preference) {
+    :global(html.js-motion) .stack { transform: scale(var(--stage-scale)) rotateX(var(--stage-rotateX)) rotateZ(calc(var(--stage-rotateZ) * -1)); }
+    :global(html.js-motion) .plane--component { transform: translateZ(var(--stage-depth)); }
+    :global(html.js-motion) .plane--core { transform: translateZ(calc(var(--stage-depth) * -1)); }
+  }
+</style>

@@ -3,21 +3,29 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import DemoFrame from "../../components/DemoFrame.astro";
 import Architecture from "../../components/Architecture.astro";
+import HeroStage from "../../components/HeroStage.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
+// H1 по реченнях — для появи рядок за рядком. Текст той самий, що в i18n
+const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
-      <h1 class="hero__title ts-display-d1">{d.hero.title}</h1>
-      <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
-      <div class="hero__actions">
-        <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
-        <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
+  <section class="hero" data-hero>
+    <div class="hero__pin">
+      <div class="container hero__inner">
+        <div class="hero__copy" data-hero-copy>
+          <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
+          <h1 class="hero__title ts-display-d1">{titleLines.map((line, i) => <><span class="hero__line" style={`--i: ${i}`}>{line}</span>{i < titleLines.length - 1 && " "}</>)}</h1>
+          <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
+          <div class="hero__actions">
+            <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
+            <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
+          </div>
+        </div>
+        <HeroStage lang={lang} />
       </div>
     </div>
   </section>
@@ -108,8 +116,10 @@ const d = t(lang);
 </Base>
 
 <style>
-  .hero { background: var(--hero-bg); padding-block: var(--l-row); }
-  .hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
+  /* overflow-x: clip — 3D-стек і світло виходять за колонку, але не дають горизонтального скролу (sticky працює: clip не scroll-контейнер) */
+  .hero { background: var(--hero-bg); padding-block: var(--l-row); overflow-x: clip; }
+  .hero__inner { display: flex; flex-direction: column; gap: var(--hero-gap); }
+  .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
   .hero__eyebrow { color: var(--hero-eyebrow-color); }
   .hero__title { color: var(--hero-title-color); max-width: 18ch; text-wrap: balance; }
   .hero__subtitle { color: var(--hero-subtitle-color); }
@@ -117,6 +127,32 @@ const d = t(lang);
   /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
      зсуває все нижче (CLS 0.10 на 412 px — було й до візуального шару, Lighthouse ловив через раз) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
+
+  /* Hero зі сценою шарів (HeroStage). Анімується тільки transform і opacity; тривалості й easing — токени */
+  .hero__line { display: block; }
+  @keyframes hero-rise { from { opacity: var(--motion-reveal-opacity); transform: translateY(var(--space-gap-xl)); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__line { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; animation-delay: calc(var(--motion-duration-fast) * var(--i)); }
+    .hero__subtitle, .hero__actions, .hero :global(.hero__stage) { animation: hero-rise var(--motion-duration-scene) var(--motion-easing-emphasized) both; }
+    .hero__subtitle { animation-delay: calc(var(--motion-duration-fast) * 2); }
+    .hero__actions { animation-delay: calc(var(--motion-duration-fast) * 3); }
+    .hero :global(.hero__stage) { animation-delay: calc(var(--motion-duration-fast) * 4); }
+  }
+  @media (min-width: 900px) {
+    .hero__inner { display: grid; grid-template-columns: 6fr 5fr; grid-template-areas: "copy stage" "copy legend"; column-gap: var(--l-gap); row-gap: var(--hero-gap); align-items: start; }
+    .hero__copy { grid-area: copy; align-self: start; }
+    .hero :global(.hero__stage) { grid-area: stage; }
+    .hero :global(.hero__legend) { grid-area: legend; }
+  }
+  /* Скрол-сцена (JS + рух + висота): hero вищий за екран, вміст липне (position: sticky), GSAP скрабить стек.
+     Клас js-motion ставить inline-скрипт у <head> до першого рендера → макет не стрибає. Без JS / GSAP впав — звичайний hero */
+  @media (min-width: 900px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
+    :global(html.js-motion) .hero { height: calc(100svh * 2.5); padding-block: 0; }
+    :global(html.js-motion) .hero__pin { position: sticky; top: 0; display: flex; align-items: center; min-height: 100svh; padding-block: var(--siteHeader-height); }
+    :global(html.js-motion) .hero__inner { grid-template-areas: "copy stage"; }
+    :global(html.js-motion) .hero__copy { align-self: center; }
+    :global(html.js-motion) .hero :global(.hero__legend) { grid-area: copy; align-self: center; opacity: 0; }
+  }
   .hero__title { hyphens: auto; }
   /* Мобільний розмір = значення ts-display-d3. Прибрати, коли в typography з'являться адаптивні стилі (tasks/demo-03). */
   @media (max-width: 767px) { .hero__title { font-size: var(--fontSize-40); line-height: var(--lineHeight-48); } }

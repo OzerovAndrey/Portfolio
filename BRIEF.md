@@ -48,6 +48,9 @@
 | Перемикання бренду | 2 атрибути: `data-brand`, `data-theme` | `Base.astro`, демо |
 | Знахідка чекера | `text.accent` у light не проходить AA 4.5:1: Aurum 2.13 · Nova 1.67 · Fiesta 1.42 · Ultra 3.03 | `tasks/demo-03-theme-a11y.md` |
 | Автоперевірки | паритет ключів, шари, зарезервовані імена, резолв у light/dark, WCAG-контраст | `tools/check-tokens.mjs` |
+| Hero: зміна бренду (ключі бренд-файлу, що відрізняються) | Aurum↔Nova 11 · Aurum↔Fiesta 12 · Fiesta↔Nova 8 | `site/src/lib/stage.ts` → `brandDiff` (рахується з `tokens/demo/brand/*.json` при білді) |
+| Hero: зміна теми (семантичні ключі з іншим кроком) | 41 з 73 | `site/src/lib/stage.ts` → `modeRemap` (`tokens/theme/light.json` vs `dark.json`) |
+| Hero: токени на площинах | component 548 · semantic 73 · core 155 (core 59 + brand 55 + map 41) | `site/src/lib/stage.ts` → `planeCount` (з `src/generated/demo/meta.json`) |
 | AI-ready | скіл для Claude генерується з токенів | демо: `tools/build-skill.py` |
 
 **Ще не виміряно (не публікувати без цифри або `metric.typical`):** час на новий бренд · розмір CSS на бренд · кількість токенів Wanda DS (потрібен дозвіл Андрія на публікацію).
@@ -133,3 +136,5 @@
 - **23.09.2026** — етап 2: системна тема, Umami (події через `data-event`), OG-картинки EN/UK, GitHub у футері, `check-styles.mjs` у білді. cal.com скасовано — запис на дзвінок не потрібен, код і тексти прибрано.
 - **23.09.2026** — етап 3, частина 1: смуга метрик (4 · 2 · 55 · 0) під hero і секція «Для кого» перед CTA. Токен `audience.borderWidth`. «Про мене» чекає фото й факти.
 - **23.09.2026** — етап 4: секція «Під капотом» після демо — стек із 6 шарів із живими лічильниками й ланцюжок резолву 3 токенів × 4 бренди × тема сайту. Дані — з `tokens/demo/` (дзеркало брендів і компонентів демо через `sync-demo-tokens`). Нові токени: `layerStack`, `tokenChain`, `segmented`.
+- **24.09.2026** — візуальний шар (гілка `claude/portfolio-visual-layer-b6x1r4`, звіт — `docs/visual-report.md`): монохромний бренд `site`, glass-шапка,
+  зерно, у hero — сцена шарів (лобі на токенах демо → семантика → core) з перемикачем Aurum / Nova / Fiesta і лічильниками змін. Нові сети `tokens/site/`.

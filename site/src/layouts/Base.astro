@@ -48,6 +48,8 @@ const { umamiId, umamiSrc } = config.analytics;
         const mq = window.matchMedia("(prefers-color-scheme: dark)");
         const saved = () => { try { const v = sessionStorage.getItem("theme"); return v === "dark" || v === "light" ? v : null; } catch { return null; } };
         const apply = () => { root.dataset.theme = saved() ?? (mq.matches ? "dark" : "light"); };
+        // JS є → hero може стати скрол-сценою (CSS вирішує за медіа-умовою; GSAP не завантажився — клас знімається)
+        root.classList.add("js-motion");
         apply();
         mq.addEventListener?.("change", () => { if (!saved()) apply(); });
         // зерно (visual.css) — тільки після шрифтів, щоб не впливати на CLS

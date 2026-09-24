@@ -120,6 +120,11 @@ const PAIRS = [
   ["glass.color.default", "glass.bg", 4.5], ["siteNav.item.color.active", "glass.bg", 4.5], ["siteHeader.logo.color", "glass.bg", 4.5],
   ["button.secondary.color.default", "glass.bg", 4.5], ["button.text.color.default", "glass.bg", 4.5],
   ["glass.color.default", "glass.solid.bg", 4.5], ["siteHeader.logo.color", "glass.solid.bg", 4.5], ["button.secondary.color.default", "glass.solid.bg", 4.5],
+  // hero: сцена шарів, легенда, перемикач брендів (на glass)
+  ["stage.label.color", "stage.plane.bg", 4.5], ["stage.name.color", "stage.plane.bg", 4.5], ["stage.ref.color", "stage.plane.bg", 4.5],
+  ["legend.name.color", "hero.bg", 4.5], ["legend.detail.color", "hero.bg", 4.5], ["legend.name.color", "legend.item.bg.active", 4.5], ["legend.detail.color", "legend.item.bg.active", 4.5],
+  ["legend.detail.color", "legend.item.bg.hover", 4.5],
+  ["brandSwitch.item.color.default", "glass.bg", 4.5], ["brandSwitch.item.color.active", "brandSwitch.item.bg.active", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];
