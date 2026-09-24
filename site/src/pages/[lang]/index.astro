@@ -17,7 +17,7 @@ const d = t(lang);
       <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
       <div class="hero__actions">
         <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
-        <Button size="lg" variant="secondary" href="#how">{d.hero.ctaHow}</Button>
+        <Button size="lg" variant="glass" href="#how">{d.hero.ctaHow}</Button>
       </div>
     </div>
   </section>
@@ -114,6 +114,9 @@ const d = t(lang);
   .hero__title { color: var(--hero-title-color); max-width: 18ch; text-wrap: balance; }
   .hero__subtitle { color: var(--hero-subtitle-color); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
+  /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
+     зсуває все нижче (CLS 0.10 на 412 px — було й до візуального шару, Lighthouse ловив через раз) */
+  @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
   .hero__title { hyphens: auto; }
   /* Мобільний розмір = значення ts-display-d3. Прибрати, коли в typography з'являться адаптивні стилі (tasks/demo-03). */
   @media (max-width: 767px) { .hero__title { font-size: var(--fontSize-40); line-height: var(--lineHeight-48); } }

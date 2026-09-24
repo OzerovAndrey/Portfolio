@@ -1276,6 +1276,13 @@
       "value": "{color.glass.br}",
       "type": "color"
     },
+    "color": {
+      "default": {
+        "value": "{color.text.primary}",
+        "type": "color",
+        "description": "текст на glass: secondary не проходить AA поверх найгіршого фону (2.58 у light), тому primary"
+      }
+    },
     "borderWidth": {
       "value": "{borderWidth.control}",
       "type": "borderWidth"

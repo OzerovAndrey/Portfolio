@@ -48,7 +48,7 @@ const embed = url.href;
 </script>
 
 <style>
-  .demo { margin: 0; display: flex; flex-direction: column; background: var(--demoFrame-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius); overflow: hidden; }
+  .demo { position: relative; z-index: 2; margin: 0; display: flex; flex-direction: column; background: var(--demoFrame-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius); overflow: hidden; }
   .demo__toolbar { display: flex; align-items: center; gap: var(--space-gap-sm); height: var(--demoFrame-toolbar-height); padding-inline: var(--demoFrame-toolbar-paddingH); background: var(--demoFrame-toolbar-bg); border-bottom: var(--demoFrame-borderWidth) solid var(--demoFrame-br); }
   .demo__dot { width: var(--space-gap-lg); height: var(--space-gap-lg); border-radius: var(--borderRadius-control); background: var(--demoFrame-br); }
   .demo__stage { position: relative; background: var(--demoFrame-placeholder-bg); aspect-ratio: 9 / 16; }

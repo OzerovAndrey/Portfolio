@@ -116,6 +116,10 @@ const PAIRS = [
   ["layerStack.name.color", "layerStack.item.bg", 4.5], ["layerStack.detail.color", "layerStack.item.bg", 4.5], ["layerStack.name.color", "layerStack.highlight.bg", 4.5], ["layerStack.detail.color", "layerStack.highlight.bg", 4.5], ["layerStack.tag.color", "layerStack.tag.bg", 4.5],
   ["tokenChain.label.color", "tokenChain.bg", 4.5], ["tokenChain.name.color", "tokenChain.step.bg", 4.5], ["tokenChain.layer.color", "tokenChain.step.bg", 4.5], ["tokenChain.note.color", "tokenChain.step.bg", 4.5], ["tokenChain.result.color", "tokenChain.result.bg", 4.5],
   ["segmented.item.color.default", "segmented.bg", 4.5], ["segmented.item.color.active", "segmented.item.bg.active", 4.5],
+  // glass: напівпрозорий фон → контраст поверх найгіршого (чорний / білий), і solid-fallback
+  ["glass.color.default", "glass.bg", 4.5], ["siteNav.item.color.active", "glass.bg", 4.5], ["siteHeader.logo.color", "glass.bg", 4.5],
+  ["button.secondary.color.default", "glass.bg", 4.5], ["button.text.color.default", "glass.bg", 4.5],
+  ["glass.color.default", "glass.solid.bg", 4.5], ["siteHeader.logo.color", "glass.solid.bg", 4.5], ["button.secondary.color.default", "glass.solid.bg", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];
