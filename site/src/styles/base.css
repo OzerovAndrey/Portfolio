@@ -47,7 +47,7 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .section--alt { background: var(--section-bg-alt); }
 .section__head { display: flex; flex-direction: column; gap: var(--space-gap-md); margin-bottom: var(--section-gap); }
 .section__eyebrow { color: var(--section-eyebrow-color); }
-.section__title { color: var(--section-title-color); }
+.section__title { color: var(--section-title-color); font-size: var(--section-title-fontSize); line-height: var(--section-title-lineHeight); letter-spacing: var(--section-title-letterSpacing); text-wrap: balance; }
 .section__lead { color: var(--section-lead-color); }
 @media (min-width: 1024px) { .section { padding-block: var(--section-paddingV); } }
 

@@ -33,7 +33,7 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
       <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
       <ul class="metrics">
         {d.metrics.items.map((m) => (
-          <li class="metric">
+          <li class:list={["metric", "emphasis" in m && m.emphasis && "metric--key"]}>
             <span class="metric__amount ts-display-d2">{m.amount}</span>
             <span class="metric__label ts-body-md-regular">{m.label}</span>
           </li>
@@ -45,7 +45,6 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   <section class="section section--alt" id="demo" aria-labelledby="demo-title">
     <div class="container">
       <div class="section__head">
-        <p class="section__eyebrow ts-overline-md">{d.demo.eyebrow}</p>
         <h2 class="section__title ts-title-t1" id="demo-title">{d.demo.title}</h2>
       </div>
       <div class="demo-light"><DemoFrame lang={lang} /></div>
@@ -56,7 +55,6 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   <section class="section" id="architecture" aria-labelledby="architecture-title">
     <div class="container">
       <div class="section__head">
-        <p class="section__eyebrow ts-overline-md">{d.architecture.eyebrow}</p>
         <h2 class="section__title ts-title-t1" id="architecture-title">{d.architecture.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{d.architecture.lead}</p>
       </div>
@@ -67,7 +65,6 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   <section class="section section--alt" id="how" aria-labelledby="how-title">
     <div class="container">
       <div class="section__head">
-        <p class="section__eyebrow ts-overline-md">{d.how.eyebrow}</p>
         <h2 class="section__title ts-title-t1" id="how-title">{d.how.title}</h2>
       </div>
       <ol class="steps">
@@ -86,7 +83,6 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   <section class="section" id="audience" aria-labelledby="audience-title">
     <div class="container">
       <div class="section__head">
-        <p class="section__eyebrow ts-overline-md">{d.audience.eyebrow}</p>
         <h2 class="section__title ts-title-t1" id="audience-title">{d.audience.title}</h2>
       </div>
       <ul class="audience">
@@ -155,18 +151,27 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   .step__title { color: var(--step-title-color); }
   .step__detail { color: var(--step-detail-color); }
 
-  .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ctaBand-gap); padding: var(--ctaBand-padding); background: var(--ctaBand-bg); border: var(--ctaBand-borderWidth) solid var(--ctaBand-br); border-radius: var(--ctaBand-borderRadius); }
-  .cta__text { display: flex; flex-direction: column; gap: var(--space-gap-md); }
-  .cta__title { color: var(--ctaBand-title-color); }
+  /* Фінальний CTA: без рамки й плашки — великий заголовок, лід і основна кнопка (action) */
+  .cta { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--ctaBand-gap); }
+  .cta__text { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
+  .cta__title { color: var(--ctaBand-title-color); font-size: var(--ctaBand-title-fontSize); line-height: var(--ctaBand-title-lineHeight); letter-spacing: var(--ctaBand-title-letterSpacing); max-width: 18ch; text-wrap: balance; }
   .cta__lead { color: var(--ctaBand-lead-color); }
 
   .section--tight { padding-block: var(--l-row); }
-  .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--l-gap); }
-  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
-  .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding: var(--metric-padding); background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
-  .metric__amount { color: var(--metric-amount-color); }
-  .metric, .audience__item { transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
-  .metric:hover { border-color: var(--metric-hover-br); }
+  /* Метрики: три другорядні — без карток, число + підпис під тонкою лінією; головна «0 змін у компонентах» —
+     акцентна плашка (action.*) на дві колонки й більшим числом */
+  .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--l-gap); align-items: stretch; }
+  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(3, 1fr) 2fr; } }
+  .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding-block: var(--metric-padding); border-top: var(--metric-borderWidth) solid var(--metric-br); }
+  .metric__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
+  .metric--key {
+    grid-column: 1 / -1; justify-content: flex-end; padding: var(--metric-padding); border: 0;
+    background: var(--metric-key-bg); border-radius: var(--metric-borderRadius);
+  }
+  @media (min-width: 1024px) { .metric--key { grid-column: auto; } }
+  .metric--key .metric__amount { color: var(--metric-key-amount-color); font-size: var(--metric-key-amount-fontSize); line-height: var(--metric-key-amount-lineHeight); letter-spacing: var(--metric-key-amount-letterSpacing); }
+  .metric--key .metric__label { color: var(--metric-key-label-color); }
+  .audience__item { transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
   .audience__item:hover { border-color: var(--audience-hover-br); }
   /* Живе демо в рамці, як лобі в hero: м'яке світло за рамкою (сам iframe не чіпаємо) */
   .demo-light { position: relative; }
@@ -175,7 +180,7 @@ const titleLines = d.hero.title.split(/(?<=[.!?])\s+/);
   /* Вузькі екрани: одна колонка, число зліва від підпису — підпис не ламається у стовпчик */
   @media (max-width: 559px) {
     .metrics { grid-template-columns: 1fr; gap: var(--space-gap-md); }
-    .metric { flex-direction: row; align-items: center; gap: var(--l-gap); }
+    .metric:not(.metric--key) { flex-direction: row; align-items: center; gap: var(--l-gap); }
     .metric__amount { min-width: 2ch; }
   }
 

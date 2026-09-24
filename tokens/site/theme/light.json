@@ -31,6 +31,37 @@
         "value": "{color.neutral.dark.alpha16}",
         "type": "color"
       }
+    },
+    "action": {
+      "bg": {
+        "default": {
+          "value": "{color.neutral.900}",
+          "type": "color",
+          "description": "основна дія сайту: майже чорна в light, майже біла в dark"
+        },
+        "hover": {
+          "value": "{color.neutral.800}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.neutral.700}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.200}",
+          "type": "color"
+        }
+      },
+      "color": {
+        "default": {
+          "value": "{color.neutral.0}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.500}",
+          "type": "color"
+        }
+      }
     }
   },
   "boxShadow": {
@@ -187,6 +218,34 @@
       "lineHeight": {
         "value": "{lineHeight.ratio.lead}",
         "type": "lineHeights"
+      }
+    },
+    "h2": {
+      "fontSize": {
+        "value": "{fontSize.fluid.h2}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.title}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.title}",
+        "type": "letterSpacing"
+      }
+    },
+    "key": {
+      "fontSize": {
+        "value": "{fontSize.fluid.key}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.display}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.display}",
+        "type": "letterSpacing"
       }
     }
   }

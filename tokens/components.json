@@ -497,7 +497,7 @@
       },
       "indicator": {
         "bg": {
-          "value": "{color.fill.primary.default}",
+          "value": "{color.action.bg.default}",
           "type": "color"
         },
         "height": {
@@ -658,6 +658,18 @@
       "color": {
         "value": "{color.text.primary}",
         "type": "color"
+      },
+      "fontSize": {
+        "value": "{display.h2.fontSize}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{display.h2.lineHeight}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{display.h2.letterSpacing}",
+        "type": "letterSpacing"
       }
     },
     "lead": {
@@ -756,6 +768,10 @@
       "color": {
         "value": "{color.text.primary}",
         "type": "color"
+      },
+      "letterSpacing": {
+        "value": "{display.h2.letterSpacing}",
+        "type": "letterSpacing"
       }
     },
     "label": {
@@ -779,6 +795,37 @@
       "br": {
         "value": "{color.border.primary}",
         "type": "color"
+      }
+    },
+    "key": {
+      "bg": {
+        "value": "{color.action.bg.default}",
+        "type": "color",
+        "description": "головна метрика «0 змін у компонентах» — акцентна плашка"
+      },
+      "amount": {
+        "color": {
+          "value": "{color.action.color.default}",
+          "type": "color"
+        },
+        "fontSize": {
+          "value": "{display.key.fontSize}",
+          "type": "fontSizes"
+        },
+        "lineHeight": {
+          "value": "{display.key.lineHeight}",
+          "type": "lineHeights"
+        },
+        "letterSpacing": {
+          "value": "{display.key.letterSpacing}",
+          "type": "letterSpacing"
+        }
+      },
+      "label": {
+        "color": {
+          "value": "{color.action.color.default}",
+          "type": "color"
+        }
       }
     }
   },
@@ -981,6 +1028,18 @@
       "color": {
         "value": "{color.text.primary}",
         "type": "color"
+      },
+      "fontSize": {
+        "value": "{display.h2.fontSize}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{display.h2.lineHeight}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{display.h2.letterSpacing}",
+        "type": "letterSpacing"
       }
     },
     "lead": {
@@ -1275,7 +1334,7 @@
           "type": "color"
         },
         "active": {
-          "value": "{color.fill.primary.default}",
+          "value": "{color.action.bg.default}",
           "type": "color"
         }
       },
@@ -1289,7 +1348,7 @@
           "type": "color"
         },
         "active": {
-          "value": "{color.text.onPrimary}",
+          "value": "{color.action.color.default}",
           "type": "color"
         }
       },
@@ -1597,7 +1656,7 @@
           "type": "color"
         },
         "active": {
-          "value": "{color.fill.primary.default}",
+          "value": "{color.action.bg.default}",
           "type": "color"
         }
       },
@@ -1607,7 +1666,7 @@
           "type": "color"
         },
         "active": {
-          "value": "{color.text.onPrimary}",
+          "value": "{color.action.color.default}",
           "type": "color"
         }
       }
@@ -1617,6 +1676,44 @@
     "bg": {
       "value": "{color.stage.light}",
       "type": "color"
+    }
+  },
+  "action": {
+    "bg": {
+      "default": {
+        "value": "{color.action.bg.default}",
+        "type": "color"
+      },
+      "hover": {
+        "value": "{color.action.bg.hover}",
+        "type": "color"
+      },
+      "active": {
+        "value": "{color.action.bg.active}",
+        "type": "color"
+      },
+      "disabled": {
+        "value": "{color.action.bg.disabled}",
+        "type": "color"
+      }
+    },
+    "color": {
+      "default": {
+        "value": "{color.action.color.default}",
+        "type": "color"
+      },
+      "hover": {
+        "value": "{color.action.color.default}",
+        "type": "color"
+      },
+      "active": {
+        "value": "{color.action.color.default}",
+        "type": "color"
+      },
+      "disabled": {
+        "value": "{color.action.color.disabled}",
+        "type": "color"
+      }
     }
   }
 }

@@ -125,6 +125,10 @@ const PAIRS = [
   ["legend.name.color", "hero.bg", 4.5], ["legend.detail.color", "hero.bg", 4.5], ["legend.name.color", "legend.item.bg.active", 4.5], ["legend.detail.color", "legend.item.bg.active", 4.5],
   ["legend.detail.color", "legend.item.bg.hover", 4.5],
   ["brandSwitch.item.color.default", "glass.bg", 4.5], ["brandSwitch.item.color.active", "brandSwitch.item.bg.active", 4.5],
+  // основна дія сайту (CTA, активні сегменти): текст на кожному стані; кнопка на фоні сторінки ≥ 3 (межа контролу)
+  ["action.color.default", "action.bg.default", 4.5], ["action.color.hover", "action.bg.hover", 4.5], ["action.color.active", "action.bg.active", 4.5],
+  ["action.bg.default", "section.bg.default", 3], ["action.bg.default", "section.bg.alt", 3],
+  ["metric.key.amount.color", "metric.key.bg", 4.5], ["metric.key.label.color", "metric.key.bg", 4.5], ["metric.label.color", "section.bg.default", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];

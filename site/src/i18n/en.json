@@ -73,7 +73,8 @@
       },
       {
         "amount": "0",
-        "label": "component changes needed to add a brand"
+        "label": "component changes needed to add a brand",
+        "emphasis": true
       }
     ]
   },

@@ -30,10 +30,11 @@ const Tag = href ? "a" : "button";
   .btn--md { --btn-size: var(--button-size-md); --btn-padH: var(--button-paddingH-md); --btn-gap: var(--button-gap-md); }
   .btn--lg { --btn-size: var(--button-size-lg); --btn-padH: var(--button-paddingH-lg); --btn-gap: var(--button-gap-lg); }
 
-  .btn--primary { --btn-bg: var(--button-primary-bg-default); --btn-color: var(--button-primary-color-default); }
-  .btn--primary:hover { --btn-bg: var(--button-primary-bg-hover); --btn-color: var(--button-primary-color-hover); }
-  .btn--primary:active { --btn-bg: var(--button-primary-bg-active); --btn-color: var(--button-primary-color-active); }
-  .btn--primary:disabled { --btn-bg: var(--button-primary-bg-disabled); --btn-color: var(--button-primary-color-disabled); cursor: not-allowed; }
+  /* primary = основна дія сайту (action.*): майже чорна в light, майже біла в dark. button.primary.* лишаються як у демо */
+  .btn--primary { --btn-bg: var(--action-bg-default); --btn-color: var(--action-color-default); }
+  .btn--primary:hover { --btn-bg: var(--action-bg-hover); --btn-color: var(--action-color-hover); }
+  .btn--primary:active { --btn-bg: var(--action-bg-active); --btn-color: var(--action-color-active); }
+  .btn--primary:disabled { --btn-bg: var(--action-bg-disabled); --btn-color: var(--action-color-disabled); cursor: not-allowed; }
 
   .btn--secondary { --btn-bg: var(--button-secondary-bg-default); --btn-color: var(--button-secondary-color-default); }
   .btn--secondary:hover { --btn-bg: var(--button-secondary-bg-hover); --btn-color: var(--button-secondary-color-hover); }
