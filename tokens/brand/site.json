@@ -1,18 +1,19 @@
 {
   "color": {
     "product1": {
-      "value": "#8CB4FF",
+      "value": "#9EA1A9",
       "type": "color",
-      "description": "periwinkle — єдиний акцент сайту: CTA-заливки, індикатори, м’які фони. Текст на ньому — чорний"
+      "description": "графіт (pewter) — сайт монохромний, колір на сторінці дають тільки бренди демо. CTA-заливки, індикатори, м’які фони. Текст на ньому — чорний (контракт hover демо: light світлить, dark темнить → onProduct1 мусить бути темним, див. demo-03 п.2)"
     },
     "product2": {
-      "value": "#C8562F",
+      "value": "#50545C",
       "type": "color",
-      "description": "clay — маркер «типове значення», рідкісні акценти"
+      "description": "темний графіт — рідкісні акценти (на сайті зараз не використовується)"
     },
     "product3": {
-      "value": "#0B7FAB",
-      "type": "color"
+      "value": "#6B7079",
+      "type": "color",
+      "description": "середній графіт — info (на сайті зараз не використовується)"
     },
     "onProduct1": {
       "value": "{color.black}",
@@ -20,7 +21,7 @@
       "description": "текст на заливці product1"
     },
     "onProduct2": {
-      "value": "{color.black}",
+      "value": "{color.white}",
       "type": "color"
     },
     "success": {
