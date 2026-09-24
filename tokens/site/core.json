@@ -64,6 +64,10 @@
     "100": {
       "value": "1",
       "type": "opacity"
+    },
+    "24": {
+      "value": "0.24",
+      "type": "opacity"
     }
   },
   "angle": {
@@ -78,6 +82,10 @@
     "56": {
       "value": "56deg",
       "type": "other"
+    },
+    "52": {
+      "value": "52deg",
+      "type": "other"
     }
   },
   "depth": {
@@ -88,11 +96,19 @@
     "1600": {
       "value": "1600",
       "type": "dimension"
+    },
+    "64": {
+      "value": "64",
+      "type": "dimension"
     }
   },
   "scale": {
     "80": {
       "value": "0.8",
+      "type": "other"
+    },
+    "92": {
+      "value": "0.92",
       "type": "other"
     }
   },
