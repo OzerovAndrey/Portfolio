@@ -148,5 +148,14 @@
         "type": "letterSpacing"
       }
     }
+  },
+  "layout": {
+    "page": {
+      "maxWidth": {
+        "value": "{dimension.1232}",
+        "type": "dimension",
+        "description": "єдина ширина контенту: шапка, секції, футер"
+      }
+    }
   }
 }

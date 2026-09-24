@@ -1413,5 +1413,34 @@
         "type": "color"
       }
     }
+  },
+  "container": {
+    "maxWidth": {
+      "value": "{layout.page.maxWidth}",
+      "type": "dimension",
+      "description": "один контейнер сторінки: край шапки = край кожної секції = край футера"
+    },
+    "paddingH": {
+      "xs": {
+        "value": "{layout.paddingH.xs}",
+        "type": "spacing"
+      },
+      "sm": {
+        "value": "{layout.paddingH.sm}",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "{layout.paddingH.md}",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "{layout.paddingH.lg}",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "{layout.paddingH.xl}",
+        "type": "spacing"
+      }
+    }
   }
 }

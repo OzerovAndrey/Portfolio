@@ -33,14 +33,15 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 }
 
 /* Сітка сторінки: layout-токени бренду по брейкпоінтах (як у демо) */
-:root { --l-padH: var(--layout-paddingH-xs); --l-gap: var(--layout-columnGap-xs); --l-row: var(--layout-rowGap-xs); }
-@media (min-width: 768px) { :root { --l-padH: var(--layout-paddingH-sm); --l-gap: var(--layout-columnGap-sm); --l-row: var(--layout-rowGap-sm); } }
-@media (min-width: 1024px) { :root { --l-padH: var(--layout-paddingH-md); --l-gap: var(--layout-columnGap-md); --l-row: var(--layout-rowGap-md); } }
-@media (min-width: 1200px) { :root { --l-padH: var(--layout-paddingH-lg); --l-gap: var(--layout-columnGap-lg); --l-row: var(--layout-rowGap-lg); } }
-@media (min-width: 1440px) { :root { --l-padH: var(--layout-paddingH-xl); --l-gap: var(--layout-columnGap-xl); --l-row: var(--layout-rowGap-xl); } }
+:root { --l-padH: var(--container-paddingH-xs); --l-gap: var(--layout-columnGap-xs); --l-row: var(--layout-rowGap-xs); }
+@media (min-width: 768px) { :root { --l-padH: var(--container-paddingH-sm); --l-gap: var(--layout-columnGap-sm); --l-row: var(--layout-rowGap-sm); } }
+@media (min-width: 1024px) { :root { --l-padH: var(--container-paddingH-md); --l-gap: var(--layout-columnGap-md); --l-row: var(--layout-rowGap-md); } }
+@media (min-width: 1200px) { :root { --l-padH: var(--container-paddingH-lg); --l-gap: var(--layout-columnGap-lg); --l-row: var(--layout-rowGap-lg); } }
+@media (min-width: 1440px) { :root { --l-padH: var(--container-paddingH-xl); --l-gap: var(--layout-columnGap-xl); --l-row: var(--layout-rowGap-xl); } }
 
-/* Ширина контенту похідна від токена контролу, а не від магічного числа: 56 × 22 = 1232 */
-.container { width: 100%; max-width: calc(var(--size-control-xl) * 22 + var(--l-padH) * 2); margin-inline: auto; padding-inline: var(--l-padH); }
+/* Один контейнер сторінки (токени container.*): шапка, усі секції й футер мають однакові лівий і правий краї.
+   Ширина контенту — container.maxWidth, поле — container.paddingH.* по брейкпоінтах (--l-padH вище). Інших країв немає */
+.container { width: 100%; max-width: calc(var(--container-maxWidth) + var(--l-padH) * 2); margin-inline: auto; padding-inline: var(--l-padH); }
 .measure { max-width: 60ch; }
 
 .section { background: var(--section-bg-default); padding-block: var(--l-row); }
