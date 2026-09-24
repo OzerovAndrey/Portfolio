@@ -34,3 +34,6 @@
 
 /* Якорі (#demo, #how) не ховаються під плаваючою шапкою */
 html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) * 2); }
+
+/* Перемикання теми (ThemeToggle → View Transitions): коротке перетікання кольорів замість миттєвої заміни */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--motion-duration-base); animation-timing-function: var(--motion-easing-standard); }
