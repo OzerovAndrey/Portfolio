@@ -26,40 +26,9 @@
     "ctaHow": "See how it's built"
   },
   "stage": {
-    "legendTitle": "What you're looking at",
-    "legendHint": "Hover or focus a layer to highlight it. Click to pin it.",
-    "planes": {
-      "component": {
-        "name": "Component",
-        "detail": "The lobby. It asks for meanings like button.primary.bg, never for raw colors."
-      },
-      "semantic": {
-        "name": "Semantic",
-        "detail": "Meanings mapped to steps on a color ramp. Light and dark remap them."
-      },
-      "core": {
-        "name": "Core",
-        "detail": "Raw values: the brand file, its color ramps and the shared scale."
-      }
-    },
-    "count": {
-      "total": "{n} tokens",
-      "changed": "{n} changed",
-      "remapped": "{n} remapped"
-    },
-    "status": "Switch the brand or the theme to see which layer changes.",
-    "announceBrand": "{brand}. Core: {n} values changed. Semantic and component: 0 changed.",
-    "announceMode": "{mode} theme. Semantic: {n} tokens remapped. Core and component: 0 changed.",
-    "modeNames": {
-      "light": "Light",
-      "dark": "Dark"
-    },
     "brandGroup": "Brand in the preview",
-    "modeButton": "Dark theme",
-    "semanticTitle": "Semantic tokens",
-    "coreTitle": "Core values",
-    "fontLabel": "Display font",
-    "radiusLabel": "Radius: surface {s} · control {c}",
+    "status": "Pick a brand: only the brand file changes.",
+    "announceBrand": "{brand}: {n} values in the brand file changed. Components changed: 0.",
     "lobby": {
       "join": "Join",
       "chips": [
@@ -104,7 +73,8 @@
       },
       {
         "amount": "0",
-        "label": "component changes needed to add a brand"
+        "label": "component changes needed to add a brand",
+        "emphasis": true
       }
     ]
   },
@@ -121,6 +91,7 @@
     "title": "Six layers. Only one of them is the brand.",
     "lead": "A component never knows which brand it is in. It asks for a meaning, the theme picks a step on a color ramp, and only the brand file holds real colors, fonts and radii. Every number below is counted from the demo's tokens at build time.",
     "layersTitle": "The layers, top to bottom",
+    "layersHint": "Hover or focus a layer to highlight it in the stack. Click to pin it.",
     "brandTag": "Per brand",
     "layers": {
       "components": {

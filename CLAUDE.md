@@ -19,6 +19,8 @@
   Потрібна зміна в цих сетах → задача в `tasks/demo-NN-*.md`, правка в демо, потім sync.
 - **`tokens/demo/`** — read-only копія брендів (aurum/nova/fiesta/ultra) і `components.json` демо. Оновлюється тільки `sync-demo-tokens`.
   З неї `npm run tokens:demo` генерує `src/generated/demo/` (meta + ланцюжки резолву) для секції «Під капотом». Цифри на сайті беруться звідти, не пишуться руками.
+- **`site/src/lib/demo-illustrations.ts`** — дзеркало ілюстрацій демо (SVG-спрайт на токенах `--illustration-*`), оновлюється тільки `sync-demo-tokens`.
+  З нього `pages/demo-art.svg.ts` збирає статичний спрайт для лобі-мокапу в hero. Нових растрових картинок для мокапу не додаємо.
 - **Свої файли портфоліо:** `brand/site.json` (ключі ідентичні брендам демо — змінюються тільки значення),
   `components.json` (`button`, `input` взяті з демо; решта — компоненти сторінок), `$themes.json`, `$metadata.json`.
 - **`tokens/site/`** — власні сети портфоліо, яких немає в демо: `core.json` (time, curve, filter, opacity), `map.json` (альфа-рампи),
@@ -45,6 +47,8 @@
 - Аналітика — Umami Cloud (`PUBLIC_UMAMI_ID`). Подія = атрибут `data-event="назва"` на елементі, без коду провайдера в компонентах.
   Назви подій: `snake_case`, `<об'єкт>_<дія>` (`cta_demo`, `demo_open_fullscreen`, `lang_uk`, `theme_dark`, `contact_sent`).
 - OG-картинки — `site/public/og/en.png`, `uk.png` (1200×630). Змінився hero-текст → оновити картинки.
+- Постер демо — `site/public/demo/poster-{wide,mid,mobile}-{light,dark}.webp` (кадри демо в пропорціях рамки 27:25, 4:5, 9:16@2x,
+  без підказки демо, зі справжніми шрифтами). Помітно змінився вигляд демо → перезняти постери (локальна збірка демо + Playwright).
 - Цифри на сайті — тільки реальні або з плашкою `metric.typical`. Не вигадувати обіцянок від імені Андрія.
 - Нова сторінка → спершу розділ у брифі проєкту, потім код.
 - Перевірка перед комітом: `npm --prefix site run build` без помилок (включає check-tokens і astro check).

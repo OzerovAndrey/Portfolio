@@ -18,7 +18,7 @@ const RULES = [
   [/#[0-9a-fA-F]{3,8}\b/, "hex-колір — візьми токен"],
   [/(?<![\w-])\d*\.?\d+px\b/, "px-значення — візьми токен (space/size/borderWidth…)"],
   [/font-family\s*:/, "font-family — тільки через text styles ts-*"],
-  [/font-size\s*:\s*(?!var\()/, "font-size без var() — тільки text styles ts-* або токен"],
+  [/font-size\s*:(?!\s*var\()/, "font-size без var() — тільки text styles ts-* або токен"],
   [/(?<![\w-])\d*\.?\d+m?s\b/, "тривалість — токен motion.duration.*"],
   [/cubic-bezier\(|(?<![\w-])ease(-in|-out|-in-out)?(?![\w-])/, "easing — токен motion.easing.*"],
   [/(?<![\w-])blur\(/, "blur() — токен glass.backdropFilter"],

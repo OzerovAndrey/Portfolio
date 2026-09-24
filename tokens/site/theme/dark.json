@@ -31,6 +31,37 @@
         "value": "{color.neutral.dark.alpha60}",
         "type": "color"
       }
+    },
+    "action": {
+      "bg": {
+        "default": {
+          "value": "{color.neutral.0}",
+          "type": "color",
+          "description": "основна дія сайту: майже чорна в light, майже біла в dark"
+        },
+        "hover": {
+          "value": "{color.neutral.100}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.neutral.200}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.700}",
+          "type": "color"
+        }
+      },
+      "color": {
+        "default": {
+          "value": "{color.neutral.900}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.neutral.400}",
+          "type": "color"
+        }
+      }
     }
   },
   "boxShadow": {
@@ -93,6 +124,11 @@
       "value": "{opacity.4}",
       "type": "opacity",
       "description": "стартова прозорість появи: не 0 — інакше Chrome не рахує елемент для LCP до кінця анімації"
+    },
+    "glow": {
+      "value": "{opacity.40}",
+      "type": "opacity",
+      "description": "світіння за ілюстрацією гри (як у демо)"
     }
   },
   "duration": {
@@ -131,19 +167,19 @@
   },
   "scene": {
     "tiltX": {
-      "value": "{angle.56}",
+      "value": "{angle.52}",
       "type": "other",
-      "description": "нахил стеку шарів у hero"
+      "description": "нахил стеку шарів у «Під капотом» — помірний, щоб підписи площин читались"
     },
     "tiltZ": {
-      "value": "{angle.34}",
+      "value": "{angle.4}",
       "type": "other",
       "description": "поворот стеку (у CSS зі знаком мінус)"
     },
     "depth": {
-      "value": "{depth.200}",
+      "value": "{depth.64}",
       "type": "dimension",
-      "description": "відстань між площинами по Z"
+      "description": "відстань між сусідніми площинами по Z (6 площин)"
     },
     "perspective": {
       "value": "{depth.1600}",
@@ -155,9 +191,62 @@
       "description": "максимальний нахил від курсора"
     },
     "scale": {
-      "value": "{scale.80}",
-      "type": "other",
-      "description": "масштаб розведеного стеку, щоб площини вмістились у колонку"
+      "value": "{scale.92}",
+      "type": "other"
+    }
+  },
+  "display": {
+    "hero": {
+      "fontSize": {
+        "value": "{fontSize.fluid.hero}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.display}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.display}",
+        "type": "letterSpacing"
+      }
+    },
+    "lead": {
+      "fontSize": {
+        "value": "{fontSize.fluid.lead}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.lead}",
+        "type": "lineHeights"
+      }
+    },
+    "h2": {
+      "fontSize": {
+        "value": "{fontSize.fluid.h2}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.title}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.title}",
+        "type": "letterSpacing"
+      }
+    },
+    "key": {
+      "fontSize": {
+        "value": "{fontSize.fluid.key}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.display}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.display}",
+        "type": "letterSpacing"
+      }
     }
   }
 }

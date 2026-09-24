@@ -18,7 +18,11 @@ export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
+    const apply = () => { document.documentElement.dataset.theme = next; };
+    // Коротке перетікання кольорів (View Transitions): браузер тримає старий кадр, доки не готовий новий, —
+    // тож порожнього/чорного екрана між темами не буває. Без підтримки або з reduced-motion — миттєво
+    const vt = (document as Document & { startViewTransition?: (cb: () => void) => unknown }).startViewTransition;
+    if (vt && !matchMedia("(prefers-reduced-motion: reduce)").matches) vt.call(document, apply); else apply();
     try { sessionStorage.setItem("theme", next); } catch { /* приватний режим — тема живе до перезавантаження */ }
     setTheme(next);
   };
