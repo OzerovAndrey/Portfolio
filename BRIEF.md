@@ -101,7 +101,7 @@
 Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не рендериться; чекає NDA, розділ 6).
 
 ### Прапори запуску
-`SITE_LAUNCHED=false` (`site/src/config.ts`): `noindex` на всіх сторінках + плашка «Preview — content in progress». Запуск = змінити прапор.
+`SITE_LAUNCHED=false` (`site/src/config.ts`): `noindex` на всіх сторінках. Плашка «Preview — content in progress» — окремий прапор `SHOW_PREVIEW_BANNER` (зараз `false`). Запуск = `SITE_LAUNCHED=true`.
 
 ### `/cases/*` — формат
 Контекст (1 абзац) · проблема (3 пункти) · рішення (схема) · результат (3 числа з реєстру) · що зробив би інакше (1 абзац).

@@ -5,7 +5,7 @@ import "../styles/visual.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { locales, swapLang, t, type Locale } from "../i18n";
-import { config, SITE_LAUNCHED } from "../config";
+import { config, SHOW_PREVIEW_BANNER, SITE_LAUNCHED } from "../config";
 // Шрифт H1 hero (Inter Tight 700) — preload, щоб він був до першого рендера: інакше на 390–412 px рядок H1
 // переноситься під fallback-шрифтом і «стрибає» після підміни (CLS 0.10). Тільки Home, тільки потрібний subset мови
 import interTightLatin700 from "@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url";
@@ -63,7 +63,7 @@ const { umamiId, umamiSrc } = config.analytics;
   </head>
   <body class="ts-body-md-regular">
     <a class="skip" href="#main">{d.a11y.skip}</a>
-    {!SITE_LAUNCHED && (
+    {SHOW_PREVIEW_BANNER && (
       <div class="preview" role="status">
         <div class="container preview__inner ts-label-sm"><span class="preview__dot" aria-hidden="true"></span>{d.preview.banner}</div>
       </div>
