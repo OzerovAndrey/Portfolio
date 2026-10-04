@@ -8,6 +8,11 @@
     "200": {
       "value": "200ms",
       "type": "duration"
+    },
+    "400": {
+      "value": "400ms",
+      "type": "duration",
+      "description": "поява секцій, crossfade у brand morph"
     }
   },
   "curve": {

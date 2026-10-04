@@ -124,6 +124,10 @@ const PAIRS = [
   ["action.color.default", "action.bg.default", 4.5], ["action.color.hover", "action.bg.hover", 4.5], ["action.color.active", "action.bg.active", 4.5],
   ["action.bg.default", "section.bg.default", 3], ["action.bg.default", "section.bg.alt", 3],
   ["metric.label.color", "section.bg.default", 4.5],
+  // showcase: плейсхолдер скріна, схеми, плашка Preview
+  ["shot.label.color", "shot.label.bg", 4.5], ["shot.what.color", "shot.bg", 4.5], ["shot.label.color", "shot.bg", 4.5],
+  ["flow.node.title.color", "flow.node.bg", 4.5], ["flow.node.detail.color", "flow.node.bg", 4.5], ["flow.arrow.color", "section.bg.default", 4.5], ["flow.arrow.color", "section.bg.alt", 4.5],
+  ["banner.color", "banner.bg", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];

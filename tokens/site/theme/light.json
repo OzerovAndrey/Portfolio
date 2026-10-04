@@ -91,6 +91,10 @@
     "base": {
       "value": "{time.200}",
       "type": "duration"
+    },
+    "slow": {
+      "value": "{time.400}",
+      "type": "duration"
     }
   },
   "easing": {
