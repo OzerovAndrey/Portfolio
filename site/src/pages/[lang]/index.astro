@@ -3,10 +3,10 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import DemoFrame from "../../components/DemoFrame.astro";
 import Architecture from "../../components/Architecture.astro";
+import CaseCards from "../../components/CaseCards.astro";
 import Shot from "../../components/Shot.astro";
 import BrandMorph from "../../components/BrandMorph.tsx";
 import shots from "../../content/shots.json";
-import { config } from "../../config";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
@@ -21,7 +21,6 @@ const steps = [
   { shot: "ts-github-sync", anchor: "pipeline" },
   { shot: "devtools-data-brand", anchor: "code-proof" },
 ] as const;
-const c = d.cases.items;
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
   <section class="hero">
@@ -138,25 +137,7 @@ const c = d.cases.items;
         <h2 class="section__title ts-title-t1" id="cases-title">{d.cases.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{d.cases.lead}</p>
       </div>
-      <ul class="cases">
-        <li class="case">
-          <span class="case__tag ts-label-sm">{c[0].tag}</span>
-          <h3 class="case__title ts-title-t4">{c[0].title}</h3>
-          <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
-          <a class="case__cta ts-label-md" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta} ↗</a>
-        </li>
-        <li class="case">
-          <span class="case__tag ts-label-sm">{c[1].tag}</span>
-          <h3 class="case__title ts-title-t4">{c[1].title}</h3>
-          <p class="case__detail ts-body-md-regular">{c[1].detail}</p>
-          <a class="case__cta ts-label-md" href={href(lang, "approach")} data-event="case_site">{c[1].cta} →</a>
-        </li>
-        <li class="case case--soon">
-          <span class="case__tag ts-label-sm">{c[2].tag}</span>
-          <h3 class="case__title ts-title-t4">{c[2].title}</h3>
-          <p class="case__detail ts-body-md-regular">{c[2].detail}</p>
-        </li>
-      </ul>
+      <CaseCards lang={lang} />
     </div>
   </section>
 
@@ -244,14 +225,4 @@ const c = d.cases.items;
   @media (min-width: 1024px) { .newbrand { grid-template-columns: 2fr 1fr; } }
   .newbrand__side { display: flex; flex-direction: column; gap: var(--l-gap); }
   .newbrand__note { color: var(--metric-label-color); }
-
-  .cases { display: grid; gap: var(--l-gap); }
-  @media (min-width: 768px) { .cases { grid-template-columns: repeat(3, 1fr); } }
-  .case { display: flex; flex-direction: column; align-items: flex-start; gap: var(--caseCard-gap); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); }
-  .case:hover:not(.case--soon) { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
-  .case--soon { background: var(--shot-bg); border-style: dashed; border-color: var(--shot-br); }
-  .case__tag { padding-inline: var(--caseCard-tag-paddingH); height: var(--caseCard-tag-size); display: inline-flex; align-items: center; background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
-  .case__title { color: var(--caseCard-title-color); }
-  .case__detail { color: var(--caseCard-detail-color); }
-  .case__cta { margin-top: auto; }
 </style>

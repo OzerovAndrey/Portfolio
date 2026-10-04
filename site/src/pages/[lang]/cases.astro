@@ -1,0 +1,39 @@
+---
+import Base from "../../layouts/Base.astro";
+import CaseCards from "../../components/CaseCards.astro";
+import { staticLangPaths, t, type Locale } from "../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const p = d.casesPage;
+---
+<Base lang={lang} page="cases" title={d.meta.casesTitle} description={d.meta.casesDescription}>
+  <section class="section">
+    <div class="container stack">
+      <div class="section__head">
+        <h1 class="section__title ts-display-d3">{p.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure">{p.lead}</p>
+      </div>
+      <CaseCards lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="format-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="format-title">{p.formatTitle}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{p.pending}</p>
+      </div>
+      <ol class="info-grid">
+        {p.sections.map((s, i) => (
+          <li class="info-card">
+            <span class="info-card__label ts-label-sm">{i + 1}</span>
+            <h3 class="info-card__title ts-title-t4">{s.title}</h3>
+            <p class="info-card__detail ts-body-md-regular">{s.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>

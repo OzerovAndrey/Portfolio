@@ -60,3 +60,13 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } /* allow: стандартний reduced-motion ресет, 0.01ms — не дизайн-значення */
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Інфо-картки сторінок (services, about, cases): сітка + картка на токенах audience.* */
+.info-grid { display: grid; gap: var(--l-gap); }
+@media (min-width: 768px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+.info-card { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
+.info-card__title { color: var(--audience-title-color); }
+.info-card__detail { color: var(--audience-detail-color); }
+.info-card__label { color: var(--section-lead-color); }
+.stack { display: flex; flex-direction: column; gap: var(--l-gap); }
+.stack > .section__head { margin-bottom: 0; }
