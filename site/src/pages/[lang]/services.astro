@@ -1,0 +1,53 @@
+---
+import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import { href, staticLangPaths, t, type Locale } from "../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const s = d.services;
+---
+<Base lang={lang} page="services" title={d.meta.servicesTitle} description={d.meta.servicesDescription}>
+  <section class="section">
+    <div class="container stack">
+      <div class="section__head">
+        <h1 class="section__title ts-display-d3">{s.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure">{s.lead}</p>
+      </div>
+      <ul class="info-grid">
+        {s.packages.map((p) => (
+          <li class="info-card">
+            <h2 class="info-card__title ts-title-t3">{p.name}</h2>
+            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.forLabel}</span><br />{p.forWhom}</p>
+            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.resultLabel}</span><br />{p.result}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="process-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="process-title">{s.processTitle}</h2>
+      </div>
+      <ol class="process">
+        {s.process.map((step, i) => (
+          <li class="process__step ts-title-t5"><span class="process__index ts-label-md" aria-hidden="true">{i + 1}</span>{step}</li>
+        ))}
+      </ol>
+      <p class="ts-body-md-regular measure note">{s.note}</p>
+      <div><Button size="lg" href={href(lang, "contact")} data-event="services_contact">{d.cta.button}</Button></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .process { display: grid; gap: var(--space-gap-xl); }
+  @media (min-width: 768px) { .process { grid-template-columns: repeat(5, 1fr); } }
+  .process__step { display: flex; align-items: center; gap: var(--space-gap-lg); color: var(--step-title-color); }
+  @media (min-width: 768px) { .process__step { flex-direction: column; align-items: flex-start; } }
+  .process__index { display: inline-grid; place-items: center; width: var(--step-index-size); height: var(--step-index-size); border-radius: var(--step-index-borderRadius); background: var(--step-index-bg); color: var(--step-index-color); }
+  .note { color: var(--section-lead-color); }
+</style>

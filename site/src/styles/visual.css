@@ -24,3 +24,10 @@ html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) *
 
 /* Перемикання теми (ThemeToggle → View Transitions): коротке перетікання кольорів замість миттєвої заміни */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--motion-duration-base); animation-timing-function: var(--motion-easing-standard); }
+
+/* Поява секцій (Base.astro → IntersectionObserver ставить .is-visible). Тільки transform + opacity, тривалість і easing — токени motion.*.
+   Без JS (.js немає) і з prefers-reduced-motion секції видимі одразу */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] { opacity: 0; transform: translateY(var(--motion-reveal-distance)); transition: opacity var(--motion-duration-slow) var(--motion-easing-out), transform var(--motion-duration-slow) var(--motion-easing-out); }
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+}

@@ -1,0 +1,50 @@
+---
+// Скрін із маніфесту src/content/shots.json. Файл лежить у src/assets/<file> → оптимізоване зображення (astro:assets);
+// файлу немає → плейсхолдер-«креслення» тієї самої пропорції (верстка не стрибає після заміни).
+// Наявність файлу перевіряється на етапі білду (import.meta.glob): заміна скріна = покласти PNG з потрібним іменем і запушити.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import shots from "../content/shots.json";
+import type { Locale } from "../i18n";
+
+interface Props { id: string; lang: Locale; sizes?: string; loading?: "lazy" | "eager"; class?: string }
+const { id, lang, sizes = "(min-width: 1024px) 50vw, 100vw", loading = "lazy", class: cls } = Astro.props;
+
+const shot = shots.find((s) => s.id === id);
+if (!shot) throw new Error(`Shot: id "${id}" немає в src/content/shots.json`);
+
+const files = import.meta.glob<{ default: ImageMetadata }>("/src/assets/shots/**/*.{png,jpg,jpeg,webp}", { eager: true });
+const image = files[`/src/assets/${shot.file}`]?.default;
+const ratio = shot.ratio.replace("/", " / ");
+---
+{image ? (
+  <figure class:list={["shot", "shot--ready", cls]} data-shot={id} data-status="ready" style={`aspect-ratio: ${ratio}`}>
+    <Image src={image} alt={shot.alt[lang]} widths={[640, 960, 1440, 2000]} sizes={sizes} loading={loading} decoding="async" class="shot__img" />
+  </figure>
+) : (
+  <figure class:list={["shot", "shot--placeholder", cls]} data-shot={id} data-status="placeholder" style={`aspect-ratio: ${ratio}`} role="img" aria-label={shot.alt[lang]}>
+    <figcaption class="shot__caption">
+      <span class="shot__label ts-label-sm">SHOT · {id} · {shot.size}</span>
+      <span class="shot__what ts-body-md-regular">{shot.what[lang]}</span>
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .shot { position: relative; margin: 0; width: 100%; overflow: hidden; border-radius: var(--shot-borderRadius); }
+  .shot--ready { border: var(--shot-borderWidth) solid var(--shot-image-br); background: var(--shot-bg); }
+  .shot__img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  /* «Креслення»: пунктирна рамка, сітка на фоні, мітка й опис по центру */
+  .shot--placeholder {
+    display: grid; place-items: center; padding: var(--shot-padding);
+    background-color: var(--shot-bg);
+    background-image:
+      linear-gradient(to right, var(--shot-grid-line) var(--shot-borderWidth), transparent var(--shot-borderWidth)),
+      linear-gradient(to bottom, var(--shot-grid-line) var(--shot-borderWidth), transparent var(--shot-borderWidth));
+    background-size: var(--shot-grid-size) var(--shot-grid-size);
+    border: var(--shot-borderWidth) dashed var(--shot-br);
+  }
+  .shot__caption { display: flex; flex-direction: column; align-items: center; gap: var(--shot-gap); max-width: 100%; text-align: center; }
+  .shot__label { padding: var(--shot-gap) var(--shot-padding); background: var(--shot-label-bg); color: var(--shot-label-color); border: var(--shot-borderWidth) solid var(--shot-grid-line); border-radius: var(--shot-borderRadius); overflow-wrap: anywhere; }
+  .shot__what { padding-inline: var(--shot-gap); background: var(--shot-label-bg); color: var(--shot-what-color); }
+</style>

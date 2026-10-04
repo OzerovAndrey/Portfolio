@@ -1363,6 +1363,10 @@
       "base": {
         "value": "{duration.base}",
         "type": "duration"
+      },
+      "slow": {
+        "value": "{duration.slow}",
+        "type": "duration"
       }
     },
     "easing": {
@@ -1373,6 +1377,13 @@
       "out": {
         "value": "{easing.out}",
         "type": "cubicBezier"
+      }
+    },
+    "reveal": {
+      "distance": {
+        "value": "{space.padding.xl}",
+        "type": "spacing",
+        "description": "зсув по Y при появі секції"
       }
     }
   },
@@ -1440,6 +1451,157 @@
       "xl": {
         "value": "{layout.paddingH.xl}",
         "type": "spacing"
+      }
+    }
+  },
+  "banner": {
+    "bg": {
+      "value": "{color.bg.tertiary}",
+      "type": "color"
+    },
+    "color": {
+      "value": "{color.text.secondary}",
+      "type": "color"
+    },
+    "br": {
+      "value": "{color.border.tertiary}",
+      "type": "color"
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "paddingV": {
+      "value": "{space.gap.sm}",
+      "type": "spacing"
+    },
+    "gap": {
+      "value": "{space.gap.md}",
+      "type": "spacing"
+    },
+    "dot": {
+      "bg": {
+        "value": "{color.fill.warning.default}",
+        "type": "color"
+      },
+      "size": {
+        "value": "{space.gap.md}",
+        "type": "sizing"
+      }
+    }
+  },
+  "shot": {
+    "bg": {
+      "value": "{color.bg.secondary}",
+      "type": "color"
+    },
+    "br": {
+      "value": "{color.border.primary}",
+      "type": "color"
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "borderRadius": {
+      "value": "{borderRadius.surface}",
+      "type": "borderRadius"
+    },
+    "padding": {
+      "value": "{space.padding.lg}",
+      "type": "spacing"
+    },
+    "gap": {
+      "value": "{space.gap.sm}",
+      "type": "spacing"
+    },
+    "grid": {
+      "line": {
+        "value": "{color.border.tertiary}",
+        "type": "color"
+      },
+      "size": {
+        "value": "{size.control.lg}",
+        "type": "sizing",
+        "description": "клітинка сітки «креслення»"
+      }
+    },
+    "label": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
+      },
+      "bg": {
+        "value": "{color.bg.secondary}",
+        "type": "color"
+      }
+    },
+    "what": {
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      }
+    },
+    "image": {
+      "br": {
+        "value": "{color.border.secondary}",
+        "type": "color"
+      }
+    }
+  },
+  "flow": {
+    "gap": {
+      "value": "{space.gap.lg}",
+      "type": "spacing"
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "node": {
+      "bg": {
+        "value": "{color.bg.secondary}",
+        "type": "color"
+      },
+      "br": {
+        "value": "{color.border.secondary}",
+        "type": "color"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.surface}",
+        "type": "borderRadius"
+      },
+      "padding": {
+        "value": "{space.padding.lg}",
+        "type": "spacing"
+      },
+      "gap": {
+        "value": "{space.gap.sm}",
+        "type": "spacing"
+      },
+      "title": {
+        "color": {
+          "value": "{color.text.primary}",
+          "type": "color"
+        }
+      },
+      "detail": {
+        "color": {
+          "value": "{color.text.secondary}",
+          "type": "color"
+        }
+      },
+      "accent": {
+        "br": {
+          "value": "{color.border.primary}",
+          "type": "color"
+        }
+      }
+    },
+    "arrow": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
       }
     }
   }

@@ -1,12 +1,16 @@
 ---
 import ThemeToggle from "./ThemeToggle.tsx";
+import type { Page } from "../layouts/Base.astro";
 import { href, locales, swapLang, t, type Locale } from "../i18n";
 
-interface Props { lang: Locale; page: "home" | "contact" }
+interface Props { lang: Locale; page: Page }
 const { lang, page } = Astro.props;
 const d = t(lang);
 const nav = [
-  { id: "home", label: d.nav.home, url: href(lang) },
+  { id: "cases", label: d.nav.cases, url: href(lang, "cases") },
+  { id: "approach", label: d.nav.approach, url: href(lang, "approach") },
+  { id: "services", label: d.nav.services, url: href(lang, "services") },
+  { id: "about", label: d.nav.about, url: href(lang, "about") },
   { id: "contact", label: d.nav.contact, url: href(lang, "contact") },
 ] as const;
 const path = Astro.url.pathname;
@@ -74,10 +78,17 @@ const path = Astro.url.pathname;
   }
   :global(.theme-toggle:hover) { background: var(--button-text-bg-hover); }
   .logo-short { display: none; }
+  /* Вузькі екрани: п'ять пунктів не вміщаються в один рядок — меню другим рядком, з прокруткою */
+  @media (max-width: 899px) {
+    .header__inner { height: auto; flex-wrap: wrap; row-gap: 0; padding-block: var(--space-gap-sm) 0; }
+    .header__tools { margin-inline-start: auto; }
+    .nav { order: 3; flex-basis: 100%; margin-inline-start: 0; gap: 0; overflow-x: auto; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav__item { flex: none; }
+  }
   @media (max-width: 559px) {
     .logo-full { display: none; }
     .logo-short { display: inline; }
-    .nav { gap: 0; }
     .header__tools { gap: var(--space-gap-sm); }
   }
 </style>

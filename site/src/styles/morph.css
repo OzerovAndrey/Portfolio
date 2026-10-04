@@ -1,0 +1,44 @@
+/* Острови з перемикачем кадрів (BrandMorph) і плашка data-brand (HtmlAttrPlate). Тільки var(--…) токенів. */
+.morph { display: flex; flex-direction: column; gap: var(--l-gap); }
+.morph__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--l-gap); }
+.morph__control { display: flex; flex-direction: column; gap: var(--space-gap-sm); }
+.morph__label { color: var(--section-lead-color); }
+.morph__stage { position: relative; width: 100%; border-radius: var(--shot-borderRadius); overflow: hidden; background: var(--shot-bg); }
+.morph__slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity var(--motion-duration-slow) var(--motion-easing-standard); }
+.morph__slide[data-active="true"] { opacity: 1; pointer-events: auto; }
+.morph__slide .shot { height: 100%; }
+
+.seg { display: inline-flex; flex-wrap: wrap; padding: var(--segmented-padding); background: var(--segmented-bg); border-radius: var(--segmented-borderRadius); }
+.seg__item {
+  display: inline-flex; align-items: center; height: var(--segmented-size); padding-inline: var(--segmented-item-paddingH);
+  border: 0; border-radius: var(--segmented-item-borderRadius); cursor: pointer;
+  background: var(--segmented-item-bg-default); color: var(--segmented-item-color-default);
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-out), color var(--motion-duration-fast) var(--motion-easing-out);
+}
+.seg__item:hover { background: var(--segmented-item-bg-hover); color: var(--segmented-item-color-hover); }
+.seg__item[aria-checked="true"], .seg__item[aria-pressed="true"] { background: var(--segmented-item-bg-active); color: var(--segmented-item-color-active); }
+
+.morph__pause { margin-inline-start: auto; align-self: flex-end; }
+
+/* Сітка 4×2 (/approach#two-axes): рядок = тема, колонка = бренд */
+.matrix { display: grid; grid-template-columns: auto repeat(4, 1fr); gap: var(--space-gap-sm); align-items: center; }
+.matrix__row-label { color: var(--section-lead-color); padding-inline-end: var(--space-gap-md); }
+.matrix__cell {
+  height: var(--size-control-lg); border: var(--flow-borderWidth) solid var(--flow-node-br); border-radius: var(--flow-node-borderRadius); cursor: pointer;
+  background: var(--segmented-item-bg-default); color: var(--segmented-item-color-default);
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-out), color var(--motion-duration-fast) var(--motion-easing-out);
+}
+.matrix__cell:hover { background: var(--segmented-item-bg-hover); color: var(--segmented-item-color-hover); }
+.matrix__cell[aria-pressed="true"] { background: var(--segmented-item-bg-active); color: var(--segmented-item-color-active); border-color: var(--segmented-item-bg-active); }
+@media (max-width: 559px) { .matrix { grid-template-columns: repeat(4, 1fr); } .matrix__row-label { grid-column: 1 / -1; padding-inline-end: 0; } }
+
+/* Плашка <html data-brand="…"> */
+.plate { display: flex; flex-direction: column; gap: var(--l-gap); padding: var(--flow-node-padding); background: var(--flow-node-bg); border: var(--flow-borderWidth) solid var(--flow-node-br); border-radius: var(--flow-node-borderRadius); }
+.plate__code { padding: var(--flow-node-padding); background: var(--tokenChain-step-bg); border-radius: var(--flow-node-borderRadius); color: var(--tokenChain-name-color); overflow-wrap: anywhere; }
+.plate__attr { color: var(--tokenChain-note-color); }
+.plate__list { display: flex; flex-direction: column; gap: var(--space-gap-sm); }
+.plate__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-md); }
+.plate__name { color: var(--tokenChain-name-color); flex: 1 1 14ch; overflow-wrap: anywhere; }
+.plate__values { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--tokenChain-note-color); overflow-wrap: anywhere; }
+.plate__swatch { flex: none; width: var(--space-padding-md); height: var(--space-padding-md); border-radius: var(--borderRadius-control); background: var(--swatch); border: var(--flow-borderWidth) solid var(--flow-node-br); }
+.plate__hint { color: var(--flow-node-detail-color); }

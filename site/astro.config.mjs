@@ -2,10 +2,10 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 
-// GitHub Pages без домену: SITE_BASE=/Portfolio/. З власним доменом: SITE_BASE=/ і SITE_URL=https://домен
+// GitHub Pages без домену: base /Portfolio/ (типово). З власним доменом: SITE_BASE=/ і SITE_URL=https://домен
 export default defineConfig({
   site: process.env.SITE_URL ?? "https://ozerovandrey.github.io",
-  base: process.env.SITE_BASE ?? "/",
+  base: process.env.SITE_BASE ?? "/Portfolio/",
   trailingSlash: "always",
   integrations: [react()],
   i18n: {
