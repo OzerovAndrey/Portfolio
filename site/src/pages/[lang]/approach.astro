@@ -1,0 +1,165 @@
+---
+import Base from "../../layouts/Base.astro";
+import Shot from "../../components/Shot.astro";
+import Flow from "../../components/Flow.astro";
+import BrandMorph from "../../components/BrandMorph.tsx";
+import HtmlAttrPlate from "../../components/HtmlAttrPlate.tsx";
+import shots from "../../content/shots.json";
+import { staticLangPaths, t, type Locale } from "../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const a = d.approach;
+const morphRatio = shots.find((s) => s.id === "lobby-aurum-dark")!.ratio;
+const sizes = "(min-width: 768px) 50vw, 100vw";
+const toc = [
+  ["token-layers", a.sections.tokenLayers], ["two-axes", a.sections.twoAxes], ["components", a.sections.components],
+  ["pipeline", a.sections.pipeline], ["code-proof", a.sections.codeProof], ["limits", a.sections.limits],
+] as const;
+
+// Змінні кожного бренду демо — з реального білду токенів (src/generated/demo/tokens.css ← tokens/demo). Немає даних → плашка не показується
+const css = Object.values(import.meta.glob("../../generated/demo/tokens.css", { query: "?raw", import: "default", eager: true }))[0] as string | undefined;
+const brandVars: Record<string, Record<string, string>> = {};
+for (const m of css?.matchAll(/:root\[data-brand="(\w+)"\]\s*\{([^}]*)\}/g) ?? []) {
+  brandVars[m[1]] = Object.fromEntries([...m[2].matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((v) => [v[1], v[2].trim()]));
+}
+const hasBrandData = Object.keys(brandVars).length > 1;
+---
+<Base lang={lang} page="approach" title={d.meta.approachTitle} description={d.meta.approachDescription}>
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <h1 class="section__title ts-display-d3">{a.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure">{a.lead}</p>
+      </div>
+      <nav class="toc" aria-label={a.toc}>
+        <ul class="toc__list">
+          {toc.map(([id, label]) => <li><a class="toc__link ts-label-md" href={`#${id}`}>{label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="token-layers" aria-labelledby="token-layers-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="token-layers-title">{a.tokenLayers.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.tokenLayers.lead}</p>
+      </div>
+      <Flow items={a.tokenLayers.layers} label={a.tokenLayers.diagramLabel} />
+      <div class="shots shots--2">
+        <Shot id="ts-sets-panel" lang={lang} sizes={sizes} />
+        <Shot id="ts-token-chain" lang={lang} sizes={sizes} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="two-axes" aria-labelledby="two-axes-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="two-axes-title">{a.twoAxes.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.twoAxes.lead}</p>
+      </div>
+      <BrandMorph client:visible variant="matrix" ratio={morphRatio} labels={{ brand: d.brandMorph.brandLabel, mode: d.brandMorph.modeLabel, modes: d.brandMorph.modes, pause: d.brandMorph.pause, play: d.brandMorph.play, group: a.twoAxes.gridLabel }}>
+        <Shot slot="aurum-light" id="lobby-aurum-light" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="aurum-dark" id="lobby-aurum-dark" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="nova-light" id="lobby-nova-light" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="nova-dark" id="lobby-nova-dark" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="fiesta-light" id="lobby-fiesta-light" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="fiesta-dark" id="lobby-fiesta-dark" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="ultra-light" id="lobby-ultra-light" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+        <Shot slot="ultra-dark" id="lobby-ultra-dark" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" />
+      </BrandMorph>
+      <div class="shots shots--2">
+        <Shot id="ts-themes-matrix" lang={lang} sizes={sizes} />
+        <Shot id="figma-variables-modes" lang={lang} sizes={sizes} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="components" aria-labelledby="components-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="components-title">{a.components.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.components.lead}</p>
+      </div>
+      <div class="shots shots--components">
+        <Shot class="span-2" id="comp-button-set" lang={lang} sizes="(min-width: 1024px) 33vw, 100vw" />
+        <Shot class="span-2" id="comp-card-set" lang={lang} sizes="(min-width: 1024px) 33vw, 100vw" />
+        <Shot class="span-2" id="comp-chip-set" lang={lang} sizes="(min-width: 1024px) 33vw, 100vw" />
+        <Shot class="span-2" id="comp-props-panel" lang={lang} sizes="(min-width: 1024px) 33vw, 100vw" />
+        <Shot class="span-4" id="comp-four-brands" lang={lang} sizes="(min-width: 1024px) 66vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pipeline" aria-labelledby="pipeline-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="pipeline-title">{a.pipeline.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.pipeline.lead}</p>
+      </div>
+      <Flow row items={a.pipeline.nodes} label={a.pipeline.diagramLabel} />
+      <div class="shots shots--2">
+        <Shot id="ts-github-sync" lang={lang} sizes={sizes} />
+        <Shot id="repo-tokens-folder" lang={lang} sizes={sizes} />
+        <Shot id="css-output" lang={lang} sizes={sizes} />
+        <Shot id="terminal-build" lang={lang} sizes={sizes} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="code-proof" aria-labelledby="code-proof-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="code-proof-title">{a.codeProof.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.codeProof.lead}</p>
+      </div>
+      <div class="shots shots--2">
+        <Shot id="devtools-data-brand" lang={lang} sizes={sizes} />
+        <Shot id="devtools-computed" lang={lang} sizes={sizes} />
+      </div>
+      {hasBrandData
+        ? <HtmlAttrPlate client:visible brands={brandVars} labels={a.codeProof} />
+        : <p class="ts-body-md-regular measure">{a.codeProof.noData}</p>}
+    </div>
+  </section>
+
+  <section class="section" id="limits" aria-labelledby="limits-title" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="limits-title">{a.limits.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{a.limits.lead}</p>
+      </div>
+      <ul class="limits">
+        {a.limits.items.map((i) => (
+          <li class="limit">
+            <h3 class="limit__title ts-title-t4">{i.title}</h3>
+            <p class="limit__detail ts-body-md-regular">{i.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stack { display: flex; flex-direction: column; gap: var(--l-gap); }
+  .stack .section__head { margin-bottom: 0; }
+  .toc__list { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
+  .toc__link { display: inline-flex; align-items: center; height: var(--size-control-md); padding-inline: var(--space-padding-md); border: var(--flow-borderWidth) solid var(--flow-node-br); border-radius: var(--borderRadius-pill); color: var(--color-text-primary); text-decoration: none; }
+  .toc__link:hover { background: var(--segmented-item-bg-hover); }
+  .shots { display: grid; gap: var(--l-gap); }
+  @media (min-width: 768px) { .shots--2 { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) {
+    .shots--components { grid-template-columns: repeat(6, 1fr); }
+    .shots--components :global(.span-2) { grid-column: span 2; }
+    .shots--components :global(.span-4) { grid-column: span 4; }
+  }
+  .limits { display: grid; gap: var(--l-gap); }
+  @media (min-width: 768px) { .limits { grid-template-columns: repeat(2, 1fr); } }
+  .limit { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
+  .limit__title { color: var(--audience-title-color); }
+  .limit__detail { color: var(--audience-detail-color); }
+</style>
