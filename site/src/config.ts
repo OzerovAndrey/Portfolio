@@ -1,6 +1,11 @@
 // Дані, які надає Андрій (бриф, розділ 8). Порожнє поле = блок на сайті не показується.
 type Contacts = { email: string; linkedin: string; telegram: string; phone: string; github: string };
 
+// Прапори запуску. SITE_LAUNCHED=false → <meta robots noindex> на всіх сторінках + плашка «Preview — content in progress».
+export const SITE_LAUNCHED = false;
+// Wanda DS чекає NDA-рішення (BRIEF.md, розділ 6). false → жоден блок про Wanda не рендериться.
+export const SHOW_WANDA = false;
+
 export const config = {
   name: "Andrey Ozerov",
   demoUrl: "https://ozerovandrey.github.io/multibrand-design-system/",
