@@ -1,6 +1,6 @@
 ---
-// Живе демо в iframe на всіх ширинах. Iframe вставляється, коли секція підходить до в'юпорту — не б'є по Lighthouse.
-// Мобільні: вертикальна сцена 9:16 — демо показує свою мобільну версію.
+// Iframe вставляється, коли секція підходить до в'юпорту — не б'є по Lighthouse.
+// Мобільні (< 900 px): iframe не вантажиться — лишається постер + кнопка «Open full screen» (демо відкривається на всю сторінку).
 // Демо читає ?theme=light|dark (і ?brand) — iframe відкривається в поточній темі сайту. ?lang/embed демо поки ігнорує (demo-02).
 // До завантаження iframe — статичний постер демо (public/demo/poster-*-light|dark.webp, та сама пропорція): без порожнього блоку й без CLS.
 // Пропорції рамки підібрані під демо: перший ряд карток ігор видно повністю над плаваючою панеллю демо (88 px знизу).
@@ -43,6 +43,7 @@ const poster = (size: string, theme: string) => `${base}demo/poster-${size}-${th
   (() => {
     const fig = document.querySelector("[data-demo-src]");
     if (!fig) return;
+    if (!matchMedia("(min-width: 900px)").matches) return;
     const mount = () => {
       const f = document.createElement("iframe");
       // тема демо = поточна тема сайту

@@ -3,11 +3,25 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import DemoFrame from "../../components/DemoFrame.astro";
 import Architecture from "../../components/Architecture.astro";
+import Shot from "../../components/Shot.astro";
+import BrandMorph from "../../components/BrandMorph.tsx";
+import shots from "../../content/shots.json";
+import { config } from "../../config";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
+// Іменовані слоти Astro не можна генерувати в map() — 8 кадрів перелічені явно
+const morphSizes = "(min-width: 1280px) 1232px, 100vw";
+const morphRatio = shots.find((s) => s.id === "lobby-aurum-dark")!.ratio;
+// Крок «How it works» → скрін і якір на /approach
+const steps = [
+  { shot: "figma-variables-modes", anchor: "two-axes" },
+  { shot: "ts-github-sync", anchor: "pipeline" },
+  { shot: "devtools-data-brand", anchor: "code-proof" },
+] as const;
+const c = d.cases.items;
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
   <section class="hero">
@@ -22,21 +36,7 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section section--tight" aria-labelledby="metrics-title">
-    <div class="container">
-      <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
-      <ul class="metrics">
-        {d.metrics.items.map((m) => (
-          <li class="metric">
-            <span class="metric__amount ts-display-d2">{m.amount}</span>
-            <span class="metric__label ts-body-md-regular">{m.label}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section section--alt" id="demo" aria-labelledby="demo-title">
+  <section class="section section--alt" id="demo" aria-labelledby="demo-title" data-reveal>
     <div class="container">
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="demo-title">{d.demo.title}</h2>
@@ -45,8 +45,84 @@ const d = t(lang);
     </div>
   </section>
 
+  <section class="section" id="brands" aria-labelledby="brands-title" data-reveal>
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="brands-title">{d.brandMorph.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{d.brandMorph.lead}</p>
+      </div>
+      <BrandMorph client:visible ratio={morphRatio} labels={{ brand: d.brandMorph.brandLabel, mode: d.brandMorph.modeLabel, modes: d.brandMorph.modes, pause: d.brandMorph.pause, play: d.brandMorph.play, group: d.brandMorph.group }}>
+        <Shot slot="aurum-light" id="lobby-aurum-light" lang={lang} sizes={morphSizes} />
+        <Shot slot="aurum-dark" id="lobby-aurum-dark" lang={lang} sizes={morphSizes} />
+        <Shot slot="nova-light" id="lobby-nova-light" lang={lang} sizes={morphSizes} />
+        <Shot slot="nova-dark" id="lobby-nova-dark" lang={lang} sizes={morphSizes} />
+        <Shot slot="fiesta-light" id="lobby-fiesta-light" lang={lang} sizes={morphSizes} />
+        <Shot slot="fiesta-dark" id="lobby-fiesta-dark" lang={lang} sizes={morphSizes} />
+        <Shot slot="ultra-light" id="lobby-ultra-light" lang={lang} sizes={morphSizes} />
+        <Shot slot="ultra-dark" id="lobby-ultra-dark" lang={lang} sizes={morphSizes} />
+      </BrandMorph>
+    </div>
+  </section>
 
-  <section class="section" id="architecture" aria-labelledby="architecture-title">
+  <section class="section section--alt section--tight" aria-labelledby="metrics-title" data-reveal>
+    <div class="container">
+      <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
+      <ul class="metrics">
+        {d.metrics.items.map((m) => (
+          <li class="metric">
+            <span class="metric__amount ts-display-d2" data-todo={m.todo ? `metric-${m.id}` : undefined}>{m.amount}</span>
+            <span class="metric__label ts-body-md-regular">{m.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title" data-reveal>
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="how-title">{d.how.title}</h2>
+      </div>
+      <ol class="steps">
+        {d.how.steps.map((s, i) => (
+          <li class="step">
+            <Shot id={steps[i].shot} lang={lang} sizes="(min-width: 768px) 33vw, 100vw" />
+            <span class="step__index ts-label-lg" aria-hidden="true">{i + 1}</span>
+            <h3 class="step__title ts-title-t4">{s.title}</h3>
+            <p class="step__detail ts-body-md-regular">{s.detail}</p>
+            <a class="step__more ts-label-md" href={`${href(lang, "approach")}#${steps[i].anchor}`} data-event={`how_${steps[i].anchor.replace(/-/g, "_")}`}>{d.how.more} →</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="new-brand" aria-labelledby="new-brand-title" data-reveal>
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="new-brand-title">{d.newBrand.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{d.newBrand.lead}</p>
+      </div>
+      <div class="newbrand">
+        <Shot id="git-diff-ultra" lang={lang} sizes="(min-width: 1024px) 66vw, 100vw" />
+        <div class="newbrand__side">
+          <ul class="metrics metrics--stack">
+            <li class="metric">
+              <span class="metric__amount ts-display-d2" data-todo="new-brand-files-changed">—</span>
+              <span class="metric__label ts-body-md-regular">{d.newBrand.filesLabel}</span>
+            </li>
+            <li class="metric">
+              <span class="metric__amount ts-display-d2" data-todo="new-brand-components-touched">—</span>
+              <span class="metric__label ts-body-md-regular">{d.newBrand.componentsLabel}</span>
+            </li>
+          </ul>
+          <p class="newbrand__note ts-body-sm-regular">{d.newBrand.pending}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="architecture" aria-labelledby="architecture-title" data-reveal>
     <div class="container">
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="architecture-title">{d.architecture.title}</h2>
@@ -56,25 +132,35 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section section--alt" id="how" aria-labelledby="how-title">
+  <section class="section section--alt" id="cases" aria-labelledby="cases-title" data-reveal>
     <div class="container">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="how-title">{d.how.title}</h2>
+        <h2 class="section__title ts-title-t1" id="cases-title">{d.cases.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{d.cases.lead}</p>
       </div>
-      <ol class="steps">
-        {d.how.steps.map((s, i) => (
-          <li class="step">
-            <span class="step__index ts-label-lg" aria-hidden="true">{i + 1}</span>
-            <h3 class="step__title ts-title-t4">{s.title}</h3>
-            <p class="step__detail ts-body-md-regular">{s.detail}</p>
-          </li>
-        ))}
-      </ol>
+      <ul class="cases">
+        <li class="case">
+          <span class="case__tag ts-label-sm">{c[0].tag}</span>
+          <h3 class="case__title ts-title-t4">{c[0].title}</h3>
+          <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
+          <a class="case__cta ts-label-md" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta} ↗</a>
+        </li>
+        <li class="case">
+          <span class="case__tag ts-label-sm">{c[1].tag}</span>
+          <h3 class="case__title ts-title-t4">{c[1].title}</h3>
+          <p class="case__detail ts-body-md-regular">{c[1].detail}</p>
+          <a class="case__cta ts-label-md" href={href(lang, "approach")} data-event="case_site">{c[1].cta} →</a>
+        </li>
+        <li class="case case--soon">
+          <span class="case__tag ts-label-sm">{c[2].tag}</span>
+          <h3 class="case__title ts-title-t4">{c[2].title}</h3>
+          <p class="case__detail ts-body-md-regular">{c[2].detail}</p>
+        </li>
+      </ul>
     </div>
   </section>
 
-
-  <section class="section" id="audience" aria-labelledby="audience-title">
+  <section class="section" id="audience" aria-labelledby="audience-title" data-reveal>
     <div class="container">
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="audience-title">{d.audience.title}</h2>
@@ -90,7 +176,7 @@ const d = t(lang);
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="cta-title">
+  <section class="section section--alt" aria-labelledby="cta-title" data-reveal>
     <div class="container">
       <div class="cta">
         <div class="cta__text">
@@ -134,7 +220,8 @@ const d = t(lang);
   .section--tight { padding-block: var(--l-row); }
   /* Метрики: три рівні колонки одного стилю — число й підпис під тонкою лінією, без карток */
   .metrics { display: grid; grid-template-columns: 1fr; gap: var(--l-gap); }
-  @media (min-width: 768px) { .metrics { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 560px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
   .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding-block: var(--metric-padding); border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .metric__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
   .metric__label { color: var(--metric-label-color); }
@@ -150,4 +237,21 @@ const d = t(lang);
   .audience__item { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
   .audience__title { color: var(--audience-title-color); }
   .audience__detail { color: var(--audience-detail-color); }
+
+  .step__more { align-self: flex-start; }
+  .metrics.metrics--stack { grid-template-columns: 1fr; }
+  .newbrand { display: grid; gap: var(--l-gap); align-items: start; }
+  @media (min-width: 1024px) { .newbrand { grid-template-columns: 2fr 1fr; } }
+  .newbrand__side { display: flex; flex-direction: column; gap: var(--l-gap); }
+  .newbrand__note { color: var(--metric-label-color); }
+
+  .cases { display: grid; gap: var(--l-gap); }
+  @media (min-width: 768px) { .cases { grid-template-columns: repeat(3, 1fr); } }
+  .case { display: flex; flex-direction: column; align-items: flex-start; gap: var(--caseCard-gap); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); }
+  .case:hover:not(.case--soon) { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
+  .case--soon { background: var(--shot-bg); border-style: dashed; border-color: var(--shot-br); }
+  .case__tag { padding-inline: var(--caseCard-tag-paddingH); height: var(--caseCard-tag-size); display: inline-flex; align-items: center; background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  .case__title { color: var(--caseCard-title-color); }
+  .case__detail { color: var(--caseCard-detail-color); }
+  .case__cta { margin-top: auto; }
 </style>

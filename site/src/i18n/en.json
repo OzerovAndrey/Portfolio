@@ -4,7 +4,15 @@
     "homeTitle": "Many brands, one codebase — multi-brand design systems by Andrey Ozerov",
     "homeDescription": "Token architectures where a new brand is one file of 55 values and components never change. See it live: a casino lobby switching between 4 brands and 2 themes on the same code.",
     "contactTitle": "Contact — Andrey Ozerov",
-    "contactDescription": "Running more than one brand? Tell me how many, on which platforms, and where your design system is today. I read every message myself."
+    "contactDescription": "Running more than one brand? Tell me how many, on which platforms, and where your design system is today. I read every message myself.",
+    "approachTitle": "Approach — Andrey Ozerov",
+    "approachDescription": "How a multi-brand token architecture is built: three layers, two axes, a pipeline from Figma to CSS, and what the system does not solve.",
+    "casesTitle": "Work — Andrey Ozerov",
+    "casesDescription": "Case studies in multi-brand design systems. Each one follows the same format: context, problem, solution, result.",
+    "servicesTitle": "Services — Andrey Ozerov",
+    "servicesDescription": "Four packages for teams running more than one brand: audit, token architecture, a full multi-brand system, pipeline setup.",
+    "aboutTitle": "About — Andrey Ozerov",
+    "aboutDescription": "Who is behind the system: experience, products, tools and working principles."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -16,7 +24,11 @@
   },
   "nav": {
     "home": "Home",
-    "contact": "Contact"
+    "contact": "Contact",
+    "cases": "Work",
+    "approach": "Approach",
+    "services": "Services",
+    "about": "About"
   },
   "hero": {
     "eyebrow": "Andrey Ozerov · Design systems for multi-brand products",
@@ -29,16 +41,28 @@
     "title": "Key numbers",
     "items": [
       {
+        "id": "brands",
         "amount": "4",
-        "label": "brands in the live demo, all on one codebase"
+        "label": "brands in the live demo, all on one codebase",
+        "todo": false
       },
       {
+        "id": "themes",
         "amount": "2",
-        "label": "themes per brand: light and dark"
+        "label": "themes per brand: light and dark",
+        "todo": false
       },
       {
+        "id": "brand-keys",
         "amount": "55",
-        "label": "values in a brand file. That file is the whole brand"
+        "label": "values in a brand file. That file is the whole brand",
+        "todo": false
+      },
+      {
+        "id": "new-brand-time",
+        "amount": "—",
+        "label": "to add a new brand. Not measured yet",
+        "todo": true
       }
     ]
   },
@@ -115,18 +139,19 @@
     "title": "How a brand gets from Figma to production",
     "steps": [
       {
-        "title": "A brand is data",
-        "detail": "Every brand is one Token Studio file with the same 55 keys: colors, fonts, radii, spacing, layout. Designers change values. Component tokens are never touched."
+        "title": "Figma",
+        "detail": "Figma Variables and Token Studio hold the same layers: primitives, meanings, components. A designer edits a value and never a component."
       },
       {
-        "title": "The pipeline builds it",
-        "detail": "Tokens live in Git as JSON and compile to CSS custom properties. Automated checks catch missing keys, broken layer references and failing WCAG contrast before anything ships."
+        "title": "Sync",
+        "detail": "Token Studio pushes JSON to Git. A build turns it into CSS custom properties and checks keys, layer references and contrast before anything ships."
       },
       {
-        "title": "Two attributes switch it",
-        "detail": "The product changes brand and theme with data-brand and data-theme on one element. Same markup, same components, one release for every brand."
+        "title": "Ship",
+        "detail": "The product switches brand and theme with two attributes on the root element. Same markup, same components, one release for every brand."
       }
-    ]
+    ],
+    "more": "How it works"
   },
   "audience": {
     "title": "For teams running more than one brand",
@@ -169,5 +194,249 @@
   "footer": {
     "rights": "This site runs on the same token system as the demo, as its own brand.",
     "demo": "Live demo"
+  },
+  "preview": {
+    "banner": "Preview — content in progress"
+  },
+  "brandMorph": {
+    "title": "One lobby. Four brands. Two themes.",
+    "lead": "Eight frames of the same screen, framed identically. Only the brand file and the theme change.",
+    "brandLabel": "Brand",
+    "modeLabel": "Mode",
+    "modes": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "pause": "Pause autoplay",
+    "play": "Resume autoplay",
+    "group": "Brand and mode of the lobby preview"
+  },
+  "newBrand": {
+    "title": "A new brand is one file",
+    "lead": "A brand is a file with the same keys as every other brand. The diff below is what adding one looks like: the brand file, and nothing in the components.",
+    "filesLabel": "files changed",
+    "componentsLabel": "components touched",
+    "pending": "The numbers appear together with the real diff screenshot."
+  },
+  "cases": {
+    "title": "Work",
+    "lead": "Case studies in the same format: context, problem, solution, result.",
+    "open": "Open",
+    "soonTag": "Coming soon",
+    "items": [
+      {
+        "tag": "Meta-case",
+        "title": "Aurum Multibrand",
+        "detail": "A casino lobby that re-skins between 4 brands and 2 themes on one codebase. The live demo behind this site.",
+        "cta": "Open the demo"
+      },
+      {
+        "tag": "This site",
+        "title": "A portfolio on its own brand",
+        "detail": "This site runs on the same token system as the demo, as a separate brand called site.",
+        "cta": "How it's built"
+      },
+      {
+        "tag": "Coming soon",
+        "title": "More cases are on the way",
+        "detail": "iGaming and fintech cases appear here after the client agrees to publish them.",
+        "cta": ""
+      }
+    ]
+  },
+  "casesPage": {
+    "title": "Work",
+    "lead": "Every case follows one format, so you can compare them.",
+    "formatTitle": "The format of a case",
+    "pending": "Content in progress.",
+    "sections": [
+      {
+        "title": "Context",
+        "detail": "One paragraph: the product, the brands, the team."
+      },
+      {
+        "title": "Problem",
+        "detail": "Three points on what did not scale."
+      },
+      {
+        "title": "Solution",
+        "detail": "A diagram of the architecture that replaced it."
+      },
+      {
+        "title": "Result",
+        "detail": "Three numbers, each from the fact register."
+      },
+      {
+        "title": "What I would do differently",
+        "detail": "One honest paragraph."
+      }
+    ]
+  },
+  "approach": {
+    "title": "How the system is built",
+    "lead": "The technical side for people who will maintain it: layers, axes, pipeline, proof in code, and the limits.",
+    "toc": "On this page",
+    "sections": {
+      "tokenLayers": "Three layers",
+      "twoAxes": "Two axes",
+      "components": "Components",
+      "pipeline": "Pipeline",
+      "codeProof": "Proof in code",
+      "limits": "What the system does not solve"
+    },
+    "tokenLayers": {
+      "title": "Three layers of tokens",
+      "lead": "A component asks for a meaning. A meaning points to a primitive. Only primitives hold raw values, so nothing above them ever hardcodes a color.",
+      "diagramLabel": "Token layers, top to bottom",
+      "layers": [
+        {
+          "name": "Component",
+          "detail": "Reads a meaning. Never a raw value.",
+          "example": "button.primary.bg"
+        },
+        {
+          "name": "Semantic",
+          "detail": "Says what a value is for: text, fill, border.",
+          "example": "color.fill.primary"
+        },
+        {
+          "name": "Primitive",
+          "detail": "The only layer with real colors, sizes and fonts.",
+          "example": "color.product1.500"
+        }
+      ]
+    },
+    "twoAxes": {
+      "title": "Two axes: brand and mode",
+      "lead": "Brand and light/dark are independent. Four brands times two modes give eight combinations from the same components. Pick a cell to see that lobby.",
+      "gridLabel": "Pick a brand and a mode"
+    },
+    "components": {
+      "title": "Components",
+      "lead": "Component sets in Figma and the properties each one exposes. The same component appears in every brand."
+    },
+    "pipeline": {
+      "title": "Pipeline",
+      "lead": "From a design decision to a CSS variable in production, with checks on the way.",
+      "diagramLabel": "Pipeline from Figma to CSS",
+      "nodes": [
+        {
+          "name": "Figma",
+          "detail": "Variables and Token Studio sets."
+        },
+        {
+          "name": "GitHub",
+          "detail": "Tokens as JSON in the repository."
+        },
+        {
+          "name": "Build",
+          "detail": "Token JSON to CSS custom properties, with checks."
+        },
+        {
+          "name": "CSS",
+          "detail": "One file of variables per brand and theme."
+        }
+      ]
+    },
+    "codeProof": {
+      "title": "Proof in code",
+      "lead": "Open DevTools on the demo: the brand is an attribute on the root element, and the computed values follow it.",
+      "plateLabel": "The root element",
+      "brandsLabel": "data-brand",
+      "changed": "Variables that changed",
+      "from": "was",
+      "more": "and {n} more",
+      "first": "Pick another brand to see what changes.",
+      "noData": "Token data is not available in this build."
+    },
+    "limits": {
+      "title": "What the system does not solve",
+      "lead": "A token system makes brands cheap to add. It does not make every brand decision for you.",
+      "items": [
+        {
+          "title": "Content",
+          "detail": "Copy, tone of voice and imagery stay with each brand."
+        },
+        {
+          "title": "Illustration",
+          "detail": "Tokens carry colors and sizes. Custom artwork is separate work."
+        },
+        {
+          "title": "Motion",
+          "detail": "Durations and easings can be tokens, but motion design is its own discipline."
+        },
+        {
+          "title": "Legal requirements of markets",
+          "detail": "Age notices, licences and responsible-gaming text differ per market and need their own review."
+        }
+      ]
+    }
+  },
+  "services": {
+    "title": "Services",
+    "lead": "Four packages. Pick the one that matches where your system is today.",
+    "forLabel": "For",
+    "resultLabel": "Result",
+    "packages": [
+      {
+        "name": "DS Audit",
+        "forWhom": "You have a system and it does not scale.",
+        "result": "A report: where the hardcode is, what a new brand costs today, a migration plan."
+      },
+      {
+        "name": "Token Architecture",
+        "forWhom": "You have a UI kit and no tokens.",
+        "result": "Layers in Token Studio and Figma Variables, documentation, automated checks."
+      },
+      {
+        "name": "Multi-brand System",
+        "forWhom": "You need a system from scratch.",
+        "result": "A library, tokens, a pipeline and one or two brands in production."
+      },
+      {
+        "name": "Pipeline Setup",
+        "forWhom": "Design and code have drifted apart.",
+        "result": "Token Studio to Git to build to CI, plus training for your team."
+      }
+    ],
+    "processTitle": "Process",
+    "process": [
+      "Call",
+      "Audit",
+      "Proposal",
+      "Work in sprints",
+      "Handover"
+    ],
+    "note": "Prices are not published. Timelines are given only with an estimate label."
+  },
+  "about": {
+    "title": "About",
+    "lead": "The person behind the system.",
+    "pending": "Content in progress.",
+    "sections": [
+      {
+        "title": "Photo",
+        "detail": "A portrait goes here."
+      },
+      {
+        "title": "Experience and products",
+        "detail": "Years of experience and the products I worked on, as far as I can publish them."
+      },
+      {
+        "title": "Tools",
+        "detail": "Figma, Token Studio, Git and the build tooling I work with."
+      },
+      {
+        "title": "Working principles",
+        "detail": "How I work with teams."
+      },
+      {
+        "title": "Contacts",
+        "detail": "Direct ways to reach me."
+      }
+    ]
+  },
+  "contactPage": {
+    "back": "Back to Home"
   }
 }
