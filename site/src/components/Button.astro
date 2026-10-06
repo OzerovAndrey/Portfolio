@@ -26,6 +26,8 @@ const Tag = href ? "a" : "button";
     text-decoration: none; white-space: nowrap; cursor: pointer;
     transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
   }
+  /* Дуже вузькі екрани (і zoom 200 %): підпис кнопки переноситься, а не виходить за ширину. Однорядкова кнопка лишається тієї самої висоти */
+  @media (max-width: 559px) { .btn { max-width: 100%; height: auto; min-height: var(--btn-size); padding-block: var(--space-gap-sm); white-space: normal; text-align: center; } }
   .btn--sm { --btn-size: var(--button-size-sm); --btn-padH: var(--button-paddingH-sm); --btn-gap: var(--button-gap-sm); }
   .btn--md { --btn-size: var(--button-size-md); --btn-padH: var(--button-paddingH-md); --btn-gap: var(--button-gap-md); }
   .btn--lg { --btn-size: var(--button-size-lg); --btn-padH: var(--button-paddingH-lg); --btn-gap: var(--button-gap-lg); }
