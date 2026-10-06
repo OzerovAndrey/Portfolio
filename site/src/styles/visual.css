@@ -19,6 +19,39 @@
   .glass { background: var(--glass-solid-bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 
+/* ---------- surfaces v3 (портфоліо: матеріали) ----------
+   Ієрархія: canvas (фон сторінки) → .surface (база, без прозорості й blur) → .surface--raised (непрозора піднята) →
+   скло: .surface--glass-whisper (ледь помітне) → .surface--glass (функціональне) → .surface--glass-strong (рідкісне, фокусне).
+   Скло — акцент, не стиль за замовчуванням: де вистачає raised, скло не потрібне. Тільки theme-токени (color.surface/glass/line, backdropFilter, boxShadow).
+   Без backdrop-filter і з prefers-reduced-transparency — суцільна заливка glass.*.solid, рамка лишається. Текст на склі: on whisper — primary / secondary,
+   on default і strong — primary (перевіряє tools/check-tokens.mjs). Старий .glass вище лишається для шапки до її кроку. */
+.surface {
+  --surface-fill: var(--color-surface-base);
+  --surface-br: var(--color-line-subtle);
+  --surface-shadow: none;
+  --surface-glass: var(--surface-fill);
+  --surface-filter: none;
+  background: var(--surface-fill);
+  border: var(--borderWidth-control) solid var(--surface-br);
+  border-radius: var(--borderRadius-surface);
+  box-shadow: var(--surface-shadow);
+  color: var(--color-content-primary);
+}
+.surface--raised { --surface-fill: var(--color-surface-raised); --surface-br: var(--color-line-default); }
+.surface--glass-whisper { --surface-fill: var(--color-glass-whisper-solid); --surface-glass: var(--color-glass-whisper-bg); --surface-br: var(--color-glass-whisper-br); --surface-filter: var(--backdropFilter-glassWhisper); }
+.surface--glass { --surface-fill: var(--color-glass-default-solid); --surface-glass: var(--color-glass-default-bg); --surface-br: var(--color-glass-default-br); --surface-shadow: var(--boxShadow-glassDefault); --surface-filter: var(--backdropFilter-glass); }
+.surface--glass-strong { --surface-fill: var(--color-glass-strong-solid); --surface-glass: var(--color-glass-strong-bg); --surface-br: var(--color-glass-strong-br); --surface-shadow: var(--boxShadow-glassStrong); --surface-filter: var(--backdropFilter-glassStrong); }
+@supports ((backdrop-filter: none) or (-webkit-backdrop-filter: none)) {
+  .surface--glass-whisper, .surface--glass, .surface--glass-strong {
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: var(--surface-filter);
+    backdrop-filter: var(--surface-filter);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .surface--glass-whisper, .surface--glass, .surface--glass-strong { background: var(--surface-fill); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
 /* Якорі (#demo, #how) не ховаються під плаваючою шапкою */
 html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) * 2); }
 

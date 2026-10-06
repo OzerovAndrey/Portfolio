@@ -1,0 +1,58 @@
+---
+// DEV-ONLY: зразок матеріалів (surface / raised / glass whisper · default · strong) над трьома фонами. У прод-збірку НЕ потрапляє:
+// getStaticPaths повертає порожній масив, коли import.meta.env.DEV === false (перевірено: dist без /dev/). Відкривається лише в `npm run dev` → /Portfolio/dev/materials/.
+// Тексти не локалізовані — це робочий інструмент, а не публічний контент.
+import Base from "../../layouts/Base.astro";
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { page: "materials" } }] : [];
+}
+const levels = [
+  { cls: "surface", name: "surface (base)" },
+  { cls: "surface surface--raised", name: "surface--raised" },
+  { cls: "surface surface--glass-whisper", name: "glass-whisper" },
+  { cls: "surface surface--glass", name: "glass (default)" },
+  { cls: "surface surface--glass-strong", name: "glass-strong" },
+];
+const stages = [
+  { id: "plain", name: "Canvas (плоский фон)" },
+  { id: "peak", name: "Пік ambient (верхня межа градієнта)" },
+  { id: "busy", name: "Контрастний візерунок (де видно blur)" },
+];
+---
+<Base lang="en" page="home" title="Materials (dev)" description="Dev-only material specimen">
+  <section class="section">
+    <div class="container stack">
+      <h1 class="section__title ts-display-d3">Materials · dev specimen</h1>
+      {stages.map((st) => (
+        <div class={`stage stage--${st.id}`}>
+          <p class="ts-label-md stage__name">{st.name}</p>
+          <div class="grid">
+            {levels.map((l) => (
+              <div class={`${l.cls} card`}>
+                <p class="ts-label-md">{l.name}</p>
+                <p class="ts-body-md-regular" style="color: var(--color-content-primary)">Primary text</p>
+                <p class="ts-body-md-regular" style="color: var(--color-content-secondary)">Secondary text</p>
+                <p class="ts-body-sm-regular" style="color: var(--color-content-tertiary)">Tertiary text</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stage { --peak: var(--color-neutral-light-alpha16); position: relative; padding: var(--space-padding-xl); border-radius: var(--borderRadius-panel); background: var(--color-canvas-primary); }
+  :global(:root[data-theme="light"]) .stage { --peak: var(--color-neutral-dark-alpha08); }
+  .stage__name { margin-bottom: var(--space-gap-xl); color: var(--color-content-secondary); }
+  .stage--peak { background: radial-gradient(ellipse at 50% 40%, var(--peak), transparent 70%), var(--color-canvas-primary); }
+  .stage--busy {
+    background:
+      repeating-linear-gradient(90deg, var(--color-content-primary) 0 var(--space-gap-md), transparent 0 calc(var(--space-gap-md) * 3)),
+      var(--color-canvas-primary);
+  }
+  .grid { display: grid; gap: var(--l-gap); grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-control-xl) * 4), 1fr)); }
+  .card { display: flex; flex-direction: column; gap: var(--space-gap-sm); padding: var(--space-padding-lg); }
+</style>

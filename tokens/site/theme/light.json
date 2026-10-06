@@ -23,7 +23,7 @@
       },
       "whisper": {
         "bg": {
-          "value": "{color.neutral.dark.alpha04}",
+          "value": "{color.neutral.light.alpha40}",
           "type": "color"
         },
         "br": {
@@ -42,7 +42,7 @@
           "type": "color"
         },
         "br": {
-          "value": "{color.neutral.dark.alpha10}",
+          "value": "{color.neutral.dark.alpha18}",
           "type": "color"
         },
         "highlight": {
@@ -51,6 +51,30 @@
         },
         "shadow": {
           "value": "{color.neutral.dark.alpha10}",
+          "type": "color"
+        },
+        "solid": {
+          "value": "{color.surface.raised}",
+          "type": "color",
+          "description": "fallback без backdrop-filter / reduced-transparency"
+        }
+      },
+      "default": {
+        "bg": {
+          "value": "{color.neutral.light.alpha72}",
+          "type": "color",
+          "description": "нормальне функціональне скло. Не плутати з плоскими color.glass.bg/br/…: вони лишаються для шапки до її кроку"
+        },
+        "br": {
+          "value": "{color.neutral.dark.alpha10}",
+          "type": "color"
+        },
+        "highlight": {
+          "value": "{color.neutral.light.alpha88}",
+          "type": "color"
+        },
+        "shadow": {
+          "value": "{color.neutral.dark.alpha08}",
           "type": "color"
         },
         "solid": {
@@ -198,6 +222,27 @@
           "blur": "64",
           "spread": "0",
           "color": "{color.glass.strong.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
+    },
+    "glassDefault": {
+      "value": [
+        {
+          "x": "0",
+          "y": "1",
+          "blur": "0",
+          "spread": "0",
+          "color": "{color.glass.default.highlight}",
+          "type": "innerShadow"
+        },
+        {
+          "x": "0",
+          "y": "8",
+          "blur": "24",
+          "spread": "0",
+          "color": "{color.glass.default.shadow}",
           "type": "dropShadow"
         }
       ],

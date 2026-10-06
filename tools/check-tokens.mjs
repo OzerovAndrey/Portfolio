@@ -129,14 +129,14 @@ const PAIRS = [
   ["flow.node.title.color", "flow.node.bg", 4.5], ["flow.node.detail.color", "flow.node.bg", 4.5], ["flow.arrow.color", "section.bg.default", 4.5], ["flow.arrow.color", "section.bg.alt", 4.5],
   ["banner.color", "banner.bg", 4.5],
   // portfolio visual foundation (tokens/site): текст на полотнах і поверхнях, інверсія, focus-ring, solid-fallback скла.
-  // Напівпрозоре скло whisper / strong тут не міряється: найгірший фон «чорний / білий» для нього нереалістичний (текст на скляному whisper
-  // над білим фоном провалиться за означенням) — потрібна модель фону, залежна від теми (canvas + максимум ambient). Окремий крок.
+  // Напівпрозоре скло (whisper / default / strong) міряється нижче, окремим блоком — на композиті «скло поверх фону».
   ...["color.canvas.primary", "color.canvas.secondary", "color.surface.base", "color.surface.raised"].flatMap((bg) =>
     ["color.content.primary", "color.content.secondary", "color.content.tertiary"].map((fg) => [fg, bg, 4.5])),
   ["color.content.inverse", "color.canvas.inverse", 4.5],
   ["color.line.focus", "color.canvas.primary", 3], ["color.line.focus", "color.canvas.secondary", 3], ["color.line.focus", "color.surface.base", 3], ["color.line.focus", "color.surface.raised", 3],
   ["color.content.primary", "color.glass.whisper.solid", 4.5], ["color.content.tertiary", "color.glass.whisper.solid", 4.5],
   ["color.content.primary", "color.glass.strong.solid", 4.5], ["color.content.tertiary", "color.glass.strong.solid", 4.5],
+  ["color.content.primary", "color.glass.default.solid", 4.5], ["color.content.tertiary", "color.glass.default.solid", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];
@@ -144,6 +144,25 @@ for (const mode of ["light", "dark"]) for (const [fg, bg, min] of PAIRS) {
   const f = pick(fg, mode), k = pick(bg, mode), r = contrast(f, k);
   if (r < min) errors.push(`[${mode}] contrast ${fg} on ${bg} = ${r.toFixed(2)} < ${min}`);
   report.push({ mode, fg, bg, f, k, ratio: +r.toFixed(2), min });
+}
+
+// Прозоре скло (portfolio): текст на композиті «скло поверх фону». Модель, не рендер: під склом — полотна сайту (canvas.primary / secondary,
+// surface.raised) і «пік» ambient — верхня межа, яку матимуть майбутні градієнти (біла α16 у dark, темна α8 у light, поверх canvas.primary).
+// Скло над демо чи зображенням цією моделлю НЕ покрите. Правило тексту на склі (перевірене моделлю: у dark на піку ambient secondary на default — 4.31, на strong — 3.25,
+// tertiary на whisper — 3.55): на whisper — primary і secondary, на default і strong — тільки primary, tertiary — лише на суцільних поверхнях.
+const GLASS = [["whisper", ["primary", "secondary"]], ["default", ["primary"]], ["strong", ["primary"]]];
+for (const mode of ["light", "dark"]) {
+  const peak = resolveFinal(mode === "dark" ? "color.neutral.light.alpha16" : "color.neutral.dark.alpha08", mode);
+  const canvases = ["color.canvas.primary", "color.canvas.secondary", "color.surface.raised"].map((n) => pick(n, mode));
+  const backdrops = [...canvases, over(peak, canvases[0])];
+  for (const [level, roles] of GLASS) {
+    const glass = pick(`color.glass.${level}.bg`, mode);
+    for (const role of roles) {
+      const f = pick(`color.content.${role}`, mode), r = Math.min(...backdrops.map((b) => ratio(f, over(glass, b))));
+      if (r < 4.5) errors.push(`[${mode}] glass.${level} · content.${role} на найгіршому фоні = ${r.toFixed(2)} < 4.5`);
+      report.push({ mode, fg: `color.content.${role}`, bg: `glass.${level} над полотнами`, f, k: glass, ratio: +r.toFixed(2), min: 4.5 });
+    }
+  }
 }
 
 if (process.argv.includes("--report")) console.log(JSON.stringify({ resolved, report }, null, 2));
