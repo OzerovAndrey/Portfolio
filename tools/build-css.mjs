@@ -19,6 +19,8 @@ import { fileURLToPath } from "node:url";
 //   --scope <selector>           emit brand / theme / components on <selector>[data-brand] instead of :root, so a nested
 //                                data-brand re-skins its subtree; core, swatches and text styles are skipped (the page has them)
 //   --only-components <a,b,…>    keep only these component groups
+//   --scope-theme-attr           with --scope: key the theme on the scope element itself (<selector>[data-theme="light|dark"][data-brand]) instead of <html data-theme>,
+//                                so the scoped subtree has its own, independent theme
 const HERE = dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
 const argAll = (k) => argv.flatMap((a, i) => (a === `--${k}` ? [argv[i + 1]] : []));
@@ -65,7 +67,7 @@ const brandExtra = Object.fromEntries(BRANDS.map((b) => [b, EXTRA[b] ? flatten(E
 const SCOPE = arg("scope");
 const sel = {
   brand: (b) => (SCOPE ? `${SCOPE}[data-brand="${b}"]` : `:root[data-brand="${b}"]`),
-  theme: (t) => (SCOPE ? `:root[data-theme="${t}"] ${SCOPE}[data-brand]` : `:root[data-theme="${t}"]`),
+  theme: (t) => (SCOPE ? (argv.includes("--scope-theme-attr") ? `${SCOPE}[data-theme="${t}"][data-brand]` : `:root[data-theme="${t}"] ${SCOPE}[data-brand]`) : `:root[data-theme="${t}"]`),
   components: SCOPE ? `${SCOPE}[data-brand]` : ":root",
 };
 

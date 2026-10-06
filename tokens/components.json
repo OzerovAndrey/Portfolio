@@ -1737,5 +1737,31 @@
         }
       }
     }
+  },
+  "exhibit": {
+    "label": {
+      "color": {
+        "value": "{color.content.tertiary}",
+        "type": "color"
+      }
+    },
+    "title": {
+      "color": {
+        "value": "{color.content.primary}",
+        "type": "color"
+      }
+    },
+    "text": {
+      "color": {
+        "value": "{color.content.secondary}",
+        "type": "color"
+      }
+    },
+    "rule": {
+      "br": {
+        "value": "{color.line.default}",
+        "type": "color"
+      }
+    }
   }
 }

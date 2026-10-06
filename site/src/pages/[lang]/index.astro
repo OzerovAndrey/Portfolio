@@ -5,16 +5,12 @@ import DemoFrame from "../../components/DemoFrame.astro";
 import Architecture from "../../components/Architecture.astro";
 import CaseCards from "../../components/CaseCards.astro";
 import Shot from "../../components/Shot.astro";
-import BrandMorph from "../../components/BrandMorph.tsx";
-import shots from "../../content/shots.json";
+import SignatureWork from "../../components/SignatureWork.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
-// Іменовані слоти Astro не можна генерувати в map() — 8 кадрів перелічені явно
-const morphSizes = "(min-width: 1280px) 1232px, 100vw";
-const morphRatio = shots.find((s) => s.id === "lobby-aurum-dark")!.ratio;
 // Крок «How it works» → скрін і якір на /approach
 const steps = [
   { shot: "figma-variables-modes", anchor: "two-axes" },
@@ -29,7 +25,7 @@ const steps = [
       <h1 class="hero__title ts-display-d1">{d.hero.title}</h1>
       <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
       <div class="hero__actions">
-        <Button size="lg" href="#demo" data-event="cta_demo">{d.hero.ctaDemo}</Button>
+        <Button size="lg" href="#signature" data-event="cta_demo">{d.hero.ctaDemo}</Button>
         <Button size="lg" variant="secondary" href="#how">{d.hero.ctaHow}</Button>
       </div>
     </div>
@@ -50,45 +46,16 @@ const steps = [
     </div>
   </section>
 
-  <section class="section section--alt" id="demo" aria-labelledby="demo-title" data-reveal>
+  <SignatureWork lang={lang} />
+
+  <!-- Реальне демо — вторинний доказ під експозицією. Контракт ?brand= / ?theme= зовні не заявляємо: DemoFrame лишається як є -->
+  <section class="section section--alt proof" id="demo" aria-labelledby="demo-title" data-reveal>
     <div class="container">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="demo-title">{d.demo.title}</h2>
+        <h2 class="section__title ts-title-t1" id="demo-title">{d.signature.proof.title}</h2>
+        <p class="section__lead ts-body-lg-regular measure--lead">{d.signature.proof.lead}</p>
       </div>
       <DemoFrame lang={lang} />
-    </div>
-  </section>
-
-  <section class="section" id="brands" aria-labelledby="brands-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="brands-title">{d.brandMorph.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure">{d.brandMorph.lead}</p>
-      </div>
-      <BrandMorph client:visible ratio={morphRatio} labels={{ brand: d.brandMorph.brandLabel, mode: d.brandMorph.modeLabel, modes: d.brandMorph.modes, pause: d.brandMorph.pause, play: d.brandMorph.play, group: d.brandMorph.group }}>
-        <Shot slot="aurum-light" id="lobby-aurum-light" lang={lang} sizes={morphSizes} />
-        <Shot slot="aurum-dark" id="lobby-aurum-dark" lang={lang} sizes={morphSizes} />
-        <Shot slot="nova-light" id="lobby-nova-light" lang={lang} sizes={morphSizes} />
-        <Shot slot="nova-dark" id="lobby-nova-dark" lang={lang} sizes={morphSizes} />
-        <Shot slot="fiesta-light" id="lobby-fiesta-light" lang={lang} sizes={morphSizes} />
-        <Shot slot="fiesta-dark" id="lobby-fiesta-dark" lang={lang} sizes={morphSizes} />
-        <Shot slot="ultra-light" id="lobby-ultra-light" lang={lang} sizes={morphSizes} />
-        <Shot slot="ultra-dark" id="lobby-ultra-dark" lang={lang} sizes={morphSizes} />
-      </BrandMorph>
-    </div>
-  </section>
-
-  <section class="section section--alt section--tight" aria-labelledby="metrics-title" data-reveal>
-    <div class="container">
-      <h2 class="sr-only" id="metrics-title">{d.metrics.title}</h2>
-      <ul class="metrics">
-        {d.metrics.items.map((m) => (
-          <li class="metric">
-            <span class="metric__amount ts-display-d2" data-todo={m.todo ? `metric-${m.id}` : undefined}>{m.amount}</span>
-            <span class="metric__label ts-body-md-regular">{m.label}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -108,31 +75,6 @@ const steps = [
           </li>
         ))}
       </ol>
-    </div>
-  </section>
-
-  <section class="section section--alt" id="new-brand" aria-labelledby="new-brand-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="new-brand-title">{d.newBrand.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure">{d.newBrand.lead}</p>
-      </div>
-      <div class="newbrand">
-        <Shot id="git-diff-ultra" lang={lang} sizes="(min-width: 1024px) 66vw, 100vw" />
-        <div class="newbrand__side">
-          <ul class="metrics metrics--stack">
-            <li class="metric">
-              <span class="metric__amount ts-display-d2" data-todo="new-brand-files-changed">—</span>
-              <span class="metric__label ts-body-md-regular">{d.newBrand.filesLabel}</span>
-            </li>
-            <li class="metric">
-              <span class="metric__amount ts-display-d2" data-todo="new-brand-components-touched">—</span>
-              <span class="metric__label ts-body-md-regular">{d.newBrand.componentsLabel}</span>
-            </li>
-          </ul>
-          <p class="newbrand__note ts-body-sm-regular">{d.newBrand.pending}</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -229,20 +171,6 @@ const steps = [
   .cta__title { color: var(--ctaBand-title-color); font-size: var(--ctaBand-title-fontSize); line-height: var(--ctaBand-title-lineHeight); letter-spacing: var(--ctaBand-title-letterSpacing); max-width: 18ch; text-wrap: balance; overflow-wrap: anywhere; }
   .cta__lead { color: var(--ctaBand-lead-color); overflow-wrap: anywhere; }
 
-  /* Метрики: три рівні колонки одного стилю — число й підпис під тонкою лінією, без карток */
-  .metrics { display: grid; grid-template-columns: 1fr; gap: var(--l-gap); }
-  @media (min-width: 560px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1024px) { .metrics { grid-template-columns: repeat(4, 1fr); } }
-  .metric { display: flex; flex-direction: column; gap: var(--metric-gap); padding-block: var(--metric-padding); border-top: var(--metric-borderWidth) solid var(--metric-br); }
-  .metric__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
-  .metric__label { color: var(--metric-label-color); }
-  /* Вузькі екрани: одна колонка, число зліва від підпису — підпис не ламається у стовпчик */
-  @media (max-width: 559px) {
-    .metrics { grid-template-columns: 1fr; gap: var(--space-gap-md); }
-    .metric { flex-direction: row; align-items: center; gap: var(--l-gap); }
-    .metric__amount { min-width: 2ch; }
-  }
-
   .audience { display: grid; gap: var(--l-gap); }
   @media (min-width: 768px) { .audience { grid-template-columns: repeat(3, 1fr); } }
   .audience__item { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
@@ -250,9 +178,4 @@ const steps = [
   .audience__detail { color: var(--audience-detail-color); }
 
   .step__more { align-self: flex-start; }
-  .metrics.metrics--stack { grid-template-columns: 1fr; }
-  .newbrand { display: grid; gap: var(--l-gap); align-items: start; }
-  @media (min-width: 1024px) { .newbrand { grid-template-columns: 2fr 1fr; } }
-  .newbrand__side { display: flex; flex-direction: column; gap: var(--l-gap); }
-  .newbrand__note { color: var(--metric-label-color); }
 </style>

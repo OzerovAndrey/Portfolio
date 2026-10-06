@@ -55,34 +55,89 @@
       }
     ]
   },
-  "metrics": {
-    "title": "Key numbers",
-    "items": [
-      {
-        "id": "brands",
-        "amount": "4",
-        "label": "brands in the live demo, all on one codebase",
-        "todo": false
+  "signature": {
+    "label": "Signature work",
+    "title": "One system. Many brands.",
+    "lead": "One interface, mounted once. Pick a brand and only the tokens underneath change: colors, radii and type. The components and the markup stay put.",
+    "controls": {
+      "group": "Exhibit controls",
+      "brand": "Brand",
+      "theme": "Theme",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark"
       },
-      {
-        "id": "themes",
-        "amount": "2",
-        "label": "themes per brand: light and dark",
-        "todo": false
-      },
-      {
-        "id": "brand-keys",
-        "amount": "55",
-        "label": "values in a brand file. That file is the whole brand",
-        "todo": false
-      },
-      {
-        "id": "new-brand-time",
-        "amount": "—",
-        "label": "to add a new brand. Not measured yet",
-        "todo": true
-      }
-    ]
+      "reset": "Back to neutral",
+      "neutral": "Neutral"
+    },
+    "facts": {
+      "title": "What this exhibit is built from",
+      "brandValues": "values in a brand file",
+      "componentTokens": "component tokens",
+      "aliases": "component aliases changed",
+      "matrix": "brands × themes"
+    },
+    "lens": {
+      "title": "Token lens",
+      "tokenLabel": "Token",
+      "path": "Resolution path",
+      "result": "Resolved value",
+      "props": "What the brand file sets",
+      "colors": "Colors",
+      "radius": "Radius",
+      "fonts": "Fonts",
+      "control": "control",
+      "surface": "surface",
+      "display": "display",
+      "base": "base",
+      "fontNote": "Brand fonts are not loaded on this page: the exhibit shows the real font-family token and uses a system fallback."
+    },
+    "announce": {
+      "brand": "{brand} brand, {theme} theme",
+      "neutral": "Neutral state, {theme} theme"
+    },
+    "stage": {
+      "logo": "Atlas",
+      "nav": [
+        "Overview",
+        "Library",
+        "Offers"
+      ],
+      "balance": "1,240",
+      "chips": [
+        "All",
+        "Popular",
+        "New",
+        "Saved"
+      ],
+      "promoTitle": "Featured release",
+      "promoText": "One short line about the featured item.",
+      "promoAction": "Explore",
+      "tiles": [
+        {
+          "title": "Meridian",
+          "meta": "Collection"
+        },
+        {
+          "title": "Orbit",
+          "meta": "Collection"
+        },
+        {
+          "title": "Field notes",
+          "meta": "Collection"
+        }
+      ],
+      "cardTitle": "Library search",
+      "inputLabel": "Search",
+      "inputValue": "Search the library",
+      "save": "Save",
+      "cancel": "Cancel",
+      "badge": "New"
+    },
+    "proof": {
+      "title": "The real product",
+      "lead": "The full demo runs on the same token files. It opens on its own page, where you pick the brand and theme yourself."
+    }
   },
   "demo": {
     "title": "Switch the brand. The code stays put.",
@@ -228,13 +283,6 @@
     "pause": "Pause autoplay",
     "play": "Resume autoplay",
     "group": "Brand and mode of the lobby preview"
-  },
-  "newBrand": {
-    "title": "A new brand is one file",
-    "lead": "A brand is a file with the same keys as every other brand. The diff below is what adding one looks like: the brand file, and nothing in the components.",
-    "filesLabel": "files changed",
-    "componentsLabel": "components touched",
-    "pending": "The numbers appear together with the real diff screenshot."
   },
   "cases": {
     "title": "Work",
