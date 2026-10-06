@@ -128,6 +128,15 @@ const PAIRS = [
   ["shot.label.color", "shot.label.bg", 4.5], ["shot.what.color", "shot.bg", 4.5], ["shot.label.color", "shot.bg", 4.5],
   ["flow.node.title.color", "flow.node.bg", 4.5], ["flow.node.detail.color", "flow.node.bg", 4.5], ["flow.arrow.color", "section.bg.default", 4.5], ["flow.arrow.color", "section.bg.alt", 4.5],
   ["banner.color", "banner.bg", 4.5],
+  // portfolio visual foundation (tokens/site): текст на полотнах і поверхнях, інверсія, focus-ring, solid-fallback скла.
+  // Напівпрозоре скло whisper / strong тут не міряється: найгірший фон «чорний / білий» для нього нереалістичний (текст на скляному whisper
+  // над білим фоном провалиться за означенням) — потрібна модель фону, залежна від теми (canvas + максимум ambient). Окремий крок.
+  ...["color.canvas.primary", "color.canvas.secondary", "color.surface.base", "color.surface.raised"].flatMap((bg) =>
+    ["color.content.primary", "color.content.secondary", "color.content.tertiary"].map((fg) => [fg, bg, 4.5])),
+  ["color.content.inverse", "color.canvas.inverse", 4.5],
+  ["color.line.focus", "color.canvas.primary", 3], ["color.line.focus", "color.canvas.secondary", 3], ["color.line.focus", "color.surface.base", 3], ["color.line.focus", "color.surface.raised", 3],
+  ["color.content.primary", "color.glass.whisper.solid", 4.5], ["color.content.tertiary", "color.glass.whisper.solid", 4.5],
+  ["color.content.primary", "color.glass.strong.solid", 4.5], ["color.content.tertiary", "color.glass.strong.solid", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
 const report = [];

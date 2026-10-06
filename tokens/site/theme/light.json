@@ -20,6 +20,44 @@
       "solid": {
         "value": "{color.bg.secondary}",
         "type": "color"
+      },
+      "whisper": {
+        "bg": {
+          "value": "{color.neutral.dark.alpha04}",
+          "type": "color"
+        },
+        "br": {
+          "value": "{color.neutral.dark.alpha06}",
+          "type": "color"
+        },
+        "solid": {
+          "value": "{color.canvas.secondary}",
+          "type": "color",
+          "description": "fallback без backdrop-filter / reduced-transparency"
+        }
+      },
+      "strong": {
+        "bg": {
+          "value": "{color.neutral.light.alpha88}",
+          "type": "color"
+        },
+        "br": {
+          "value": "{color.neutral.dark.alpha10}",
+          "type": "color"
+        },
+        "highlight": {
+          "value": "{color.white}",
+          "type": "color"
+        },
+        "shadow": {
+          "value": "{color.neutral.dark.alpha10}",
+          "type": "color"
+        },
+        "solid": {
+          "value": "{color.surface.raised}",
+          "type": "color",
+          "description": "fallback без backdrop-filter / reduced-transparency"
+        }
       }
     },
     "action": {
@@ -52,6 +90,74 @@
           "type": "color"
         }
       }
+    },
+    "canvas": {
+      "primary": {
+        "value": "{color.mono.50}",
+        "type": "color",
+        "description": "полотно сторінки"
+      },
+      "secondary": {
+        "value": "{color.white}",
+        "type": "color",
+        "description": "друге полотно: чергування секцій"
+      },
+      "inverse": {
+        "value": "{color.mono.950}",
+        "type": "color",
+        "description": "інверсне полотно (протилежне темі)"
+      }
+    },
+    "surface": {
+      "base": {
+        "value": "{color.mono.100}",
+        "type": "color",
+        "description": "базова поверхня панелей і карток (рідко: контент зазвичай без карток)"
+      },
+      "raised": {
+        "value": "{color.white}",
+        "type": "color",
+        "description": "трохи піднята поверхня"
+      }
+    },
+    "content": {
+      "primary": {
+        "value": "{color.mono.950}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{color.mono.600}",
+        "type": "color"
+      },
+      "tertiary": {
+        "value": "{color.mono.500}",
+        "type": "color",
+        "description": "допоміжний текст; межа AA — не для дрібного тексту на градієнті"
+      },
+      "inverse": {
+        "value": "{color.mono.50}",
+        "type": "color",
+        "description": "текст на canvas.inverse"
+      }
+    },
+    "line": {
+      "subtle": {
+        "value": "{color.neutral.dark.alpha06}",
+        "type": "color"
+      },
+      "default": {
+        "value": "{color.neutral.dark.alpha10}",
+        "type": "color"
+      },
+      "strong": {
+        "value": "{color.neutral.dark.alpha18}",
+        "type": "color"
+      },
+      "focus": {
+        "value": "{color.mono.950}",
+        "type": "color",
+        "description": "focus-ring: контрастний у обох темах (mirror outline.focus не проходить AA — не використовується)"
+      }
     }
   },
   "boxShadow": {
@@ -75,11 +181,40 @@
         }
       ],
       "type": "boxShadow"
+    },
+    "glassStrong": {
+      "value": [
+        {
+          "x": "0",
+          "y": "1",
+          "blur": "0",
+          "spread": "0",
+          "color": "{color.glass.strong.highlight}",
+          "type": "innerShadow"
+        },
+        {
+          "x": "0",
+          "y": "24",
+          "blur": "64",
+          "spread": "0",
+          "color": "{color.glass.strong.shadow}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow"
     }
   },
   "backdropFilter": {
     "glass": {
       "value": "{filter.glass}",
+      "type": "backdropFilter"
+    },
+    "glassWhisper": {
+      "value": "{filter.glassWhisper}",
+      "type": "backdropFilter"
+    },
+    "glassStrong": {
+      "value": "{filter.glassStrong}",
       "type": "backdropFilter"
     }
   },
@@ -95,6 +230,14 @@
     "slow": {
       "value": "{time.400}",
       "type": "duration"
+    },
+    "reveal": {
+      "value": "{time.700}",
+      "type": "duration"
+    },
+    "ambient": {
+      "value": "{time.60000}",
+      "type": "duration"
     }
   },
   "easing": {
@@ -105,12 +248,25 @@
     "out": {
       "value": "{curve.easeOut}",
       "type": "cubicBezier"
+    },
+    "reveal": {
+      "value": "{curve.reveal}",
+      "type": "cubicBezier"
+    },
+    "ambient": {
+      "value": "{curve.ambient}",
+      "type": "cubicBezier"
     }
   },
   "borderRadius": {
     "pill": {
       "value": "{borderRadius.999}",
       "type": "borderRadius"
+    },
+    "panel": {
+      "value": "{borderRadius.24}",
+      "type": "borderRadius",
+      "description": "панелі й великі поверхні; шкала: control 8 · surface 12 · panel 24 · pill"
     }
   },
   "display": {
@@ -149,6 +305,34 @@
       },
       "letterSpacing": {
         "value": "{letterSpacing.title}",
+        "type": "letterSpacing"
+      }
+    },
+    "xl": {
+      "fontSize": {
+        "value": "{fontSize.fluid.displayXl}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.displayXl}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.displayXl}",
+        "type": "letterSpacing"
+      }
+    },
+    "lg": {
+      "fontSize": {
+        "value": "{fontSize.fluid.displayLg}",
+        "type": "fontSizes"
+      },
+      "lineHeight": {
+        "value": "{lineHeight.ratio.display}",
+        "type": "lineHeights"
+      },
+      "letterSpacing": {
+        "value": "{letterSpacing.display}",
         "type": "letterSpacing"
       }
     }
