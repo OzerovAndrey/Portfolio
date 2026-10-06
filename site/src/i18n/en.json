@@ -37,6 +37,24 @@
     "ctaDemo": "Switch brands live",
     "ctaHow": "See how it's built"
   },
+  "positioning": {
+    "label": "Positioning",
+    "title": "I design the product, the system behind it, and how both reach code.",
+    "items": [
+      {
+        "title": "Product thinking",
+        "detail": "I start from the task, the user flow and the constraints of the product, then decide what the system has to carry."
+      },
+      {
+        "title": "Scalable systems",
+        "detail": "Tokens, themes and components built so a new brand or market is a new file, not a new build."
+      },
+      {
+        "title": "Implementation awareness",
+        "detail": "I work in Figma, Token Studio and Git, and check design against the build: keys, layer references and contrast fail the build, not the review."
+      }
+    ]
+  },
   "metrics": {
     "title": "Key numbers",
     "items": [

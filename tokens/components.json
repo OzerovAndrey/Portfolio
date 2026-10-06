@@ -1703,5 +1703,39 @@
         "type": "color"
       }
     }
+  },
+  "positioning": {
+    "label": {
+      "color": {
+        "value": "{color.content.tertiary}",
+        "type": "color"
+      }
+    },
+    "title": {
+      "color": {
+        "value": "{color.content.primary}",
+        "type": "color"
+      }
+    },
+    "rule": {
+      "br": {
+        "value": "{color.line.default}",
+        "type": "color"
+      }
+    },
+    "item": {
+      "title": {
+        "color": {
+          "value": "{color.content.primary}",
+          "type": "color"
+        }
+      },
+      "detail": {
+        "color": {
+          "value": "{color.content.secondary}",
+          "type": "color"
+        }
+      }
+    }
   }
 }

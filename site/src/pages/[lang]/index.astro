@@ -35,6 +35,21 @@ const steps = [
     </div>
   </section>
 
+  <section class="section section--editorial positioning" id="positioning" aria-labelledby="positioning-title">
+    <div class="container">
+      <p class="positioning__label ts-label-md"><span aria-hidden="true">02</span><span>{d.positioning.label}</span></p>
+      <h2 class="positioning__title ts-display-d2 display-lg measure--heading" id="positioning-title">{d.positioning.title}</h2>
+      <ul class="positioning__list">
+        {d.positioning.items.map((i) => (
+          <li class="positioning__item">
+            <h3 class="positioning__item-title ts-title-t5">{i.title}</h3>
+            <p class="positioning__item-detail ts-body-md-regular measure--lead">{i.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <section class="section section--alt" id="demo" aria-labelledby="demo-title" data-reveal>
     <div class="container">
       <div class="section__head">
@@ -184,6 +199,22 @@ const steps = [
   /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
      зсуває все нижче (CLS 0.10 на 412 px) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
+
+  /* Positioning (v3, секція 02): редакційна сцена на canvas, без карток і скла. Індекс-рядок із hairline → велике твердження (display-lg, нижче за hero) →
+     три тези рядками з hairline. Відступи — layout.section.padding (.section--editorial); висота від вмісту, без vh, pin і руху */
+  .positioning__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); color: var(--positioning-label-color); }
+  .positioning__title { margin-top: var(--section-gap); color: var(--positioning-title-color); }
+  .positioning__list { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: calc(var(--layout-section-padding) * 0.6); }
+  .positioning__item { display: grid; align-content: start; grid-template-columns: minmax(0, 1fr); gap: var(--space-gap-md); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
+  .positioning__item-title { color: var(--positioning-item-title-color); }
+  .positioning__item-detail { color: var(--positioning-item-detail-color); }
+  @media (min-width: 768px) { .positioning__item { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--l-gap); } }
+  /* Широкі екрани: три тези колонками праворуч (асиметрія — ліва чверть вільна під твердження) */
+  @media (min-width: 1200px) {
+    .positioning__list { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); }
+    .positioning__item { grid-template-columns: minmax(0, 1fr); grid-column: span 3; }
+    .positioning__item:first-child { grid-column: 4 / span 3; }
+  }
 
   .steps { display: grid; gap: var(--l-gap); }
   @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }

@@ -139,6 +139,7 @@ const PAIRS = [
   // шапка: текст поверх α88-полотна на найгіршому фоні (чорний / білий — демо, скріни під шапкою) і на solid-fallback
   ...["siteHeader.bg", "siteHeader.bgSolid"].flatMap((bg) => ["siteNav.item.color.default", "siteNav.item.color.active", "siteHeader.logo.color", "langSwitch.item.color.default"].map((fg) => [fg, bg, 4.5])),
   ["siteFooter.color", "section.bg.default", 4.5], ["siteFooter.color", "section.bg.alt", 4.5], ["siteFooter.link.color.default", "section.bg.default", 4.5], ["siteFooter.name.color", "section.bg.default", 4.5],
+  ["positioning.label.color", "section.bg.default", 4.5], ["positioning.title.color", "section.bg.default", 4.5], ["positioning.item.title.color", "section.bg.default", 4.5], ["positioning.item.detail.color", "section.bg.default", 4.5],
   ["action.focus.color", "section.bg.default", 3], ["action.focus.color", "section.bg.alt", 3],
   ["action.secondary.color.default", "section.bg.default", 4.5], ["action.secondary.color.default", "section.bg.alt", 4.5],
   ["color.content.primary", "color.glass.default.solid", 4.5], ["color.content.tertiary", "color.glass.default.solid", 4.5],
