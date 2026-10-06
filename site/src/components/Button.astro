@@ -41,17 +41,19 @@ const Tag = href ? "a" : "button";
   .btn--primary { --btn-bg: var(--action-bg-default); --btn-color: var(--action-color-default); }
   .btn--secondary { --btn-bg: var(--action-secondary-bg-default); --btn-color: var(--action-secondary-color-default); --btn-br: var(--action-secondary-br-default); }
   .btn--text { --btn-bg: var(--action-secondary-bg-default); --btn-color: var(--action-secondary-color-default); }
+  /* Фокус: зовнішнє кільце 2 px із проміжком 3 px (глобальний :focus-visible дає ширину й стиль), тонший колір — кільце читається окремо від рамки кнопки */
+  .btn:focus-visible { outline-color: var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 3); }
 
   /* Hover — тільки там, де він є (миша): на дотику не «залипає». Відгук — тон / рамка, без руху */
   @media (hover: hover) {
     .btn--primary:hover { --btn-bg: var(--action-bg-hover); --btn-color: var(--action-color-hover); }
     .btn--secondary:hover { --btn-bg: var(--action-secondary-bg-hover); --btn-br: var(--action-secondary-br-hover); }
-    .btn--text:hover { --btn-bg: var(--action-secondary-bg-hover); }
+    .btn--text:hover { --btn-bg: var(--action-text-bg-hover); }
   }
   /* Натискання: тон + зсув на 1 px вниз (layout не змінюється — transform) */
   .btn--primary:active { --btn-bg: var(--action-bg-active); --btn-color: var(--action-color-active); }
   .btn--secondary:active { --btn-bg: var(--action-secondary-bg-active); --btn-br: var(--action-secondary-br-active); }
-  .btn--text:active { --btn-bg: var(--action-secondary-bg-active); }
+  .btn--text:active { --btn-bg: var(--action-text-bg-active); }
   .btn:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(var(--action-press-distance)); }
 
   .btn--primary:disabled, .btn--primary[aria-disabled="true"] { --btn-bg: var(--action-bg-disabled); --btn-color: var(--action-color-disabled); }

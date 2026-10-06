@@ -2,6 +2,32 @@
   "color": {
     "neutral": {
       "dark": {
+        "alpha02": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.02",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha03": {
+          "value": "{color.ink}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.03",
+                "space": "hsl"
+              }
+            }
+          }
+        },
         "alpha04": {
           "value": "{color.ink}",
           "type": "color",
@@ -108,6 +134,19 @@
         }
       },
       "light": {
+        "alpha02": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.02",
+                "space": "hsl"
+              }
+            }
+          }
+        },
         "alpha04": {
           "value": "{color.white}",
           "type": "color",

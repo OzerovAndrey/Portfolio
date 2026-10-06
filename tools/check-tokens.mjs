@@ -136,6 +136,7 @@ const PAIRS = [
   ["color.line.focus", "color.canvas.primary", 3], ["color.line.focus", "color.canvas.secondary", 3], ["color.line.focus", "color.surface.base", 3], ["color.line.focus", "color.surface.raised", 3],
   ["color.content.primary", "color.glass.whisper.solid", 4.5], ["color.content.tertiary", "color.glass.whisper.solid", 4.5],
   ["color.content.primary", "color.glass.strong.solid", 4.5], ["color.content.tertiary", "color.glass.strong.solid", 4.5],
+  ["action.focus.color", "section.bg.default", 3], ["action.focus.color", "section.bg.alt", 3],
   ["action.secondary.color.default", "section.bg.default", 4.5], ["action.secondary.color.default", "section.bg.alt", 4.5],
   ["color.content.primary", "color.glass.default.solid", 4.5], ["color.content.tertiary", "color.glass.default.solid", 4.5],
 ];

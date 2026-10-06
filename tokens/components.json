@@ -1479,6 +1479,24 @@
         "type": "spacing",
         "description": "зсув кнопки при натисканні (translateY)"
       }
+    },
+    "text": {
+      "bg": {
+        "hover": {
+          "value": "{color.action.text.bg.hover}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.action.text.bg.active}",
+          "type": "color"
+        }
+      }
+    },
+    "focus": {
+      "color": {
+        "value": "{color.action.focus}",
+        "type": "color"
+      }
     }
   },
   "container": {

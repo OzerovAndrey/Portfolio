@@ -122,8 +122,9 @@
             "type": "color"
           },
           "hover": {
-            "value": "{color.neutral.dark.alpha04}",
-            "type": "color"
+            "value": "{color.neutral.dark.alpha03}",
+            "type": "color",
+            "description": "тихий відгук: заливка ледь помітна, головне — рамка"
           },
           "active": {
             "value": "{color.neutral.dark.alpha08}",
@@ -158,6 +159,24 @@
             "type": "color"
           }
         }
+      },
+      "text": {
+        "bg": {
+          "hover": {
+            "value": "{color.neutral.dark.alpha02}",
+            "type": "color",
+            "description": "text-кнопка нижча за secondary в кожному стані"
+          },
+          "active": {
+            "value": "{color.neutral.dark.alpha06}",
+            "type": "color"
+          }
+        }
+      },
+      "focus": {
+        "value": "{color.content.secondary}",
+        "type": "color",
+        "description": "focus-ring кнопок: тонший за загальний (text.primary), контраст ≥ 3 : 1 до полотна"
       }
     },
     "canvas": {
