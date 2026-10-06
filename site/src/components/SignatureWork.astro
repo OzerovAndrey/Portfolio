@@ -133,7 +133,7 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
       <div class="exhibit__props" data-swap>
         <p class="lens__sub ts-label-sm">{s.lens.props}</p>
         <ul class="props ts-body-sm-regular" data-props></ul>
-        <p class="props__note ts-body-sm-regular">{s.lens.fontNote}</p>
+        <p class="props__note ts-body-xs-regular">{s.lens.fontNote}</p>
       </div>
     </div>
 
@@ -176,7 +176,7 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
       const chain = state.chains[token()];
       pathEl.replaceChildren(
         ...chain.steps.map((s: any) => {
-          const li = el("li", "trace__step");
+          const li = el("li", "trace__step"); li.dataset.layer = s.layer;
           li.append(el("span", "trace__layer ts-overline-sm", data.i18n.layerNames[s.layer] ?? s.layer), el("code", "trace__name ts-body-sm-strong", s.name));
           if (s.note) li.append(el("span", "trace__note ts-body-xs-regular", noteText(s.note)));
           if (s.value && !s.ref) { const v = el("span", "trace__value ts-body-sm-regular"); if (isColor(s.value)) v.append(swatch(s.value)); v.append(s.value); li.append(v); }
@@ -276,31 +276,32 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
   .fact dt { color: var(--exhibit-text-color); overflow-wrap: anywhere; }
   .fact dd { margin: 0; color: var(--exhibit-title-color); font-variant-numeric: tabular-nums; }
   /* вибір токена: компактний список (радіо), вибраний — смужка + колір */
-  .toklist { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-gap-md); }
+  .toklist { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; align-content: start; grid-template-columns: repeat(auto-fit, minmax(min(100%, 30ch), 1fr)); column-gap: var(--space-gap-md); }
   .toklist .lens__sub { padding: 0; grid-column: 1 / -1; }
   .toklist legend { float: none; }
-  @media (max-width: 479px) { .toklist { grid-template-columns: minmax(0, 1fr); } }
   .tok { position: relative; display: block; }
   .tok input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-  .tok span { display: block; padding: var(--space-gap-sm) var(--space-gap-lg); border-inline-start: calc(var(--borderWidth-control) * 2) solid transparent; color: var(--exhibit-text-color); overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out), background-color var(--motion-duration-fast) var(--motion-easing-out); }
-  @media (hover: hover) { .tok:hover span { background: var(--action-text-bg-hover); } }
-  .tok input:checked + span { color: var(--exhibit-title-color); border-inline-start-color: var(--exhibit-title-color); background: var(--action-text-bg-hover); }
+  .tok span { display: block; padding: var(--space-gap-sm) var(--space-gap-lg); border-inline-start: calc(var(--borderWidth-control) * 2) solid transparent; color: var(--exhibit-label-color); overflow-wrap: break-word; transition: color var(--motion-duration-fast) var(--motion-easing-out), background-color var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .tok:hover span { color: var(--exhibit-text-color); } }
+  .tok input:checked + span { color: var(--exhibit-title-color); border-inline-start-color: var(--exhibit-title-color); }
   .tok input:focus-visible + span { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
   /* шлях резолву: вертикальна «траса» з вузлами; динамічні вузли — :global (їх створює скрипт) */
   .trace { display: grid; margin: 0; padding-inline-start: var(--space-padding-sm); border-inline-start: var(--borderWidth-control) solid var(--exhibit-rule-br); }
   :global(.trace__step) { position: relative; display: grid; gap: var(--space-gap-xs); padding: var(--space-gap-md) 0 var(--space-gap-md) var(--space-padding-md); min-width: 0; }
   :global(.trace__step)::before { content: ""; position: absolute; inset-inline-start: calc(var(--space-padding-sm) * -1 - var(--borderWidth-control) - var(--iconSize-xs) / 2 + var(--borderWidth-control) / 2); top: calc(var(--space-gap-md) + var(--space-gap-xs)); width: var(--iconSize-xs); height: var(--iconSize-xs); box-sizing: border-box; border-radius: var(--borderRadius-pill); background: var(--exhibit-rule-br); border: var(--borderWidth-control) solid var(--exhibit-label-color); }
+  :global(.trace__step--result .trace__value) { color: var(--exhibit-title-color); }
   :global(.trace__step--result)::before { background: var(--exhibit-title-color); border-color: var(--exhibit-title-color); }
   :global(.trace__layer), :global(.trace__note) { color: var(--exhibit-label-color); }
-  :global(.trace__name) { color: var(--exhibit-title-color); overflow-wrap: anywhere; }
-  :global(.trace__value) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--exhibit-title-color); overflow-wrap: anywhere; }
+  :global(.trace__name) { color: var(--exhibit-text-color); overflow-wrap: anywhere; }
+  :global(.trace__step[data-layer="brand"] .trace__name), :global(.trace__step--result .trace__name) { color: var(--exhibit-title-color); }
+  :global(.trace__value) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--exhibit-text-color); overflow-wrap: anywhere; }
   :global(.swatch) { display: inline-block; flex: none; width: var(--iconSize-sm); height: var(--iconSize-sm); background: var(--c); border: var(--borderWidth-control) solid var(--exhibit-rule-br); border-radius: var(--borderRadius-control); }
-  .props { display: grid; gap: var(--space-gap-md); margin: 0; }
-  :global(.props__row) { display: grid; gap: var(--space-gap-xs); color: var(--exhibit-text-color); }
+  .props { display: grid; gap: var(--space-gap-md); margin: 0; align-items: start; }
+  :global(.props__row) { display: grid; align-content: start; gap: var(--space-gap-xs); color: var(--exhibit-text-color); }
   :global(.props__label) { color: var(--exhibit-label-color); }
   :global(.props__vals) { display: flex; flex-wrap: wrap; gap: var(--space-gap-xs) var(--space-gap-xl); overflow-wrap: anywhere; }
   :global(.props__color) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); }
-  .props__note { margin-top: var(--space-gap-md); color: var(--exhibit-label-color); }
+  .props__note { margin-top: var(--space-gap-md); max-width: var(--layout-measure-body); color: var(--exhibit-label-color); }
   /* «резолвиться»: короткий opacity-перехід тільки в лінзі, без руху розкладки */
   .exhibit [data-swap] { transition: opacity var(--motion-duration-base) var(--motion-easing-out); }
   .exhibit.is-resolving [data-swap] { opacity: 0.4; transition: none; }
@@ -328,10 +329,12 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
   /* промо: фон — ілюстраційна сцена бренду (art.jackpot), затемнення bg.overlay, три форми з кольорів бренду, внизу — фокусний шар glass-strong */
   .xs-promo { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: end; min-height: calc(var(--size-control-xl) * 3.5); padding: var(--space-padding-md); border-radius: var(--promo-borderRadius); background: var(--art-jackpot-bg); }
   .xs-promo::before { content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; background: var(--promo-overlay-bg); }
+  /* вузька сцена: смуга з текстом висока, тож фігури лишаються над нею, а не під текстом */
+  .xs-promo { padding-block-start: calc(var(--size-control-xl) * 2.6); }
   .xs-shape { position: absolute; z-index: -1; border-radius: var(--borderRadius-pill); }
   .xs-shape--a { inset-block-start: var(--space-padding-xl); inset-inline-end: calc(var(--size-control-xl) * 1.2); width: calc(var(--size-control-xl) * 2); height: calc(var(--size-control-xl) * 2); background: var(--color-illustration-primary-base); }
   .xs-shape--b { inset-block-start: calc(var(--space-padding-xl) * 1.5); inset-inline-end: calc(var(--size-control-xl) * 3.6); width: var(--size-control-xl); height: var(--size-control-xl); background: var(--color-illustration-accent-base); }
-  .xs-shape--c { inset-block-start: calc(var(--size-control-xl) * 2.1); inset-inline-end: var(--space-padding-xl); width: calc(var(--size-control-xl) * 0.8); height: calc(var(--size-control-xl) * 0.8); background: var(--color-illustration-info-base); }
+  .xs-shape--c { inset-block-start: calc(var(--size-control-xl) * 1.3); inset-inline-end: var(--space-padding-xl); width: calc(var(--size-control-xl) * 0.8); height: calc(var(--size-control-xl) * 0.8); background: var(--color-illustration-info-base); }
   .xs-promo__bar { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-gap-xl); width: 100%; box-sizing: border-box; padding: var(--space-padding-md); border-radius: var(--promo-borderRadius); color: var(--color-text-primary); }
   .xs-promo__text { display: grid; gap: var(--space-gap-xs); min-width: 0; }
   .xs-promo__title { color: var(--color-text-primary); }
@@ -352,14 +355,14 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
   .xs-tile__meta { color: var(--color-text-primary); } /* text.secondary дає 3.94 : 1 у Aurum light */
   /* однорядкові підписи: шрифти брендів різної ширини не міняють висоту сцени між станами */
   .xs-tile__title, .xs-tile__meta, .xs-btn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-  .xs-card { display: grid; gap: var(--card-default-gap-sm); align-content: start; padding: var(--card-default-paddingV-md) var(--card-default-paddingH-md); background: var(--card-default-bg); border: var(--card-default-borderWidth) solid var(--card-default-br); border-radius: var(--card-default-borderRadius); }
+  .xs-card { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: var(--card-default-gap-sm); align-content: start; padding: var(--card-default-paddingV-md) var(--card-default-paddingH-md); background: var(--card-default-bg); border: var(--card-default-borderWidth) solid var(--card-default-br); border-radius: var(--card-default-borderRadius); }
   .xs-card__title { display: flex; align-items: center; gap: var(--space-gap-md); color: var(--color-text-primary); }
   .xs-badge { display: inline-flex; align-items: center; height: var(--badge-size); padding-inline: var(--badge-paddingH); border-radius: var(--badge-borderRadius); background: var(--badge-primary-bg); color: var(--badge-primary-color); }
-  .xs-badge--neutral { background: var(--badge-neutral-bg); color: var(--badge-neutral-color); }
+  .xs-badge--neutral { background: var(--badge-neutral-bg); color: var(--color-text-primary); /* allow: demo-токен badge.neutral.color у Aurum light ≈3.3:1 (tasks/demo-03) — беремо text.primary */ }
   .xs-input { display: grid; gap: var(--input-wrapper-gap); }
   .xs-input__label { color: var(--color-text-primary); } /* input.label (text.secondary) дає 4.18 : 1 у Aurum light */
-  .xs-input__field { display: flex; align-items: center; height: var(--input-size-md); padding-inline: var(--input-paddingH-md); background: var(--input-bg-active); border: var(--input-borderWidth) solid var(--input-br-active); border-radius: var(--input-borderRadius); color: var(--input-color-active); }
-  .xs-actions { display: flex; gap: var(--space-gap-md); }
+  .xs-input__field { display: flex; align-items: center; height: var(--input-size-md); padding-inline: var(--input-paddingH-md); background: var(--input-bg-active); border: var(--input-borderWidth) solid var(--input-br-active); border-radius: var(--input-borderRadius); color: var(--input-color-active); min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .xs-actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); min-width: 0; }
   .xs-btn { display: inline-flex; align-items: center; justify-content: center; height: var(--button-size-md); padding-inline: var(--button-paddingH-md); border-radius: var(--button-borderRadius); border: var(--button-borderWidth-secondary) solid transparent; }
   .xs-btn--primary { background: var(--button-primary-bg-default); color: var(--button-primary-color-default); }
   .xs-btn--secondary { background: var(--button-secondary-bg-default); color: var(--button-secondary-color-default); }
@@ -369,6 +372,7 @@ const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
   @container (min-width: 640px) { /* allow: брейкпоінт контейнера */
     .xs-body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-padding-xl); padding: var(--space-padding-xl); align-items: start; }
     .xs-promo { grid-column: 1 / -1; min-height: calc(var(--size-control-xl) * 5); padding: var(--space-padding-xl); }
+    .xs-shape--c { inset-block-start: calc(var(--size-control-xl) * 2.1); }
     .xs-promo__title { font-size: var(--fontSize-28); line-height: var(--lineHeight-36); }
     .xs-tile__art { aspect-ratio: 1 / 1; }
     .xs-promo__bar { padding: var(--space-padding-lg) var(--space-padding-xl); }
