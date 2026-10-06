@@ -8,17 +8,27 @@ const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${e
 ---
 <footer class="footer">
   <div class="container footer__inner">
-    <p class="ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
+    <p class="footer__name ts-title-t1">{config.name}</p>
     <ul class="footer__links">
-      {links.map((l) => <li><a class="ts-body-sm-strong" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
+      {links.map((l) => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
     </ul>
+    <p class="footer__meta ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
   </div>
 </footer>
 
 <style>
-  .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: var(--siteFooter-paddingV); }
-  .footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--siteFooter-gap); }
-  .footer__links { display: flex; flex-wrap: wrap; gap: var(--siteFooter-gap); }
-  .footer__links a { color: var(--siteFooter-link-color-default); text-decoration: none; }
-  .footer__links a:hover { color: var(--siteFooter-link-color-hover); text-decoration: underline; }
+  /* Редакційне завершення: без заливки й карток — hairline згори, ім'я, список посилань, дрібний підпис знизу. Фон — сторінки */
+  .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: calc(var(--siteFooter-paddingT) * 0.75) var(--siteFooter-paddingB); }
+  .footer__inner { display: grid; gap: var(--siteFooter-gap); grid-template-columns: minmax(0, 1fr); }
+  .footer__name { color: var(--siteFooter-name-color); font-size: var(--display-h2-fontSize); line-height: var(--display-h2-lineHeight); letter-spacing: var(--display-h2-letterSpacing); }
+  .footer__links { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-gap-lg); }
+  .footer__links a { color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
+  .footer__links a:hover { color: var(--siteFooter-link-color-hover); text-decoration: underline; text-underline-offset: 0.2em; }
+  .footer__meta { padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
+  @media (min-width: 768px) {
+    .footer__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+    .footer__name { grid-column: 1; }
+    .footer__links { grid-column: 2; grid-row: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--siteFooter-gap); }
+    .footer__meta { grid-column: 1 / -1; }
+  }
 </style>

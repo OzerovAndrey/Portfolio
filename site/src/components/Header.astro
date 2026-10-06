@@ -15,78 +15,91 @@ const nav = [
 ] as const;
 const path = Astro.url.pathname;
 ---
-<header class="header">
-  <div class="container">
-    <div class="header__inner glass">
-      <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
-      <nav class="nav" aria-label={d.a11y.nav}>
-        {nav.map((n) => (
-          <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
+<header class="header surface surface--glass-whisper">
+  <div class="container header__inner">
+    <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
+    <nav class="nav" aria-label={d.a11y.nav}>
+      {nav.map((n) => (
+        <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <div class="header__tools">
+      <div class="lang" role="group" aria-label={d.a11y.lang}>
+        {locales.map((l) => (
+          <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} data-event={l === lang ? undefined : `lang_${l}`}>{l.toUpperCase()}</a>
         ))}
-      </nav>
-      <div class="header__tools">
-        <div class="lang" role="group" aria-label={d.a11y.lang}>
-          {locales.map((l) => (
-            <a class="lang__item ts-label-sm" href={swapLang(path, l)} hreflang={l} lang={l} aria-current={l === lang ? "true" : undefined} data-event={l === lang ? undefined : `lang_${l}`}>{l.toUpperCase()}</a>
-          ))}
-        </div>
-        <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
       </div>
+      <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
     </div>
   </div>
 </header>
 
 <style>
-  /* Плаваюча glass-таблетка (visual.css → .glass). Загальна висота та сама, що до glass (siteHeader.height):
-     відступ згори + таблетка — контент нижче не зсувається */
-  .header { position: sticky; top: 0; z-index: 5; padding-block-start: var(--space-gap-md); }
-  /* Бар живе всередині .container — його зовнішні краї = краї контенту кожної секції. Свого max-width / полів сторінки не має */
-  .header__inner {
-    display: flex; align-items: center; gap: var(--siteHeader-gap); height: calc(var(--siteHeader-height) - var(--space-gap-md));
-    padding-inline: var(--space-padding-md); border-radius: var(--glass-borderRadius);
+  /* Редакційна шапка: типографіка на смузі, а не контроли в капсулі. Матеріал — примітив .surface--glass-whisper (visual.css: blur 12 px, fallback, reduced transparency),
+     але з локальним заповненням siteHeader.bg (напівпрозоре полотно α88): шапка накладається на демо й скріни, і whisper / default там не дають читабельності
+     (текст на білій демо-панелі під dark whisper ≈ 1.2 : 1). На всю ширину: без радіуса й тіні, знизу тільки hairline. Загальна висота та сама, що була (siteHeader.height): контент нижче не зсувається.
+     Без backdrop-filter і з prefers-reduced-transparency — суцільна заливка (glass.whisper.solid) із рамкою */
+  .header {
+    --surface-glass: var(--siteHeader-bg); --surface-fill: var(--siteHeader-bgSolid); --surface-br: var(--siteHeader-br);
+    position: sticky; top: 0; z-index: 5; border-width: 0 0 var(--siteHeader-borderWidth); border-radius: 0; box-shadow: none;
   }
+  .header__inner { display: flex; align-items: center; gap: var(--siteHeader-gap); height: calc(var(--siteHeader-height) - var(--siteHeader-borderWidth)); }
   .header__logo { color: var(--siteHeader-logo-color); text-decoration: none; white-space: nowrap; }
   .nav { display: flex; gap: var(--siteNav-gap); margin-inline-start: auto; }
   .nav__item {
     position: relative; display: inline-flex; align-items: center;
     height: var(--siteNav-item-size); padding-inline: var(--siteNav-item-paddingH);
-    color: var(--glass-color-default); text-decoration: none;
+    color: var(--siteNav-item-color-default); text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-easing-out);
   }
   .nav__item:hover { color: var(--siteNav-item-color-hover); }
-  .nav__item:not([aria-current="page"]):hover::after {
-    content: ""; position: absolute; inset-inline: var(--siteNav-item-paddingH); bottom: 0;
-    height: var(--siteNav-item-indicator-height); background: var(--link-br-default);
-  }
+  /* Активний пункт: колір + тонка лінія 1 px (без анімації) */
   .nav__item[aria-current="page"] { color: var(--siteNav-item-color-active); }
   .nav__item[aria-current="page"]::after {
-    content: ""; position: absolute; inset-inline: var(--siteNav-item-paddingH); bottom: 0;
-    height: calc(var(--siteNav-item-indicator-height) * 2); background: var(--siteNav-item-indicator-bg);
+    content: ""; position: absolute; inset-inline: var(--siteNav-item-paddingH); bottom: var(--space-gap-md);
+    height: var(--siteNav-item-indicator-height); background: var(--siteNav-item-indicator-bg);
   }
   .header__tools { display: flex; align-items: center; gap: var(--siteHeader-gap); }
-  .lang { display: inline-flex; padding: var(--langSwitch-padding); background: var(--langSwitch-bg); border-radius: var(--langSwitch-borderRadius); }
+  /* EN / UK: два текстові посилання з тонким роздільником замість сегмент-контролу */
+  .lang { display: inline-flex; align-items: center; }
   .lang__item {
-    display: inline-flex; align-items: center; height: calc(var(--langSwitch-size) - var(--langSwitch-padding) * 2);
-    padding-inline: var(--langSwitch-item-paddingH); border-radius: var(--langSwitch-item-borderRadius);
-    background: var(--langSwitch-item-bg-default); color: var(--langSwitch-item-color-default);
-    text-decoration: none;
+    position: relative; display: inline-flex; align-items: center; height: var(--langSwitch-size); padding-inline: var(--langSwitch-item-paddingH);
+    color: var(--langSwitch-item-color-default); text-decoration: none;
+    transition: color var(--motion-duration-fast) var(--motion-easing-out);
   }
-  .lang__item:hover { background: var(--langSwitch-item-bg-hover); color: var(--langSwitch-item-color-hover); }
-  .lang__item[aria-current="true"] { background: var(--langSwitch-item-bg-active); color: var(--langSwitch-item-color-active); }
+  .lang__item + .lang__item::before { content: ""; position: absolute; inset-inline-start: 0; top: 50%; height: 1em; transform: translateY(-50%); border-inline-start: var(--siteHeader-borderWidth) solid var(--siteHeader-br); }
+  .lang__item:hover { color: var(--langSwitch-item-color-hover); }
+  .lang__item[aria-current="true"] { color: var(--langSwitch-item-color-active); }
+  .lang__item[aria-current="true"]::after {
+    content: ""; position: absolute; inset-inline: var(--langSwitch-item-paddingH); bottom: var(--space-gap-sm);
+    height: var(--siteNav-item-indicator-height); background: var(--siteNav-item-indicator-bg);
+  }
+  /* Тема: іконка без фону, відгук — тонкий тон, як у text-кнопки */
   :global(.theme-toggle) {
     display: inline-grid; place-items: center; width: var(--langSwitch-size); height: var(--langSwitch-size);
-    border: 0; border-radius: var(--button-borderRadius); background: var(--button-text-bg-default); color: var(--button-text-color-default); cursor: pointer;
+    border: 0; border-radius: var(--button-borderRadius); background: transparent; color: var(--siteHeader-logo-color); cursor: pointer;
+    transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
   }
-  :global(.theme-toggle:hover) { background: var(--button-text-bg-hover); }
+  :global(.theme-toggle:hover) { background: var(--action-text-bg-hover); }
+  :global(.theme-toggle:active) { background: var(--action-text-bg-active); }
   .logo-short { display: none; }
+  /* Дотик: цілі не менші за 48 px */
+  @media (pointer: coarse) {
+    .nav__item { height: var(--size-control-lg); }
+    .lang__item { height: var(--size-control-lg); }
+    :global(.theme-toggle) { width: var(--size-control-lg); height: var(--size-control-lg); }
+  }
   /* Вузькі екрани: п'ять пунктів не вміщаються в один рядок — меню другим рядком, з прокруткою */
   @media (max-width: 899px) {
     .header__inner { height: auto; flex-wrap: wrap; row-gap: 0; padding-block: var(--space-gap-sm) 0; }
     .header__tools { margin-inline-start: auto; }
     .nav { order: 3; flex-basis: 100%; margin-inline-start: 0; gap: 0; overflow-x: auto; scrollbar-width: none; }
     .nav::-webkit-scrollbar { display: none; }
-    .nav__item { flex: none; }
+    .nav__item { flex: none; padding-inline: var(--space-gap-md); }
+    .nav { margin-inline: calc(var(--space-gap-md) * -1); flex-basis: calc(100% + var(--space-gap-md) * 2); }
   }
-  @media (max-width: 559px) {
+  /* Повне ім'я лишається, поки є місце; скорочення «AO» — тільки на найвужчих */
+  @media (max-width: 359px) {
     .logo-full { display: none; }
     .logo-short { display: inline; }
     .header__tools { gap: var(--space-gap-sm); }

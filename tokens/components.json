@@ -444,11 +444,11 @@
   },
   "siteHeader": {
     "bg": {
-      "value": "{color.bg.primary}",
+      "value": "{color.chrome.bg}",
       "type": "color"
     },
     "br": {
-      "value": "{color.border.tertiary}",
+      "value": "{color.chrome.br}",
       "type": "color"
     },
     "borderWidth": {
@@ -470,9 +470,13 @@
     },
     "logo": {
       "color": {
-        "value": "{color.text.primary}",
+        "value": "{color.content.primary}",
         "type": "color"
       }
+    },
+    "bgSolid": {
+      "value": "{color.chrome.solid}",
+      "type": "color"
     }
   },
   "siteNav": {
@@ -483,15 +487,15 @@
     "item": {
       "color": {
         "default": {
-          "value": "{color.text.secondary}",
+          "value": "{color.content.secondary}",
           "type": "color"
         },
         "hover": {
-          "value": "{color.text.primary}",
+          "value": "{color.content.primary}",
           "type": "color"
         },
         "active": {
-          "value": "{color.text.primary}",
+          "value": "{color.content.primary}",
           "type": "color"
         }
       },
@@ -549,15 +553,15 @@
       },
       "color": {
         "default": {
-          "value": "{color.text.secondary}",
+          "value": "{color.content.secondary}",
           "type": "color"
         },
         "hover": {
-          "value": "{color.text.primary}",
+          "value": "{color.content.primary}",
           "type": "color"
         },
         "active": {
-          "value": "{color.text.primary}",
+          "value": "{color.content.primary}",
           "type": "color"
         }
       },
@@ -1034,11 +1038,11 @@
   },
   "siteFooter": {
     "bg": {
-      "value": "{color.bg.tertiary}",
+      "value": "{color.fill.ghost.default}",
       "type": "color"
     },
     "br": {
-      "value": "{color.border.tertiary}",
+      "value": "{color.line.subtle}",
       "type": "color"
     },
     "borderWidth": {
@@ -1058,19 +1062,40 @@
       "type": "spacing"
     },
     "color": {
-      "value": "{color.text.secondary}",
+      "value": "{color.content.tertiary}",
       "type": "color"
     },
     "link": {
       "color": {
         "default": {
-          "value": "{color.text.secondary}",
+          "value": "{color.content.secondary}",
           "type": "color"
         },
         "hover": {
-          "value": "{color.text.primary}",
+          "value": "{color.content.primary}",
           "type": "color"
         }
+      }
+    },
+    "paddingT": {
+      "value": "{layout.section.padding}",
+      "type": "spacing",
+      "description": "верхній відступ футера: той самий ритм, що в editorial-секції"
+    },
+    "paddingB": {
+      "value": "{layout.rowGap.xs}",
+      "type": "spacing"
+    },
+    "name": {
+      "color": {
+        "value": "{color.content.primary}",
+        "type": "color"
+      }
+    },
+    "divider": {
+      "color": {
+        "value": "{color.line.subtle}",
+        "type": "color"
       }
     }
   },

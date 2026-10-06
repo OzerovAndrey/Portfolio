@@ -246,6 +246,22 @@
         "type": "color",
         "description": "focus-ring: контрастний у обох темах (mirror outline.focus не проходить AA — не використовується)"
       }
+    },
+    "chrome": {
+      "bg": {
+        "value": "{color.neutral.light.alpha88}",
+        "type": "color",
+        "description": "матеріал шапки: напівпрозоре полотно теми (α88). Шапка накладається на довільний вміст (демо, скріни), тож тут потрібне майже суцільне полотно, а не скло whisper / default"
+      },
+      "solid": {
+        "value": "{color.bg.primary}",
+        "type": "color",
+        "description": "fallback без backdrop-filter / reduced-transparency: фон сторінки"
+      },
+      "br": {
+        "value": "{color.line.subtle}",
+        "type": "color"
+      }
     }
   },
   "boxShadow": {
