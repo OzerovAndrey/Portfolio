@@ -136,6 +136,7 @@ const PAIRS = [
   ["color.line.focus", "color.canvas.primary", 3], ["color.line.focus", "color.canvas.secondary", 3], ["color.line.focus", "color.surface.base", 3], ["color.line.focus", "color.surface.raised", 3],
   ["color.content.primary", "color.glass.whisper.solid", 4.5], ["color.content.tertiary", "color.glass.whisper.solid", 4.5],
   ["color.content.primary", "color.glass.strong.solid", 4.5], ["color.content.tertiary", "color.glass.strong.solid", 4.5],
+  ["action.secondary.color.default", "section.bg.default", 4.5], ["action.secondary.color.default", "section.bg.alt", 4.5],
   ["color.content.primary", "color.glass.default.solid", 4.5], ["color.content.tertiary", "color.glass.default.solid", 4.5],
 ];
 const pick = (n, mode) => { if (!resolved[mode][n]) throw new Error("unknown token " + n); return resolved[mode][n]; };
@@ -162,6 +163,16 @@ for (const mode of ["light", "dark"]) {
       if (r < 4.5) errors.push(`[${mode}] glass.${level} · content.${role} на найгіршому фоні = ${r.toFixed(2)} < 4.5`);
       report.push({ mode, fg: `color.content.${role}`, bg: `glass.${level} над полотнами`, f, k: glass, ratio: +r.toFixed(2), min: 4.5 });
     }
+  }
+}
+
+// Кнопка secondary / text: напівпрозорий тон hover і active поверх полотен — текст лишається ≥ 4.5 : 1
+for (const mode of ["light", "dark"]) {
+  const canvases = ["color.canvas.primary", "color.canvas.secondary"].map((n) => pick(n, mode)), f = pick("color.content.primary", mode);
+  for (const st of ["hover", "active"]) {
+    const tint = pick(`color.action.secondary.bg.${st}`, mode), r = Math.min(...canvases.map((c) => ratio(f, over(tint, c))));
+    if (r < 4.5) errors.push(`[${mode}] action.secondary.bg.${st} · content.primary = ${r.toFixed(2)} < 4.5`);
+    report.push({ mode, fg: "color.content.primary", bg: `action.secondary.bg.${st} над полотнами`, f, k: tint, ratio: +r.toFixed(2), min: 4.5 });
   }
 }
 

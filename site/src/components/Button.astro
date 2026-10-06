@@ -1,5 +1,5 @@
 ---
-// Button на токенах button.* (ті самі, що в демо). Рендерить <a>, якщо є href.
+// Button на токенах button.* (розміри, радіус — як у демо) і action.* (кольори й стани сайту). Рендерить <a>, якщо є href.
 interface Props {
   variant?: "primary" | "secondary" | "text";
   size?: "sm" | "md" | "lg";
@@ -16,33 +16,52 @@ const Tag = href ? "a" : "button";
 </Tag>
 
 <style>
+  /* Три ролі, одна геометрія. primary — основна дія (action.*: інверсна до теми, монохром); secondary — рамка без заливки (action.secondary.*);
+     text — без рамки, той самий відгук. Рамка 1 px є в усіх варіантах (прозора в primary / text), тож розмір не залежить від варіанта.
+     Скло в кнопках не використовується: воно лишається акцентом поверхонь (visual.css). Фокус — глобальний :focus-visible (base.css) */
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
     gap: var(--btn-gap);
     height: var(--btn-size); padding-inline: var(--btn-padH);
     border-radius: var(--button-borderRadius);
-    border: var(--button-borderWidth-primary) solid transparent;
+    border: var(--action-borderWidth) solid var(--btn-br, transparent);
     background: var(--btn-bg); color: var(--btn-color);
     text-decoration: none; white-space: nowrap; cursor: pointer;
-    transition: background-color var(--motion-duration-fast) var(--motion-easing-out);
+    transition: background-color var(--motion-duration-base) var(--motion-easing-out), border-color var(--motion-duration-base) var(--motion-easing-out),
+      color var(--motion-duration-base) var(--motion-easing-out), transform var(--motion-duration-fast) var(--motion-easing-out);
   }
   /* Дуже вузькі екрани (і zoom 200 %): підпис кнопки переноситься, а не виходить за ширину. Однорядкова кнопка лишається тієї самої висоти */
   @media (max-width: 559px) { .btn { max-width: 100%; height: auto; min-height: var(--btn-size); padding-block: var(--space-gap-sm); white-space: normal; text-align: center; } }
   .btn--sm { --btn-size: var(--button-size-sm); --btn-padH: var(--button-paddingH-sm); --btn-gap: var(--button-gap-sm); }
   .btn--md { --btn-size: var(--button-size-md); --btn-padH: var(--button-paddingH-md); --btn-gap: var(--button-gap-md); }
-  .btn--lg { --btn-size: var(--button-size-lg); --btn-padH: var(--button-paddingH-lg); --btn-gap: var(--button-gap-lg); }
+  .btn--lg { --btn-size: var(--button-size-lg); --btn-padH: var(--button-paddingH-xl); --btn-gap: var(--button-gap-lg); }
+  /* Дотик: ціль не менша за lg (48 px) — sm / md підтягуються лише на coarse-вказівнику, на desktop розміри ті самі */
+  @media (pointer: coarse) { .btn--sm, .btn--md { --btn-size: var(--button-size-lg); } }
 
-  /* primary = основна дія сайту (action.*): майже чорна в light, майже біла в dark. button.primary.* лишаються як у демо */
   .btn--primary { --btn-bg: var(--action-bg-default); --btn-color: var(--action-color-default); }
-  .btn--primary:hover { --btn-bg: var(--action-bg-hover); --btn-color: var(--action-color-hover); }
+  .btn--secondary { --btn-bg: var(--action-secondary-bg-default); --btn-color: var(--action-secondary-color-default); --btn-br: var(--action-secondary-br-default); }
+  .btn--text { --btn-bg: var(--action-secondary-bg-default); --btn-color: var(--action-secondary-color-default); }
+
+  /* Hover — тільки там, де він є (миша): на дотику не «залипає». Відгук — тон / рамка, без руху */
+  @media (hover: hover) {
+    .btn--primary:hover { --btn-bg: var(--action-bg-hover); --btn-color: var(--action-color-hover); }
+    .btn--secondary:hover { --btn-bg: var(--action-secondary-bg-hover); --btn-br: var(--action-secondary-br-hover); }
+    .btn--text:hover { --btn-bg: var(--action-secondary-bg-hover); }
+  }
+  /* Натискання: тон + зсув на 1 px вниз (layout не змінюється — transform) */
   .btn--primary:active { --btn-bg: var(--action-bg-active); --btn-color: var(--action-color-active); }
-  .btn--primary:disabled { --btn-bg: var(--action-bg-disabled); --btn-color: var(--action-color-disabled); cursor: not-allowed; }
+  .btn--secondary:active { --btn-bg: var(--action-secondary-bg-active); --btn-br: var(--action-secondary-br-active); }
+  .btn--text:active { --btn-bg: var(--action-secondary-bg-active); }
+  .btn:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(var(--action-press-distance)); }
 
-  .btn--secondary { --btn-bg: var(--button-secondary-bg-default); --btn-color: var(--button-secondary-color-default); }
-  .btn--secondary:hover { --btn-bg: var(--button-secondary-bg-hover); --btn-color: var(--button-secondary-color-hover); }
-  .btn--secondary:active { --btn-bg: var(--button-secondary-bg-active); --btn-color: var(--button-secondary-color-active); }
+  .btn--primary:disabled, .btn--primary[aria-disabled="true"] { --btn-bg: var(--action-bg-disabled); --btn-color: var(--action-color-disabled); }
+  .btn--secondary:disabled, .btn--secondary[aria-disabled="true"] { --btn-bg: var(--action-secondary-bg-default); --btn-color: var(--action-secondary-color-disabled); --btn-br: var(--action-secondary-br-disabled); }
+  .btn--text:disabled, .btn--text[aria-disabled="true"] { --btn-color: var(--action-secondary-color-disabled); }
+  .btn:disabled, .btn[aria-disabled="true"] { cursor: not-allowed; }
 
-  .btn--text { --btn-bg: var(--button-text-bg-default); --btn-color: var(--button-text-color-default); }
-  .btn--text:hover { --btn-bg: var(--button-text-bg-hover); --btn-color: var(--button-text-color-hover); }
-  .btn--text:active { --btn-bg: var(--button-text-bg-active); --btn-color: var(--button-text-color-active); }
+  /* Reduced motion: без зсуву, кольорові переходи лишаються */
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition-property: background-color, border-color, color; }
+    .btn:active:not(:disabled, [aria-disabled="true"]) { transform: none; } /* та сама специфічність, що в правила натискання вище */
+  }
 </style>

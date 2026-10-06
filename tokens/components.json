@@ -1423,6 +1423,62 @@
         "value": "{color.action.color.disabled}",
         "type": "color"
       }
+    },
+    "secondary": {
+      "bg": {
+        "default": {
+          "value": "{color.action.secondary.bg.default}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.action.secondary.bg.hover}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.action.secondary.bg.active}",
+          "type": "color"
+        }
+      },
+      "br": {
+        "default": {
+          "value": "{color.action.secondary.br.default}",
+          "type": "color"
+        },
+        "hover": {
+          "value": "{color.action.secondary.br.hover}",
+          "type": "color"
+        },
+        "active": {
+          "value": "{color.action.secondary.br.active}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.action.secondary.br.disabled}",
+          "type": "color"
+        }
+      },
+      "color": {
+        "default": {
+          "value": "{color.action.secondary.color.default}",
+          "type": "color"
+        },
+        "disabled": {
+          "value": "{color.action.secondary.color.disabled}",
+          "type": "color"
+        }
+      }
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth",
+      "description": "рамка кнопки: 1 px у всіх варіантів (прозора в primary / text) — розмір не залежить від варіанта"
+    },
+    "press": {
+      "distance": {
+        "value": "{borderWidth.control}",
+        "type": "spacing",
+        "description": "зсув кнопки при натисканні (translateY)"
+      }
     }
   },
   "container": {

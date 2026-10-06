@@ -87,31 +87,76 @@
     "action": {
       "bg": {
         "default": {
-          "value": "{color.neutral.900}",
+          "value": "{color.content.primary}",
           "type": "color",
           "description": "основна дія сайту: майже чорна в light, майже біла в dark"
         },
         "hover": {
-          "value": "{color.neutral.800}",
-          "type": "color"
+          "value": "{color.mono.700}",
+          "type": "color",
+          "description": "тональний зсув: світліша в light, чистіша біла в dark"
         },
         "active": {
-          "value": "{color.neutral.700}",
+          "value": "{color.mono.800}",
           "type": "color"
         },
         "disabled": {
-          "value": "{color.neutral.200}",
+          "value": "{color.surface.base}",
           "type": "color"
         }
       },
       "color": {
         "default": {
-          "value": "{color.neutral.0}",
+          "value": "{color.content.inverse}",
           "type": "color"
         },
         "disabled": {
-          "value": "{color.neutral.500}",
+          "value": "{color.content.tertiary}",
           "type": "color"
+        }
+      },
+      "secondary": {
+        "bg": {
+          "default": {
+            "value": "{color.transparent}",
+            "type": "color"
+          },
+          "hover": {
+            "value": "{color.neutral.dark.alpha04}",
+            "type": "color"
+          },
+          "active": {
+            "value": "{color.neutral.dark.alpha08}",
+            "type": "color"
+          }
+        },
+        "br": {
+          "default": {
+            "value": "{color.neutral.dark.alpha18}",
+            "type": "color"
+          },
+          "hover": {
+            "value": "{color.neutral.dark.alpha30}",
+            "type": "color"
+          },
+          "active": {
+            "value": "{color.neutral.dark.alpha30}",
+            "type": "color"
+          },
+          "disabled": {
+            "value": "{color.neutral.dark.alpha06}",
+            "type": "color"
+          }
+        },
+        "color": {
+          "default": {
+            "value": "{color.content.primary}",
+            "type": "color"
+          },
+          "disabled": {
+            "value": "{color.content.tertiary}",
+            "type": "color"
+          }
         }
       }
     },

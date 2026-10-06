@@ -1,12 +1,16 @@
 ---
 // DEV-ONLY: зразок матеріалів (surface / raised / glass whisper · default · strong) над трьома фонами. У прод-збірку НЕ потрапляє:
-// getStaticPaths повертає порожній масив, коли import.meta.env.DEV === false (перевірено: dist без /dev/). Відкривається лише в `npm run dev` → /Portfolio/dev/materials/.
+// getStaticPaths повертає порожній масив, коли import.meta.env.DEV === false (перевірено: dist без /dev/). Відкривається лише в `npm run dev`: /Portfolio/dev/materials/ (матеріали) і /Portfolio/dev/buttons/ (стани кнопок; QA вмикає :hover / :active / :focus-visible примусово через CDP).
 // Тексти не локалізовані — це робочий інструмент, а не публічний контент.
 import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
 
 export function getStaticPaths() {
-  return import.meta.env.DEV ? [{ params: { page: "materials" } }] : [];
+  return import.meta.env.DEV ? [{ params: { page: "materials" } }, { params: { page: "buttons" } }] : [];
 }
+const page = Astro.params.page;
+const variants = ["primary", "secondary", "text"] as const;
+const states = ["default", "hover", "active", "focus", "disabled"] as const;
 const levels = [
   { cls: "surface", name: "surface (base)" },
   { cls: "surface surface--raised", name: "surface--raised" },
@@ -20,9 +24,34 @@ const stages = [
   { id: "busy", name: "Контрастний візерунок (де видно blur)" },
 ];
 ---
-<Base lang="en" page="home" title="Materials (dev)" description="Dev-only material specimen">
+<Base lang="en" page="home" title="Specimen (dev)" description="Dev-only specimen">
   <section class="section">
     <div class="container stack">
+      {page === "buttons" ? (
+        <>
+          <h1 class="section__title ts-display-d3">Buttons · dev specimen</h1>
+          <div class="btnboard">
+            <span></span>{states.map((st) => <span class="ts-label-sm btnboard__head">{st}</span>)}
+            {variants.map((v) => (
+              <>
+                <span class="ts-label-md btnboard__head">{v} · lg</span>
+                {states.map((st) => (
+                  <div class="btnboard__cell"><Button variant={v} size="lg" disabled={st === "disabled"} data-state={st}>Contact me</Button></div>
+                ))}
+              </>
+            ))}
+            <span class="ts-label-md btnboard__head">secondary · md</span>
+            {states.map((st) => <div class="btnboard__cell"><Button variant="secondary" size="md" disabled={st === "disabled"} data-state={st}>Open ↗</Button></div>)}
+            <span class="ts-label-md btnboard__head">primary · sm</span>
+            {states.map((st) => <div class="btnboard__cell"><Button variant="primary" size="sm" disabled={st === "disabled"} data-state={st}>Send</Button></div>)}
+          </div>
+          <div class="btnboard__surfaces">
+            <div class="surface surface--glass-whisper pad"><Button variant="secondary" size="lg">On whisper</Button></div>
+            <div class="surface surface--raised pad"><Button variant="primary" size="lg">On raised</Button><Button variant="secondary" size="lg">On raised</Button></div>
+            <div class="surface surface--glass-strong pad"><Button variant="secondary" size="lg">On strong</Button></div>
+          </div>
+        </>
+      ) : (<>
       <h1 class="section__title ts-display-d3">Materials · dev specimen</h1>
       {stages.map((st) => (
         <div class={`stage stage--${st.id}`}>
@@ -39,6 +68,7 @@ const stages = [
           </div>
         </div>
       ))}
+      </>)}
     </div>
   </section>
 </Base>
@@ -54,5 +84,10 @@ const stages = [
       var(--color-canvas-primary);
   }
   .grid { display: grid; gap: var(--l-gap); grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-control-xl) * 4), 1fr)); }
+  .btnboard { display: grid; grid-template-columns: auto repeat(5, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--l-gap); align-items: center; padding: var(--space-padding-xl); border-radius: var(--borderRadius-panel); background: var(--color-canvas-primary); }
+  .btnboard__head { color: var(--color-content-secondary); }
+  .btnboard__cell { display: flex; }
+  .btnboard__surfaces { display: grid; gap: var(--l-gap); grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-control-xl) * 4), 1fr)); }
+  .pad { display: flex; flex-wrap: wrap; gap: var(--space-gap-xl); padding: var(--space-padding-xl); }
   .card { display: flex; flex-direction: column; gap: var(--space-gap-sm); padding: var(--space-padding-lg); }
 </style>
