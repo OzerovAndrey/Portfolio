@@ -344,6 +344,27 @@
         "type": "dimension",
         "description": "єдина ширина контенту: шапка, секції, футер"
       }
+    },
+    "section": {
+      "padding": {
+        "value": "{spacing.fluid.section}",
+        "type": "spacing",
+        "description": "editorial-секція (.section--editorial); типова секція лишається на layout.rowGap"
+      }
+    },
+    "measure": {
+      "body": {
+        "value": "{measure.body}",
+        "type": "dimension"
+      },
+      "lead": {
+        "value": "{measure.lead}",
+        "type": "dimension"
+      },
+      "heading": {
+        "value": "{measure.heading}",
+        "type": "dimension"
+      }
     }
   }
 }

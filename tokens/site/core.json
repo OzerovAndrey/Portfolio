@@ -194,5 +194,31 @@
       },
       "$description": "Чиста нейтральна рампа сайту (без відтінку). Не з map демо: холодні neutral.* лишаються демо й дзеркалу."
     }
+  },
+  "spacing": {
+    "fluid": {
+      "section": {
+        "value": "clamp(4rem, 2.6rem + 6vw, 10rem)",
+        "type": "spacing",
+        "description": "вертикальний відступ editorial-секції: 64 px на вузьких → ~128 px на 1440 → 160 px від ~1970"
+      }
+    }
+  },
+  "measure": {
+    "body": {
+      "value": "56ch",
+      "type": "dimension",
+      "description": "ширина основного тексту (52–56ch)"
+    },
+    "lead": {
+      "value": "40ch",
+      "type": "dimension",
+      "description": "ширина lead під display"
+    },
+    "heading": {
+      "value": "20ch",
+      "type": "dimension",
+      "description": "ширина заголовка, що переноситься по словах"
+    }
   }
 }

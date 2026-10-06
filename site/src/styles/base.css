@@ -42,7 +42,10 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 /* Один контейнер сторінки (токени container.*): шапка, усі секції й футер мають однакові лівий і правий краї.
    Ширина контенту — container.maxWidth, поле — container.paddingH.* по брейкпоінтах (--l-padH вище). Інших країв немає */
 .container { width: 100%; max-width: calc(var(--container-maxWidth) + var(--l-padH) * 2); margin-inline: auto; padding-inline: var(--l-padH); }
-.measure { max-width: 60ch; }
+/* Ширина тексту: токени layout.measure.* (body 56ch · lead 40ch · heading 20ch). У ch, тож масштабується з шрифтом і не залежить від копі */
+.measure { max-width: var(--layout-measure-body); }
+.measure--lead { max-width: var(--layout-measure-lead); }
+.measure--heading { max-width: var(--layout-measure-heading); }
 
 .section { background: var(--section-bg-default); padding-block: var(--l-row); }
 .section--alt { background: var(--section-bg-alt); }
@@ -51,6 +54,11 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .section__title { color: var(--section-title-color); font-size: var(--section-title-fontSize); line-height: var(--section-title-lineHeight); letter-spacing: var(--section-title-letterSpacing); text-wrap: balance; }
 .section__lead { color: var(--section-lead-color); }
 @media (min-width: 1024px) { .section { padding-block: var(--section-paddingV); } }
+/* Ритм секцій: типова (.section) лишається компактною; --tight — вузька смуга (метрики); --editorial — просторий відступ окремої «сцени».
+   Висота завжди від вмісту: без vh, pin і фіксованої висоти, тож відступ не дає CLS.
+   Правила стоять після медіазапиту вище: специфічність та сама, перемагає пізніше */
+.section--tight { padding-block: var(--l-row); }
+.section--editorial { padding-block: var(--layout-section-padding); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* allow: стандартний sr-only патерн, 1px — не дизайн-значення */
 .skip { position: absolute; left: var(--l-padH); top: calc(var(--siteHeader-height) * -2); z-index: 10; }
@@ -70,3 +78,12 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .info-card__label { color: var(--section-lead-color); }
 .stack { display: flex; flex-direction: column; gap: var(--l-gap); }
 .stack > .section__head { margin-bottom: 0; }
+
+/* Display-типографіка v3. Розмір, інтервал і трекінг — з токенів display.xl / display.lg; сімейство й вагу дає text style (ts-display-d1…),
+   колір — компонент. Використання: <h1 class="ts-display-d1 display-xl">. Короткі фрази, а не абзаци.
+   Безпека для UK і zoom 200 %: balance, без автоматичних переносів, а надто довге слово ламається замість горизонтального скролу */
+.display-xl, .display-lg { text-wrap: balance; hyphens: none; overflow-wrap: break-word; }
+.display-xl { font-size: var(--display-xl-fontSize); line-height: var(--display-xl-lineHeight); letter-spacing: var(--display-xl-letterSpacing); }
+.display-lg { font-size: var(--display-lg-fontSize); line-height: var(--display-lg-lineHeight); letter-spacing: var(--display-lg-letterSpacing); }
+/* Lead під display: fluid 18 → 20 px (display.lead). Заголовок секції — наявний .section__title (display.h2). Meta — text styles ts-caption-* / ts-body-sm-*; ts-overline-* (caps) — рідко */
+.lead { font-size: var(--display-lead-fontSize); line-height: var(--display-lead-lineHeight); }
