@@ -139,6 +139,23 @@
       "lead": "The working multi-brand demo, running on the same token files."
     }
   },
+  "expertise": {
+    "label": "About / Expertise",
+    "statement": "I design complex digital products and the systems behind them.",
+    "paragraph": "I’m a UI/UX and Product Designer focused on complex interfaces, scalable design systems and multi-brand products. I work from product logic and user flows through interface design, reusable components and implementation with development teams.",
+    "closing": "From product logic to production-ready UI.",
+    "listLabel": "Areas of expertise",
+    "items": [
+      "Product Design",
+      "Complex UX / UI",
+      "Design Systems",
+      "Multi-brand Systems",
+      "Figma",
+      "Token Studio",
+      "Prototyping",
+      "Developer Handoff"
+    ]
+  },
   "demo": {
     "title": "Switch the brand. The code stays put.",
     "lead": "Pick Aurum, Nova, Fiesta or Ultra, then flip light and dark. Colors, fonts, radii and spacing change. The components underneath don't.",
