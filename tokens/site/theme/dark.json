@@ -38,7 +38,7 @@
       },
       "strong": {
         "bg": {
-          "value": "{color.neutral.light.alpha16}",
+          "value": "{color.neutral.light.alpha12}",
           "type": "color"
         },
         "br": {

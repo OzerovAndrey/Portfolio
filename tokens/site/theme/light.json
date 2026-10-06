@@ -23,7 +23,7 @@
       },
       "whisper": {
         "bg": {
-          "value": "{color.neutral.light.alpha40}",
+          "value": "{color.neutral.light.alpha16}",
           "type": "color"
         },
         "br": {
@@ -38,7 +38,7 @@
       },
       "strong": {
         "bg": {
-          "value": "{color.neutral.light.alpha88}",
+          "value": "{color.neutral.light.alpha60}",
           "type": "color"
         },
         "br": {
@@ -61,7 +61,7 @@
       },
       "default": {
         "bg": {
-          "value": "{color.neutral.light.alpha72}",
+          "value": "{color.neutral.light.alpha40}",
           "type": "color",
           "description": "нормальне функціональне скло. Не плутати з плоскими color.glass.bg/br/…: вони лишаються для шапки до її кроку"
         },

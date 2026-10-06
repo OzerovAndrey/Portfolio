@@ -147,6 +147,19 @@
             }
           }
         },
+        "alpha12": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.12",
+                "space": "hsl"
+              }
+            }
+          }
+        },
         "alpha16": {
           "value": "{color.white}",
           "type": "color",
@@ -194,6 +207,19 @@
               "modify": {
                 "type": "alpha",
                 "value": "0.4",
+                "space": "hsl"
+              }
+            }
+          }
+        },
+        "alpha60": {
+          "value": "{color.white}",
+          "type": "color",
+          "$extensions": {
+            "studio.tokens": {
+              "modify": {
+                "type": "alpha",
+                "value": "0.6",
                 "space": "hsl"
               }
             }
