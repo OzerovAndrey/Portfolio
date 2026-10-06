@@ -58,7 +58,7 @@
   "signature": {
     "label": "Signature work",
     "title": "One system. Many brands.",
-    "lead": "One interface, mounted once. Pick a brand and only the tokens underneath change: colors, radii and type. The components and the markup stay put.",
+    "lead": "One interface, mounted once. Choose a brand and only the tokens underneath change.",
     "controls": {
       "group": "Exhibit controls",
       "brand": "Brand",
@@ -67,7 +67,6 @@
         "light": "Light",
         "dark": "Dark"
       },
-      "reset": "Back to neutral",
       "neutral": "Neutral"
     },
     "facts": {
@@ -80,9 +79,9 @@
     "lens": {
       "title": "Token lens",
       "tokenLabel": "Token",
-      "path": "Resolution path",
+      "path": "Resolution",
       "result": "Resolved value",
-      "props": "What the brand file sets",
+      "props": "Brand file",
       "colors": "Colors",
       "radius": "Radius",
       "fonts": "Fonts",
@@ -132,11 +131,12 @@
       "inputValue": "Search the library",
       "save": "Save",
       "cancel": "Cancel",
-      "badge": "New"
+      "badge": "New",
+      "sectionTitle": "Collections"
     },
     "proof": {
-      "title": "The real product",
-      "lead": "The full demo runs on the same token files. It opens on its own page, where you pick the brand and theme yourself."
+      "title": "Real product",
+      "lead": "The working multi-brand demo, running on the same token files."
     }
   },
   "demo": {

@@ -1,9 +1,10 @@
 ---
 // Signature Work (Home, секція 03): «One system. Many brands.» Нативна експозиція — ОДИН інтерфейс, змонтований раз.
 // Бренд і тема сцени — атрибути data-brand / data-theme на .xstage; усе решта — резолв токенів у scoped-CSS (npm run tokens:exhibit,
-// src/generated/exhibit/exhibit.css ← tokens/brand/site.json, tokens/demo/**, дзеркальні theme). Жодних скрінів і заміни DOM.
+// src/generated/exhibit/exhibit.css ← tokens/brand/site.json, tokens/demo/**, tokens/site/**, дзеркальні theme). Жодних скрінів і заміни DOM.
 // Колір бренду живе тільки в .xstage: керування й лінза — поза scope, тому решта сторінки лишається монохромною.
 // Сцена aria-hidden + inert: усе змістовне (бренд, тема, цифри, шлях резолву токена) доступне поза нею.
+// Глибина: canvas → plate (.surface--raised) → stage (токени бренду) → картка / плитки → один фокусний шар .surface--glass-strong у промо.
 import "../generated/exhibit/exhibit.css";
 import { BRANDS, NEUTRAL, THEMES, TOKENS, facts, states } from "../lib/exhibit";
 import { t, type Locale } from "../i18n";
@@ -21,6 +22,8 @@ const payload = {
   i18n: { layerNames: ex.layerNames, notes: ex.notes, themes: s.controls.themes, neutral: s.controls.neutral, announce: s.announce },
 };
 const amount = { brandValues: String(facts.brandValues), componentTokens: String(facts.componentTokens), aliases: String(facts.aliasesChanged), matrix: `${facts.brands} × ${facts.themes}` };
+// маркер кольору в вкладці бренду — реальний product1 (з токенів), показується лише в обраній вкладці
+const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
 ---
 <section class="section section--editorial signature" id="signature" aria-labelledby="signature-title" data-exhibit>
   <div class="container">
@@ -29,98 +32,108 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
     <p class="signature__lead ts-body-lg-regular measure--lead lead">{s.lead}</p>
 
     <div class="exhibit">
-      <!-- Керування: нативні radio (клавіатура й семантика безкоштовно). Жоден бренд не вибрано = нейтральний стан -->
+      <!-- Керування: нативні radio (клавіатура й семантика безкоштовно). «Neutral» — вихідний стан (site), решта — 4 бренди -->
       <div class="exhibit__controls" role="group" aria-label={s.controls.group}>
-        <fieldset class="ctl">
-          <legend class="ctl__legend ts-label-sm">{s.controls.brand}</legend>
-          <div class="ctl__row">
-            {BRANDS.map((b) => (
-              <label class="ctl__item ts-label-md"><input type="radio" name="exhibit-brand" value={b} data-event={`exhibit_brand_${b}`} /><span>{BRAND_NAME[b]}</span></label>
-            ))}
+        <fieldset class="tabs tabs--brand">
+          <legend class="tabs__legend ts-label-sm">{s.controls.brand}</legend>
+          <div class="tabs__row">
+          <label class="tab tab--origin ts-label-md"><input type="radio" name="exhibit-brand" value={NEUTRAL} checked data-event="exhibit_brand_neutral" /><span>{s.controls.neutral}</span></label>
+          {BRANDS.map((b) => (
+            <label class="tab ts-label-md"><input type="radio" name="exhibit-brand" value={b} data-event={`exhibit_brand_${b}`} /><span><i class="tab__dot" style={`--dot: ${dot(b)}`} aria-hidden="true"></i>{BRAND_NAME[b]}</span></label>
+          ))}
           </div>
-          <button type="button" class="ctl__reset ts-label-sm" data-reset disabled>{s.controls.reset}</button>
         </fieldset>
-        <fieldset class="ctl">
-          <legend class="ctl__legend ts-label-sm">{s.controls.theme}</legend>
-          <div class="ctl__row">
-            {THEMES.map((th) => (
-              <label class="ctl__item ts-label-md"><input type="radio" name="exhibit-theme" value={th} checked={th === "light"} data-event={`exhibit_theme_${th}`} /><span>{s.controls.themes[th]}</span></label>
-            ))}
+        <fieldset class="tabs tabs--theme">
+          <legend class="tabs__legend ts-label-sm">{s.controls.theme}</legend>
+          <div class="tabs__row">
+          {THEMES.map((th) => (
+            <label class="tab ts-label-sm"><input type="radio" name="exhibit-theme" value={th} checked={th === "light"} data-event={`exhibit_theme_${th}`} /><span>{s.controls.themes[th]}</span></label>
+          ))}
           </div>
         </fieldset>
       </div>
 
-      <!-- Сцена: той самий DOM для всіх станів. Компонентні токени демо читаються зі scope .xstage -->
-      <div class="xstage ts-body-md-regular" data-stage data-brand="site" data-theme="light" aria-hidden="true" inert>
-        <div class="xs-header">
-          <span class="xs-logo"><i class="xs-logo__icon" data-token="header.logo.iconColor"></i><span class="ts-title-t5">{st.logo}</span></span>
-          <span class="xs-nav ts-label-md">
-            {st.nav.map((n, i) => <span class:list={["xs-link", i === 0 && "xs-link--active"]}>{n}</span>)}
-          </span>
-          <span class="xs-balance ts-label-md"><i class="xs-balance__icon"></i>{st.balance}</span>
-        </div>
-        <div class="xs-body">
-          <div class="xs-promo">
-            <div class="xs-promo__text">
-              <p class="xs-promo__title ts-title-t3">{st.promoTitle}</p>
-              <p class="ts-body-md-regular">{st.promoText}</p>
-            </div>
-            <span class="xs-btn xs-btn--primary ts-label-md" data-token="button.primary.bg.default button.borderRadius">{st.promoAction}</span>
+      <!-- Plate: поверхня-основа експозиції (.surface--raised). Усередині — сцена: той самий DOM для всіх станів -->
+      <div class="exhibit__plate surface surface--raised">
+        <div class="xstage ts-body-md-regular" data-stage data-brand="site" data-theme="light" aria-hidden="true" inert>
+          <div class="xs-header">
+            <span class="xs-logo"><i class="xs-logo__icon" data-token="header.logo.iconColor"></i><span class="ts-title-t5">{st.logo}</span></span>
+            <span class="xs-nav ts-label-md">
+              {st.nav.map((n, i) => <span class:list={["xs-link", i === 0 && "xs-link--active"]}>{n}</span>)}
+            </span>
+            <span class="xs-balance ts-label-md"><i class="xs-balance__icon"></i>{st.balance}</span>
           </div>
-          <div class="xs-chips ts-label-md">
-            {st.chips.map((c, i) => <span class:list={["xs-chip", i === 1 && "xs-chip--selected"]}>{c}</span>)}
-          </div>
-          <div class="xs-tiles">
-            {st.tiles.map((tile, i) => (
-              <div class="xs-tile">
-                <div class={`xs-tile__art xs-tile__art--${"abc"[i]}`}><i></i></div>
-                <p class="ts-label-md xs-tile__title">{tile.title}</p>
-                <p class="ts-body-sm-regular xs-tile__meta">{tile.meta}</p>
+          <div class="xs-body">
+            <div class="xs-promo">
+              <i class="xs-shape xs-shape--a"></i><i class="xs-shape xs-shape--b"></i><i class="xs-shape xs-shape--c"></i>
+              <div class="xs-promo__bar surface surface--glass-strong">
+                <div class="xs-promo__text">
+                  <p class="xs-promo__title ts-title-t3">{st.promoTitle}</p>
+                  <p class="ts-body-md-regular">{st.promoText}</p>
+                </div>
+                <span class="xs-btn xs-btn--primary ts-label-md" data-token="button.primary.bg.default button.borderRadius">{st.promoAction}</span>
               </div>
-            ))}
-          </div>
-          <div class="xs-card" data-token="card.default.bg">
-            <p class="ts-title-t5 xs-card__title">{st.cardTitle}<span class="xs-badge ts-label-sm" data-token="badge.primary.bg">{st.badge}</span></p>
-            <div class="xs-input" data-token="input.br.active">
-              <span class="xs-input__label ts-label-sm">{st.inputLabel}</span>
-              <span class="xs-input__field ts-body-md-regular">{st.inputValue}</span>
             </div>
-            <div class="xs-actions">
-              <span class="xs-btn xs-btn--primary ts-label-md" data-token="button.primary.bg.default button.borderRadius">{st.save}</span>
-              <span class="xs-btn xs-btn--secondary ts-label-md">{st.cancel}</span>
+            <div class="xs-collection">
+              <div class="xs-section">
+                <p class="xs-section__title ts-title-t4">{st.sectionTitle}</p>
+                <div class="xs-chips ts-label-md">
+                  {st.chips.map((c, i) => <span class:list={["xs-chip", i === 1 && "xs-chip--selected"]}>{c}</span>)}
+                </div>
+              </div>
+              <div class="xs-tiles">
+                {st.tiles.map((tile, i) => (
+                  <div class="xs-tile">
+                    <div class={`xs-tile__art xs-tile__art--${"abc"[i]}`}><i></i>{i === 0 && <span class="xs-badge xs-badge--neutral ts-label-sm">{st.badge}</span>}</div>
+                    <p class="ts-label-md xs-tile__title">{tile.title}</p>
+                    <p class="ts-body-sm-regular xs-tile__meta">{tile.meta}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="xs-card" data-token="card.default.bg">
+              <p class="ts-title-t5 xs-card__title">{st.cardTitle}<span class="xs-badge ts-label-sm" data-token="badge.primary.bg">{st.badge}</span></p>
+              <div class="xs-input" data-token="input.br.active">
+                <span class="xs-input__label ts-label-sm">{st.inputLabel}</span>
+                <span class="xs-input__field ts-body-md-regular">{st.inputValue}</span>
+              </div>
+              <div class="xs-actions">
+                <span class="xs-btn xs-btn--primary ts-label-md" data-token="button.primary.bg.default button.borderRadius">{st.save}</span>
+                <span class="xs-btn xs-btn--secondary ts-label-md">{st.cancel}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Лінза: перші факти + властивості бренду + шлях резолву вибраного токена -->
-      <div class="exhibit__lens lens">
+      <!-- Лінза: інспектор системи під продуктом — факти, вибір токена, шлях резолву, властивості файлу бренду -->
+      <div class="exhibit__lens lens" data-lens>
         <dl class="facts" aria-label={s.facts.title}>
-          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.brandValues}</dt><dd class="ts-display-d3">{amount.brandValues}</dd></div>
-          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.componentTokens}</dt><dd class="ts-display-d3">{amount.componentTokens}</dd></div>
-          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.aliases}</dt><dd class="ts-display-d3">{amount.aliases}</dd></div>
-          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.matrix}</dt><dd class="ts-display-d3">{amount.matrix}</dd></div>
+          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.brandValues}</dt><dd class="ts-title-t1">{amount.brandValues}</dd></div>
+          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.componentTokens}</dt><dd class="ts-title-t1">{amount.componentTokens}</dd></div>
+          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.aliases}</dt><dd class="ts-title-t1">{amount.aliases}</dd></div>
+          <div class="fact"><dt class="ts-body-sm-regular">{s.facts.matrix}</dt><dd class="ts-title-t1">{amount.matrix}</dd></div>
         </dl>
 
-        <h3 class="lens__title ts-title-t5">{s.lens.title}</h3>
-        <fieldset class="ctl ctl--tokens">
-          <legend class="ctl__legend ts-label-sm">{s.lens.tokenLabel}</legend>
-          <div class="ctl__row ctl__row--wrap">
-            {TOKENS.map((tk, i) => (
-              <label class="ctl__item ctl__item--token ts-label-sm"><input type="radio" name="exhibit-token" value={tk} checked={i === 0} /><span>{tk}</span></label>
-            ))}
-          </div>
+        <h3 class="lens__title ts-label-md">{s.lens.title}</h3>
+        <fieldset class="toklist">
+          <legend class="lens__sub ts-label-sm">{s.lens.tokenLabel}</legend>
+          {TOKENS.map((tk, i) => (
+            <label class="tok ts-body-sm-strong"><input type="radio" name="exhibit-token" value={tk} checked={i === 0} /><span>{tk}</span></label>
+          ))}
         </fieldset>
-        <div class="path">
-          <p class="ts-label-sm lens__sub">{s.lens.path}</p>
-          <ol class="path__list" data-path></ol>
-        </div>
-        <div class="props">
-          <p class="ts-label-sm lens__sub">{s.lens.props}</p>
-          <ul class="props__list ts-body-sm-regular" data-props></ul>
-          <p class="props__note ts-body-sm-regular">{s.lens.fontNote}</p>
+        <div class="lens__block" data-swap>
+          <p class="lens__sub ts-label-sm">{s.lens.path}</p>
+          <ol class="trace" data-path></ol>
         </div>
         <p class="sr-only" role="status" aria-live="polite" data-live></p>
+      </div>
+
+      <!-- Що задає файл бренду: під продуктом (десктоп) — кольори, радіуси, шрифти як справжні токени -->
+      <div class="exhibit__props" data-swap>
+        <p class="lens__sub ts-label-sm">{s.lens.props}</p>
+        <ul class="props ts-body-sm-regular" data-props></ul>
+        <p class="props__note ts-body-sm-regular">{s.lens.fontNote}</p>
       </div>
     </div>
 
@@ -134,19 +147,19 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
   const root = document.querySelector<HTMLElement>("[data-exhibit]");
   if (root) {
     const stage = root.querySelector<HTMLElement>("[data-stage]")!;
+    const lens = root.querySelector<HTMLElement>(".exhibit")!;
     const data = JSON.parse(root.querySelector("[data-exhibit-data]")!.textContent!);
     const L = JSON.parse(root.querySelector("[data-exhibit-labels]")!.textContent!);
     const brandInputs = [...root.querySelectorAll<HTMLInputElement>('input[name="exhibit-brand"]')];
     const themeInputs = [...root.querySelectorAll<HTMLInputElement>('input[name="exhibit-theme"]')];
     const tokenInputs = [...root.querySelectorAll<HTMLInputElement>('input[name="exhibit-token"]')];
-    const reset = root.querySelector<HTMLButtonElement>("[data-reset]")!;
     const live = root.querySelector<HTMLElement>("[data-live]")!;
     const pathEl = root.querySelector<HTMLElement>("[data-path]")!;
     const propsEl = root.querySelector<HTMLElement>("[data-props]")!;
     const html = document.documentElement;
     let themeExplicit = false;
     const siteTheme = () => (html.dataset.theme === "dark" ? "dark" : "light");
-    const brand = () => brandInputs.find((i) => i.checked)?.value ?? data.neutral;
+    const brand = () => brandInputs.find((i) => i.checked)!.value;
     const theme = () => themeInputs.find((i) => i.checked)!.value;
     const token = () => tokenInputs.find((i) => i.checked)!.value;
     const isColor = (v?: string) => !!v && /^#[0-9a-f]{3,8}$/i.test(v);
@@ -163,17 +176,17 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
       const chain = state.chains[token()];
       pathEl.replaceChildren(
         ...chain.steps.map((s: any) => {
-          const li = el("li", "path__step");
-          li.append(el("span", "path__layer ts-overline-sm", data.i18n.layerNames[s.layer] ?? s.layer), el("code", "path__name ts-body-sm-strong", s.name));
-          if (s.note) li.append(el("span", "path__note ts-body-xs-regular", noteText(s.note)));
-          if (s.value && !s.ref) { const v = el("span", "path__value ts-body-sm-regular"); if (isColor(s.value)) v.append(swatch(s.value)); v.append(s.value); li.append(v); }
+          const li = el("li", "trace__step");
+          li.append(el("span", "trace__layer ts-overline-sm", data.i18n.layerNames[s.layer] ?? s.layer), el("code", "trace__name ts-body-sm-strong", s.name));
+          if (s.note) li.append(el("span", "trace__note ts-body-xs-regular", noteText(s.note)));
+          if (s.value && !s.ref) { const v = el("span", "trace__value ts-body-sm-regular"); if (isColor(s.value)) v.append(swatch(s.value)); v.append(s.value); li.append(v); }
           return li;
         }),
-        (() => { const li = el("li", "path__step path__step--result"); const v = el("span", "path__value ts-body-md-strong"); if (isColor(chain.value)) v.append(swatch(chain.value)); v.append(chain.value); li.append(el("span", "path__layer ts-overline-sm", L.result), v); return li; })(),
+        (() => { const li = el("li", "trace__step trace__step--result"); const v = el("span", "trace__value ts-title-t5"); if (isColor(chain.value)) v.append(swatch(chain.value)); v.append(chain.value); li.append(el("span", "trace__layer ts-overline-sm", L.result), v); return li; })(),
       );
     }
     function renderProps(state: any) {
-      const row = (label: string, ...vals: (string | Node)[]) => { const li = el("li", "props__row"); li.append(el("span", "props__label", label)); const v = el("span", "props__vals"); v.append(...vals.map((x) => (typeof x === "string" ? el("span", undefined, x) : x))); li.append(v); return li; };
+      const row = (label: string, ...vals: (string | Node)[]) => { const li = el("li", "props__row"); li.append(el("span", "props__label ts-label-sm", label)); const v = el("span", "props__vals"); v.append(...vals.map((x) => (typeof x === "string" ? el("span", undefined, x) : x))); li.append(v); return li; };
       const colors = Object.entries(state.colors).map(([k, c]) => { const w = el("span", "props__color"); w.append(swatch(c as string), `${k.replace("color.", "")} ${c}`); return w; });
       propsEl.replaceChildren(
         row(L.props.colors, ...colors),
@@ -186,12 +199,13 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
       stage.querySelectorAll("[data-hl]").forEach((n) => n.removeAttribute("data-hl"));
       stage.querySelectorAll("[data-token]").forEach((n) => { if ((n.getAttribute("data-token") ?? "").split(" ").includes(tk)) n.setAttribute("data-hl", ""); });
     }
+    // Коротке «резолвиться» для лінзи: opacity-перехід (CSS), без руху розкладки; reduced motion — миттєво
+    function resolving() { lens.classList.add("is-resolving"); requestAnimationFrame(() => requestAnimationFrame(() => lens.classList.remove("is-resolving"))); }
     function apply(announce: boolean) {
       const b = brand(), th = theme();
       stage.dataset.brand = b; stage.dataset.theme = th;
-      reset.disabled = b === data.neutral;
       const state = data.states[`${b}|${th}`];
-      renderPath(state); renderProps(state); highlight();
+      renderPath(state); renderProps(state); highlight(); resolving();
       if (announce) {
         const themeName = data.i18n.themes[th];
         live.textContent = b === data.neutral ? data.i18n.announce.neutral.replace("{theme}", themeName) : data.i18n.announce.brand.replace("{brand}", data.names[b]).replace("{theme}", themeName);
@@ -201,70 +215,95 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
     const syncTheme = () => { if (!themeExplicit) { const th = siteTheme(); themeInputs.forEach((i) => (i.checked = i.value === th)); apply(false); } };
     brandInputs.forEach((i) => i.addEventListener("change", () => apply(true)));
     themeInputs.forEach((i) => i.addEventListener("change", () => { themeExplicit = true; apply(true); }));
-    tokenInputs.forEach((i) => i.addEventListener("change", () => { const state = data.states[`${brand()}|${theme()}`]; renderPath(state); highlight(); }));
-    reset.addEventListener("click", () => { brandInputs.forEach((i) => (i.checked = false)); apply(true); brandInputs[0].focus(); });
+    tokenInputs.forEach((i) => i.addEventListener("change", () => { renderPath(data.states[`${brand()}|${theme()}`]); highlight(); resolving(); }));
     new MutationObserver(syncTheme).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     syncTheme();
   }
 </script>
 
 <style>
-  /* Каркас секції: індекс-рядок, твердження, lead — та сама мова, що в Positioning. Далі експозиція: сцена домінує, керування й лінза — другорядні */
+  /* Каркас секції: індекс-рядок, твердження, lead — та сама мова, що в Positioning. Далі експозиція: Stage домінує, лінза — другорядна */
   .signature__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); color: var(--exhibit-label-color); }
   .signature__title { margin-top: var(--section-gap); color: var(--exhibit-title-color); }
   .signature__lead { margin-top: var(--section-gap); color: var(--exhibit-text-color); }
   .exhibit { display: grid; gap: var(--l-gap); margin-top: calc(var(--layout-section-padding) * 0.6); grid-template-columns: minmax(0, 1fr); }
-  @media (min-width: 1024px) {
-    .exhibit { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); grid-template-areas: "stage controls" "stage lens"; align-items: start; }
+  .exhibit__controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-gap-xl) var(--l-gap); padding-bottom: var(--space-padding-sm); border-bottom: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  /* ≥ 1200: Stage ≈ 2/3 ширини, лінза праворуч; нижче — лінза під сценою у дві колонки */
+  @media (min-width: 768px) { .lens { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--l-gap); } .facts { grid-column: 1 / -1; } .lens__title { grid-column: 1 / -1; } }
+  @media (min-width: 1200px) {
+    .exhibit { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); grid-template-areas: "controls controls" "plate lens" "props lens"; align-items: start; }
     .exhibit__controls { grid-area: controls; }
-    .xstage { grid-area: stage; }
+    .exhibit__plate { grid-area: plate; }
     .exhibit__lens { grid-area: lens; }
+    .exhibit__props { grid-area: props; }
+    .lens { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* ---------- керування (поза scope, монохром) ---------- */
-  .exhibit__controls { display: grid; gap: var(--space-gap-xl); }
-  .ctl { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-md); }
-  .ctl__legend { padding: 0; color: var(--exhibit-label-color); width: 100%; }
-  .ctl__row { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); }
-  .ctl__row--wrap { gap: var(--space-gap-sm); }
-  .ctl__item { position: relative; display: inline-flex; }
-  .ctl__item input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-  .ctl__item span {
-    display: inline-flex; align-items: center; min-height: var(--size-control-md); padding-inline: var(--space-padding-md); box-sizing: border-box;
-    border: var(--action-borderWidth) solid var(--action-secondary-br-default); border-radius: var(--button-borderRadius);
-    background: var(--action-secondary-bg-default); color: var(--action-secondary-color-default);
-    transition: background-color var(--motion-duration-fast) var(--motion-easing-out), border-color var(--motion-duration-fast) var(--motion-easing-out);
+  /* ---------- керування: редакційні вкладки (поза scope, монохром) ---------- */
+  .tabs { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: var(--space-gap-xs); }
+  .tabs__legend { padding: 0; color: var(--exhibit-label-color); }
+  .tabs__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-sm) var(--space-gap-xl); }
+  .tab { position: relative; display: inline-flex; }
+  .tab input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .tab span {
+    display: inline-flex; align-items: center; gap: var(--space-gap-md); min-height: var(--size-control-md); box-sizing: border-box;
+    border-bottom: calc(var(--borderWidth-control) * 2) solid transparent; color: var(--exhibit-text-color);
+    transition: color var(--motion-duration-fast) var(--motion-easing-out), border-color var(--motion-duration-fast) var(--motion-easing-out);
   }
-  .ctl__item--token span { min-height: var(--size-control-sm); padding-inline: var(--space-padding-sm); overflow-wrap: anywhere; }
-  @media (hover: hover) { .ctl__item:hover span { background: var(--action-secondary-bg-hover); border-color: var(--action-secondary-br-hover); } }
-  /* вибраний стан — інверсна заливка (не лише колір: ще й контраст заливки) */
-  .ctl__item input:checked + span { background: var(--action-bg-default); border-color: var(--action-bg-default); color: var(--action-color-default); }
-  .ctl__item input:focus-visible + span { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 3); }
-  .ctl__reset { border: 0; background: transparent; color: var(--exhibit-text-color); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; padding: var(--space-gap-sm) 0; }
-  .ctl__reset:disabled { color: var(--exhibit-label-color); text-decoration: none; cursor: default; }
-  .ctl__reset:focus-visible { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  @media (hover: hover) { .tab:hover span { color: var(--exhibit-title-color); } }
+  /* вибрана вкладка: колір + підкреслення (не лише колір) */
+  .tab input:checked + span { color: var(--exhibit-title-color); border-bottom-color: var(--exhibit-title-color); }
+  .tab input:focus-visible + span { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  /* Neutral — вихідний стан: відокремлений тонкою лінією від чотирьох брендів */
+  .tab--origin { padding-inline-end: var(--space-gap-xl); border-inline-end: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  /* реальний колір product1 бренду — тільки в обраній вкладці */
+  .tab__dot { display: none; width: var(--iconSize-sm); height: var(--iconSize-sm); border-radius: var(--borderRadius-pill); background: var(--dot); border: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  .tab input:checked + span .tab__dot { display: inline-block; }
+  .tabs--theme .tab span { min-height: var(--size-control-sm); }
 
-  /* ---------- лінза ---------- */
-  .lens { display: grid; gap: var(--space-gap-xl); min-width: 0; }
+  .exhibit__props { min-width: 0; padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  @media (min-width: 768px) { .props { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--l-gap); } }
+  /* ---------- plate: основа експозиції ---------- */
+  .exhibit__plate { padding: var(--space-padding-md); border-radius: var(--borderRadius-panel); min-width: 0; }
+
+  /* ---------- лінза: інспектор під продуктом ---------- */
+  .lens { display: grid; gap: var(--space-gap-xl); min-width: 0; align-content: start; }
+  .lens__title { color: var(--exhibit-title-color); text-transform: none; margin-top: var(--space-gap-md); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  .lens__sub { color: var(--exhibit-label-color); margin-bottom: var(--space-gap-md); }
+  .lens__block { min-width: 0; }
   .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--l-gap); margin: 0; }
-  .fact { min-width: 0; display: flex; flex-direction: column-reverse; gap: var(--space-gap-sm); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  .fact { min-width: 0; display: flex; flex-direction: column-reverse; gap: var(--space-gap-xs); padding-top: var(--space-padding-sm); border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); }
   .fact dt { color: var(--exhibit-text-color); overflow-wrap: anywhere; }
   .fact dd { margin: 0; color: var(--exhibit-title-color); font-variant-numeric: tabular-nums; }
-  .lens__title { color: var(--exhibit-title-color); }
-  .lens__sub { color: var(--exhibit-label-color); margin-bottom: var(--space-gap-md); }
-  .path__list { display: grid; gap: var(--space-gap-sm); }
-  :global(.path__step) { display: grid; gap: var(--space-gap-xs); padding: var(--space-padding-sm) 0; border-top: var(--borderWidth-control) solid var(--exhibit-rule-br); min-width: 0; }
-  :global(.path__layer), :global(.path__note) { color: var(--exhibit-label-color); }
-  :global(.path__name) { color: var(--exhibit-title-color); overflow-wrap: anywhere; }
-  :global(.path__value) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--exhibit-title-color); overflow-wrap: anywhere; }
-  :global(.path__step--result .path__value) { color: var(--exhibit-title-color); }
+  /* вибір токена: компактний список (радіо), вибраний — смужка + колір */
+  .toklist { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-gap-md); }
+  .toklist .lens__sub { padding: 0; grid-column: 1 / -1; }
+  .toklist legend { float: none; }
+  @media (max-width: 479px) { .toklist { grid-template-columns: minmax(0, 1fr); } }
+  .tok { position: relative; display: block; }
+  .tok input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .tok span { display: block; padding: var(--space-gap-sm) var(--space-gap-lg); border-inline-start: calc(var(--borderWidth-control) * 2) solid transparent; color: var(--exhibit-text-color); overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out), background-color var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .tok:hover span { background: var(--action-text-bg-hover); } }
+  .tok input:checked + span { color: var(--exhibit-title-color); border-inline-start-color: var(--exhibit-title-color); background: var(--action-text-bg-hover); }
+  .tok input:focus-visible + span { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  /* шлях резолву: вертикальна «траса» з вузлами; динамічні вузли — :global (їх створює скрипт) */
+  .trace { display: grid; margin: 0; padding-inline-start: var(--space-padding-sm); border-inline-start: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  :global(.trace__step) { position: relative; display: grid; gap: var(--space-gap-xs); padding: var(--space-gap-md) 0 var(--space-gap-md) var(--space-padding-md); min-width: 0; }
+  :global(.trace__step)::before { content: ""; position: absolute; inset-inline-start: calc(var(--space-padding-sm) * -1 - var(--borderWidth-control) - var(--iconSize-xs) / 2 + var(--borderWidth-control) / 2); top: calc(var(--space-gap-md) + var(--space-gap-xs)); width: var(--iconSize-xs); height: var(--iconSize-xs); box-sizing: border-box; border-radius: var(--borderRadius-pill); background: var(--exhibit-rule-br); border: var(--borderWidth-control) solid var(--exhibit-label-color); }
+  :global(.trace__step--result)::before { background: var(--exhibit-title-color); border-color: var(--exhibit-title-color); }
+  :global(.trace__layer), :global(.trace__note) { color: var(--exhibit-label-color); }
+  :global(.trace__name) { color: var(--exhibit-title-color); overflow-wrap: anywhere; }
+  :global(.trace__value) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--exhibit-title-color); overflow-wrap: anywhere; }
   :global(.swatch) { display: inline-block; flex: none; width: var(--iconSize-sm); height: var(--iconSize-sm); background: var(--c); border: var(--borderWidth-control) solid var(--exhibit-rule-br); border-radius: var(--borderRadius-control); }
-  .props__list { display: grid; gap: var(--space-gap-md); }
+  .props { display: grid; gap: var(--space-gap-md); margin: 0; }
   :global(.props__row) { display: grid; gap: var(--space-gap-xs); color: var(--exhibit-text-color); }
   :global(.props__label) { color: var(--exhibit-label-color); }
-  :global(.props__vals) { display: grid; gap: var(--space-gap-xs); overflow-wrap: anywhere; }
+  :global(.props__vals) { display: flex; flex-wrap: wrap; gap: var(--space-gap-xs) var(--space-gap-xl); overflow-wrap: anywhere; }
   :global(.props__color) { display: inline-flex; align-items: center; gap: var(--space-gap-sm); }
   .props__note { margin-top: var(--space-gap-md); color: var(--exhibit-label-color); }
+  /* «резолвиться»: короткий opacity-перехід тільки в лінзі, без руху розкладки */
+  .exhibit [data-swap] { transition: opacity var(--motion-duration-base) var(--motion-easing-out); }
+  .exhibit.is-resolving [data-swap] { opacity: 0.4; transition: none; }
 
   /* ---------- сцена: компоненти демо на scoped-токенах (.xstage[data-brand][data-theme]). Ніяких значень тут — лише var(--…) ---------- */
   .xstage {
@@ -272,8 +311,8 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
     background: var(--color-bg-primary); color: var(--color-text-primary);
     border: var(--borderWidth-control) solid var(--color-border-tertiary); border-radius: var(--borderRadius-surface);
   }
-  /* перехід безпечних властивостей при зміні бренду / теми: без руху, без зміни розкладки; reduced motion — нижче */
-  .xstage :is(.xs-header, .xs-body, .xs-link, .xs-balance, .xs-chip, .xs-promo, .xs-btn, .xs-tile__art, .xs-card, .xs-input, .xs-badge, i) {
+  /* перехід безпечних властивостей при зміні бренду / теми: колір, рамка, радіус; без руху й зміни розкладки */
+  .xstage :is(.xs-header, .xs-body, .xs-link, .xs-balance, .xs-chip, .xs-promo, .xs-promo__bar, .xs-btn, .xs-tile__art, .xs-card, .xs-input__field, .xs-badge, .xs-shape, i) {
     transition: background-color var(--motion-duration-slow) var(--motion-easing-standard), color var(--motion-duration-slow) var(--motion-easing-standard), border-color var(--motion-duration-slow) var(--motion-easing-standard), border-radius var(--motion-duration-slow) var(--motion-easing-standard);
   }
   .xstage, .xstage p { margin: 0; }
@@ -282,30 +321,41 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
   .xs-logo__icon { width: var(--header-logo-height); height: var(--header-logo-height); background: var(--header-logo-iconColor); border-radius: var(--borderRadius-control); }
   .xs-nav { display: flex; gap: var(--header-nav-gap); margin-inline-start: var(--space-gap-xl); min-width: 0; }
   .xs-link { padding: var(--header-link-paddingV) var(--header-link-paddingH); border-radius: var(--header-link-borderRadius); color: var(--color-text-primary); white-space: nowrap; } /* text.primary: header.link.color.default (text.secondary) дає 3.94 : 1 у Aurum light — tasks/demo-03 */
-  .xs-link--active { background: var(--header-link-bg-hover); color: var(--color-text-primary); }
+  .xs-link--active { background: var(--header-link-bg-hover); }
   .xs-balance { margin-inline-start: auto; display: inline-flex; align-items: center; gap: var(--balance-gap-md); padding-inline: var(--balance-paddingL-md) var(--balance-paddingL-sm); height: var(--size-control-sm); background: var(--balance-bg); color: var(--balance-color); border-radius: var(--balance-borderRadius); }
   .xs-balance__icon { width: var(--balance-iconSize-md); height: var(--balance-iconSize-md); border-radius: var(--borderRadius-pill); background: var(--balance-iconColor); }
-  .xs-body { display: grid; gap: var(--space-gap-xl); padding: var(--space-padding-xl); background: var(--color-bg-primary); }
-  .xs-promo { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--promo-gap-md); padding: var(--promo-paddingV-md) var(--promo-paddingH-md); border-radius: var(--promo-borderRadius); position: relative; isolation: isolate; background: var(--art-jackpot-bg); color: var(--promo-text-color); }
-  .xs-promo::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--promo-overlay-bg); }
-  .xs-promo__text { display: grid; gap: var(--promo-gap-xs); min-width: 0; }
-  .xs-promo__title { color: var(--promo-title-color); }
+  .xs-body { display: grid; gap: var(--space-gap-xl); padding: var(--space-padding-md); grid-template-columns: minmax(0, 1fr); background: var(--color-bg-primary); }
+  /* промо: фон — ілюстраційна сцена бренду (art.jackpot), затемнення bg.overlay, три форми з кольорів бренду, внизу — фокусний шар glass-strong */
+  .xs-promo { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: end; min-height: calc(var(--size-control-xl) * 3.5); padding: var(--space-padding-md); border-radius: var(--promo-borderRadius); background: var(--art-jackpot-bg); }
+  .xs-promo::before { content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; background: var(--promo-overlay-bg); }
+  .xs-shape { position: absolute; z-index: -1; border-radius: var(--borderRadius-pill); }
+  .xs-shape--a { inset-block-start: var(--space-padding-xl); inset-inline-end: calc(var(--size-control-xl) * 1.2); width: calc(var(--size-control-xl) * 2); height: calc(var(--size-control-xl) * 2); background: var(--color-illustration-primary-base); }
+  .xs-shape--b { inset-block-start: calc(var(--space-padding-xl) * 1.5); inset-inline-end: calc(var(--size-control-xl) * 3.6); width: var(--size-control-xl); height: var(--size-control-xl); background: var(--color-illustration-accent-base); }
+  .xs-shape--c { inset-block-start: calc(var(--size-control-xl) * 2.1); inset-inline-end: var(--space-padding-xl); width: calc(var(--size-control-xl) * 0.8); height: calc(var(--size-control-xl) * 0.8); background: var(--color-illustration-info-base); }
+  .xs-promo__bar { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-gap-xl); width: 100%; box-sizing: border-box; padding: var(--space-padding-md); border-radius: var(--promo-borderRadius); color: var(--color-text-primary); }
+  .xs-promo__text { display: grid; gap: var(--space-gap-xs); min-width: 0; }
+  .xs-promo__title { color: var(--color-text-primary); }
+  .xs-collection { display: grid; gap: var(--space-gap-xl); min-width: 0; align-content: start; }
+  .xs-section { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-gap-md) var(--space-gap-xl); }
+  .xs-section__title { color: var(--sectionHeader-title-color); }
   .xs-chips { display: flex; flex-wrap: wrap; gap: var(--chip-gap); }
   /* неселектований чіп — стани hover (text.primary), бо default не проходить AA в частині брендів (tasks/demo-05); вибраний — selected.hover (onPrimary на fill.primary) */
   .xs-chip { display: inline-flex; align-items: center; height: var(--chip-size-md); padding-inline: var(--chip-paddingH-md); border-radius: var(--chip-borderRadius); border: var(--borderWidth-control) solid var(--chip-br-hover); background: var(--chip-bg-hover); color: var(--chip-color-hover); }
   .xs-chip--selected { background: var(--chip-selected-bg-hover); border-color: var(--chip-selected-br-hover); color: var(--chip-selected-color-hover); }
   .xs-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gameTile-gap); }
   .xs-tile { display: grid; gap: var(--gameTile-info-gap); align-content: start; min-width: 0; }
-  .xs-tile__art { display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: var(--gameTile-borderRadius); }
+  .xs-tile__art { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: var(--gameTile-borderRadius); }
   .xs-tile__art--a { background: var(--art-a-bg); } .xs-tile__art--b { background: var(--art-b-bg); } .xs-tile__art--c { background: var(--art-c-bg); }
   .xs-tile__art i { width: var(--size-control-md); height: var(--size-control-md); border-radius: var(--borderRadius-control); background: var(--color-fill-primary-default); }
+  .xs-tile__art .xs-badge { position: absolute; inset-block-start: var(--space-gap-md); inset-inline-start: var(--space-gap-md); }
   .xs-tile__title { color: var(--gameTile-title-color); }
+  .xs-tile__meta { color: var(--color-text-primary); } /* text.secondary дає 3.94 : 1 у Aurum light */
   /* однорядкові підписи: шрифти брендів різної ширини не міняють висоту сцени між станами */
   .xs-tile__title, .xs-tile__meta, .xs-btn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-  .xs-tile__meta { color: var(--color-text-primary); } /* text.secondary дає 3.94 : 1 у Aurum light */
-  .xs-card { display: grid; gap: var(--card-default-gap-sm); padding: var(--card-default-paddingV-md) var(--card-default-paddingH-md); background: var(--card-default-bg); border: var(--card-default-borderWidth) solid var(--card-default-br); border-radius: var(--card-default-borderRadius); }
+  .xs-card { display: grid; gap: var(--card-default-gap-sm); align-content: start; padding: var(--card-default-paddingV-md) var(--card-default-paddingH-md); background: var(--card-default-bg); border: var(--card-default-borderWidth) solid var(--card-default-br); border-radius: var(--card-default-borderRadius); }
   .xs-card__title { display: flex; align-items: center; gap: var(--space-gap-md); color: var(--color-text-primary); }
   .xs-badge { display: inline-flex; align-items: center; height: var(--badge-size); padding-inline: var(--badge-paddingH); border-radius: var(--badge-borderRadius); background: var(--badge-primary-bg); color: var(--badge-primary-color); }
+  .xs-badge--neutral { background: var(--badge-neutral-bg); color: var(--badge-neutral-color); }
   .xs-input { display: grid; gap: var(--input-wrapper-gap); }
   .xs-input__label { color: var(--color-text-primary); } /* input.label (text.secondary) дає 4.18 : 1 у Aurum light */
   .xs-input__field { display: flex; align-items: center; height: var(--input-size-md); padding-inline: var(--input-paddingH-md); background: var(--input-bg-active); border: var(--input-borderWidth) solid var(--input-br-active); border-radius: var(--input-borderRadius); color: var(--input-color-active); }
@@ -314,20 +364,23 @@ const amount = { brandValues: String(facts.brandValues), componentTokens: String
   .xs-btn--primary { background: var(--button-primary-bg-default); color: var(--button-primary-color-default); }
   .xs-btn--secondary { background: var(--button-secondary-bg-default); color: var(--button-secondary-color-default); }
   /* підсвітка елементів, що відповідають вибраному токену лінзи (обведення — форма, не лише колір) */
-  .xstage [data-hl] { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--color-text-primary); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
-  /* широка сцена: тіло в дві колонки (card праворуч) */
+  .xstage [data-hl] { outline: var(--focus-outline-borderWidth) solid var(--color-text-primary); outline-offset: calc(var(--focus-outline-borderWidth) * 3); }
+  /* широка сцена: промо на всю ширину, нижче колекція зліва й картка справа */
   @container (min-width: 640px) { /* allow: брейкпоінт контейнера */
-    .xs-body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
-    .xs-promo, .xs-chips, .xs-tiles { grid-column: 1; }
-    .xs-card { grid-column: 2; grid-row: 1 / span 3; }
+    .xs-body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-padding-xl); padding: var(--space-padding-xl); align-items: start; }
+    .xs-promo { grid-column: 1 / -1; min-height: calc(var(--size-control-xl) * 5); padding: var(--space-padding-xl); }
+    .xs-promo__title { font-size: var(--fontSize-28); line-height: var(--lineHeight-36); }
+    .xs-tile__art { aspect-ratio: 1 / 1; }
+    .xs-promo__bar { padding: var(--space-padding-lg) var(--space-padding-xl); }
+    .xs-collection { grid-column: 1; }
+    .xs-card { grid-column: 2; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .xstage :is(.xs-header, .xs-body, .xs-link, .xs-balance, .xs-chip, .xs-promo, .xs-btn, .xs-tile__art, .xs-card, .xs-input, .xs-badge, i) { transition: none; }
-    .ctl__item span { transition: none; }
-  }
-  /* вузька сцена: чотири чіпи не вміщаються в усіх шрифтах брендів — четвертий ховаємо, щоб висота не стрибала між брендами */
-  @container (max-width: 480px) { .xs-chip:nth-child(4) { display: none; } } /* allow: брейкпоінт контейнера */
+  /* вузька сцена: чотири чіпи не вміщаються в усіх шрифтах брендів — зайві ховаємо, щоб висота не стрибала між брендами; меню ховаємо */
+  @container (max-width: 520px) { .xs-nav { display: none; } .xs-chip:nth-child(4) { display: none; } } /* allow: брейкпоінт контейнера */
   @container (max-width: 380px) { .xs-chip:nth-child(3) { display: none; } } /* allow: брейкпоінт контейнера */
-  @media (max-width: 559px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .xs-nav { display: none; } .xs-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .xstage :is(.xs-header, .xs-body, .xs-link, .xs-balance, .xs-chip, .xs-promo, .xs-promo__bar, .xs-btn, .xs-tile__art, .xs-card, .xs-input__field, .xs-badge, .xs-shape, i) { transition: none; }
+    .tab span, .tok span, .exhibit [data-swap] { transition: none; }
+  }
   @media (max-width: 359px) { .facts { grid-template-columns: minmax(0, 1fr); } }
 </style>
