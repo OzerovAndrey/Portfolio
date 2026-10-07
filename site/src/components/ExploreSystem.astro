@@ -24,7 +24,7 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
           </h3>
           <div class="acc__panel" id={`acc-panel-${i}`} role="region" aria-labelledby={`acc-trigger-${i}`} data-acc-panel>
             <div class="acc__body">
-              <p class="acc__detail ts-body-lg-regular measure--lead">{item.detail}</p>
+              <p class="acc__detail ts-body-lg-regular">{item.detail}</p>
               {i === 0 && (
                 <ol class="acc__chain ts-label-md" aria-label={e.chainLabel}>
                   {e.chain.map((layer) => <li class="acc__layer">{layer}</li>)}
@@ -78,6 +78,8 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
   .acc__chain { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-md) var(--space-gap-xl); margin: 0; padding: 0; list-style: none; color: var(--positioning-title-color); }
   .acc__layer { display: inline-flex; align-items: center; gap: var(--space-gap-xl); }
   .acc__layer + .acc__layer::before { content: "→"; color: var(--positioning-label-color); }
+  /* ≥ 1024: текст займає 7/12 рядка — трохи за середину екрана, а не вузька колонка */
+  @media (min-width: 1024px) { .acc__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } .acc__body > * { grid-column: 1; } }
   /* ≥ 768: текст панелі вирівняний з назвою (після колонки номера) */
   @media (min-width: 768px) { .acc__body { padding-inline-start: calc(var(--l-gap) + 2ch); } }
   /* Вузькі: номер над назвою, «+» праворуч на рівні назви */
