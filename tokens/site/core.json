@@ -114,18 +114,18 @@
   },
   "letterSpacing": {
     "display": {
-      "value": "-3.5%",
+      "value": "-2%",
       "type": "letterSpacing",
-      "description": "щільніший трекінг для великих розмірів"
+      "description": "display / hero / великі заголовки: трохи вільніше, ніж було (-3.5%)"
     },
     "title": {
-      "value": "-2.5%",
+      "value": "-1.5%",
       "type": "letterSpacing"
     },
     "displayXl": {
-      "value": "-5%",
+      "value": "-2%",
       "type": "letterSpacing",
-      "description": "трекінг найбільшого display"
+      "description": "трекінг найбільшого display (був -5%)"
     }
   },
   "dimension": {

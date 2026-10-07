@@ -1,121 +1,23 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
-import DemoFrame from "../../components/DemoFrame.astro";
-import Architecture from "../../components/Architecture.astro";
-import CaseCards from "../../components/CaseCards.astro";
-import Shot from "../../components/Shot.astro";
-import SignatureWork from "../../components/SignatureWork.astro";
+import Hero from "../../components/Hero.astro";
+import ExploreSystem from "../../components/ExploreSystem.astro";
 import Expertise from "../../components/Expertise.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
-// Крок «How it works» → скрін і якір на /approach
-const steps = [
-  { shot: "figma-variables-modes", anchor: "two-axes" },
-  { shot: "ts-github-sync", anchor: "pipeline" },
-  { shot: "devtools-data-brand", anchor: "code-proof" },
-] as const;
 ---
 <Base lang={lang} page="home" title={d.meta.homeTitle} description={d.meta.homeDescription}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <p class="hero__eyebrow ts-overline-md">{d.hero.eyebrow}</p>
-      <h1 class="hero__title ts-display-d1">{d.hero.title}</h1>
-      <p class="hero__subtitle ts-body-lg-regular measure">{d.hero.subtitle}</p>
-      <div class="hero__actions">
-        <Button size="lg" href="#signature" data-event="cta_demo">{d.hero.ctaDemo}</Button>
-        <Button size="lg" variant="secondary" href="#how">{d.hero.ctaHow}</Button>
-      </div>
-    </div>
-  </section>
+  <Hero lang={lang} />
 
-  <section class="section section--editorial positioning" id="positioning" aria-labelledby="positioning-title">
-    <div class="container">
-      <p class="positioning__label ts-label-md"><span aria-hidden="true">02</span><span>{d.positioning.label}</span></p>
-      <h2 class="positioning__title ts-display-d2 display-lg measure--heading" id="positioning-title">{d.positioning.title}</h2>
-      <ul class="positioning__list">
-        {d.positioning.items.map((i) => (
-          <li class="positioning__item">
-            <h3 class="positioning__item-title ts-title-t5">{i.title}</h3>
-            <p class="positioning__item-detail ts-body-md-regular measure--lead">{i.detail}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <!-- 02: другий шар — розгортається на вимогу. Positioning, Signature Work, демо, How, Architecture, Cases, Audience з Home прибрано
+       (компоненти й копі лишились: Approach, Cases, About). Головна інтерактивна сцена — тільки в Hero -->
+  <ExploreSystem lang={lang} />
 
-  <SignatureWork lang={lang} />
-
-  <!-- Реальне демо — вторинний доказ під експозицією. Контракт ?brand= / ?theme= зовні не заявляємо: DemoFrame лишається як є -->
-  <section class="section section--alt proof" id="demo" aria-labelledby="demo-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="demo-title">{d.signature.proof.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure--lead">{d.signature.proof.lead}</p>
-      </div>
-      <DemoFrame lang={lang} />
-    </div>
-  </section>
-
-  <Expertise lang={lang} />
-
-  <section class="section" id="how" aria-labelledby="how-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="how-title">{d.how.title}</h2>
-      </div>
-      <ol class="steps">
-        {d.how.steps.map((s, i) => (
-          <li class="step">
-            <Shot id={steps[i].shot} lang={lang} sizes="(min-width: 768px) 33vw, 100vw" />
-            <span class="step__index ts-label-lg" aria-hidden="true">{i + 1}</span>
-            <h3 class="step__title ts-title-t4">{s.title}</h3>
-            <p class="step__detail ts-body-md-regular">{s.detail}</p>
-            <a class="step__more ts-label-md" href={`${href(lang, "approach")}#${steps[i].anchor}`} data-event={`how_${steps[i].anchor.replace(/-/g, "_")}`}>{d.how.more} →</a>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="section" id="architecture" aria-labelledby="architecture-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="architecture-title">{d.architecture.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure">{d.architecture.lead}</p>
-      </div>
-      <Architecture lang={lang} />
-    </div>
-  </section>
-
-  <section class="section section--alt" id="cases" aria-labelledby="cases-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="cases-title">{d.cases.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure">{d.cases.lead}</p>
-      </div>
-      <CaseCards lang={lang} />
-    </div>
-  </section>
-
-  <section class="section" id="audience" aria-labelledby="audience-title" data-reveal>
-    <div class="container">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="audience-title">{d.audience.title}</h2>
-      </div>
-      <ul class="audience">
-        {d.audience.items.map((a) => (
-          <li class="audience__item">
-            <h3 class="audience__title ts-title-t4">{a.title}</h3>
-            <p class="audience__detail ts-body-md-regular">{a.detail}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <Expertise lang={lang} compact index="03" />
 
   <section class="section section--alt" aria-labelledby="cta-title" data-reveal>
     <div class="container">
@@ -131,54 +33,10 @@ const steps = [
 </Base>
 
 <style>
-  /* Hero: eyebrow, H1, підзаголовок, два CTA — у тому самому контейнері, що й уся сторінка */
-  .hero { background: var(--hero-bg); padding-block: var(--l-gap) var(--l-row); }
-  .hero__inner { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); }
-  .hero__eyebrow { color: var(--hero-eyebrow-color); }
-  .hero__title {
-    color: var(--hero-title-color); max-width: 14ch; text-wrap: balance; hyphens: auto; overflow-wrap: anywhere;
-    font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
-  }
-  .hero__subtitle { color: var(--hero-subtitle-color); font-size: var(--hero-subtitle-fontSize); line-height: var(--hero-subtitle-lineHeight); }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
-  /* Вузькі екрани: CTA завжди стовпчиком. Інакше перенос кнопок залежить від шрифту, і підміна fallback → Inter
-     зсуває все нижче (CLS 0.10 на 412 px) */
-  @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
-
-  /* Positioning (v3, секція 02): редакційна сцена на canvas, без карток і скла. Індекс-рядок із hairline → велике твердження (display-lg, нижче за hero) →
-     три тези рядками з hairline. Відступи — layout.section.padding (.section--editorial); висота від вмісту, без vh, pin і руху */
-  .positioning__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); color: var(--positioning-label-color); }
-  .positioning__title { margin-top: var(--section-gap); color: var(--positioning-title-color); }
-  .positioning__list { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: calc(var(--layout-section-padding) * 0.6); }
-  .positioning__item { display: grid; align-content: start; grid-template-columns: minmax(0, 1fr); gap: var(--space-gap-md); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .positioning__item-title { color: var(--positioning-item-title-color); }
-  .positioning__item-detail { color: var(--positioning-item-detail-color); }
-  @media (min-width: 768px) { .positioning__item { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--l-gap); } }
-  /* Широкі екрани: три тези колонками праворуч (асиметрія — ліва чверть вільна під твердження) */
-  @media (min-width: 1200px) {
-    .positioning__list { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); }
-    .positioning__item { grid-template-columns: minmax(0, 1fr); grid-column: span 3; }
-    .positioning__item:first-child { grid-column: 4 / span 3; }
-  }
-
-  .steps { display: grid; gap: var(--l-gap); }
-  @media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); } }
-  .step { display: flex; flex-direction: column; gap: var(--step-gap); }
-  .step__index { display: inline-grid; place-items: center; width: var(--step-index-size); height: var(--step-index-size); border-radius: var(--step-index-borderRadius); background: var(--step-index-bg); color: var(--step-index-color); }
-  .step__title { color: var(--step-title-color); }
-  .step__detail { color: var(--step-detail-color); }
-
   /* Фінальний CTA: без рамки й плашки — великий заголовок, лід і основна кнопка (action) */
   .cta { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--ctaBand-gap); }
   .cta__text { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
   .cta__title { color: var(--ctaBand-title-color); font-size: var(--ctaBand-title-fontSize); line-height: var(--ctaBand-title-lineHeight); letter-spacing: var(--ctaBand-title-letterSpacing); max-width: 18ch; text-wrap: balance; overflow-wrap: anywhere; }
   .cta__lead { color: var(--ctaBand-lead-color); overflow-wrap: anywhere; }
 
-  .audience { display: grid; gap: var(--l-gap); }
-  @media (min-width: 768px) { .audience { grid-template-columns: repeat(3, 1fr); } }
-  .audience__item { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
-  .audience__title { color: var(--audience-title-color); }
-  .audience__detail { color: var(--audience-detail-color); }
-
-  .step__more { align-self: flex-start; }
 </style>

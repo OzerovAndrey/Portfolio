@@ -15,10 +15,10 @@ const nav = [
 ] as const;
 const path = Astro.url.pathname;
 ---
-<header class="header surface surface--glass-whisper">
+<header class="header surface surface--glass-whisper" data-header>
   <div class="container header__inner">
     <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
-    <nav class="nav" aria-label={d.a11y.nav}>
+    <nav class="nav" id="site-nav" aria-label={d.a11y.nav}>
       {nav.map((n) => (
         <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
       ))}
@@ -30,9 +30,33 @@ const path = Astro.url.pathname;
         ))}
       </div>
       <ThemeToggle client:idle labelToDark={d.a11y.themeToDark} labelToLight={d.a11y.themeToLight} />
+      <!-- < 900 px: навігація ховається за кнопкою. Кнопку показує скрипт; без JS навігація лишається рядком із прокруткою -->
+      <button type="button" class="menu-toggle ts-label-md" aria-controls="site-nav" aria-expanded="false" data-menu-toggle hidden>
+        <span class="menu-toggle__icon" aria-hidden="true"></span><span class="menu-toggle__label">{d.a11y.menu}</span>
+      </button>
     </div>
   </div>
 </header>
+<!-- до першого кадру: згорнути меню, інакше шапка стрибає, коли спрацює модульний скрипт (CLS) -->
+<script is:inline>
+  (function () { var h = document.querySelector("[data-header]"), b = h && h.querySelector("[data-menu-toggle]"); if (b) { h.dataset.menu = "closed"; b.hidden = false; } })();
+</script>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const btn = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  if (header && btn) {
+    const set = (open: boolean) => { header.dataset.menu = open ? "open" : "closed"; btn.setAttribute("aria-expanded", String(open)); };
+    set(false);
+    btn.hidden = false;
+    btn.addEventListener("click", () => set(header.dataset.menu !== "open"));
+    header.addEventListener("keydown", (e) => { if (e.key === "Escape" && header.dataset.menu === "open") { set(false); btn.focus(); } });
+    header.querySelectorAll(".nav__item").forEach((a) => a.addEventListener("click", () => set(false)));
+    document.addEventListener("click", (e) => { if (header.dataset.menu === "open" && !header.contains(e.target as Node)) set(false); });
+    // повернення на широкий екран — меню знову звичайне
+    matchMedia("(min-width: 900px)").addEventListener("change", (m) => { if (m.matches) set(false); });
+  }
+</script>
 
 <style>
   /* Редакційна шапка: типографіка на смузі, а не контроли в капсулі. Матеріал — примітив .surface--glass-whisper (visual.css: blur 12 px, fallback, reduced transparency),
@@ -83,6 +107,7 @@ const path = Astro.url.pathname;
   :global(.theme-toggle:hover) { background: var(--action-text-bg-hover); }
   :global(.theme-toggle:active) { background: var(--action-text-bg-active); }
   .logo-short { display: none; }
+  .menu-toggle { display: none; }
   /* Дотик: цілі не менші за 48 px */
   @media (pointer: coarse) {
     .nav__item { height: var(--size-control-lg); }
@@ -98,6 +123,37 @@ const path = Astro.url.pathname;
     .nav__item { flex: none; padding-inline: var(--space-gap-md); }
     .nav { margin-inline: calc(var(--space-gap-md) * -1); flex-basis: calc(100% + var(--space-gap-md) * 2); }
   }
+  /* Кнопка «Menu» (є JS): навігація згорнута; відкрита — панель-оверлей під рядком шапки */
+  @media (max-width: 899px) {
+    .menu-toggle:not([hidden]) {
+      display: inline-flex; align-items: center; gap: var(--space-gap-md); height: var(--langSwitch-size); padding-inline: var(--space-gap-md);
+      border: var(--siteHeader-borderWidth) solid var(--siteHeader-br); border-radius: var(--button-borderRadius); background: transparent; color: var(--siteHeader-logo-color); cursor: pointer;
+    }
+    .menu-toggle__icon { position: relative; width: var(--iconSize-sm); height: var(--borderWidth-control); background: currentColor; box-shadow: 0 calc(var(--borderWidth-control) * -4) 0 currentColor, 0 calc(var(--borderWidth-control) * 4) 0 currentColor; }
+    [data-menu="open"] .menu-toggle__icon { box-shadow: none; }
+    [data-menu] .header__inner { padding-block: var(--space-gap-sm); }
+    /* Відкрите меню — панель поверх сторінки під рядком шапки (absolute від sticky .header): висота документа не змінюється, Hero не зсувається.
+       Суцільна заливка шапки й hairline знизу; коротка поява opacity + зсув на motion-токенах */
+    [data-menu] .nav {
+      position: absolute; inset-inline: 0; top: 100%; margin: 0; flex-basis: auto;
+      flex-direction: column; overflow: visible; padding: var(--space-gap-md) var(--l-padH);
+      background: var(--siteHeader-bgSolid); border-bottom: var(--siteHeader-borderWidth) solid var(--siteHeader-br);
+      transition: opacity var(--motion-duration-fast) var(--motion-easing-out), transform var(--motion-duration-fast) var(--motion-easing-out), visibility var(--motion-duration-fast) step-end;
+    }
+    [data-menu="closed"] .nav { opacity: 0; transform: translateY(calc(var(--space-gap-sm) * -1)); visibility: hidden; pointer-events: none; }
+    [data-menu="open"] .nav { opacity: 1; transform: none; visibility: visible; transition-timing-function: var(--motion-easing-out), var(--motion-easing-out), step-start; }
+    [data-menu] .nav__item { height: var(--size-control-lg); padding-inline: 0; }
+    [data-menu] .nav__item[aria-current="page"]::after { inset-inline: 0 auto; width: var(--iconSize-md); bottom: var(--space-gap-sm); }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-menu] .nav { transition: none; } }
+  /* < 400 px: кнопка — тільки іконка (назва лишається для скрінрідера), щоб ім'я, мова й тема вміщалися в рядок */
+  @media (max-width: 399px) {
+    .menu-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* allow: sr-only */
+    .menu-toggle:not([hidden]) { width: var(--langSwitch-size); justify-content: center; padding-inline: 0; }
+    .header__tools { gap: var(--space-gap-sm); }
+  }
+  @media (max-width: 399px) and (pointer: coarse) { .menu-toggle:not([hidden]) { width: var(--size-control-lg); } }
+  @media (max-width: 899px) and (pointer: coarse) { .menu-toggle:not([hidden]) { height: var(--size-control-lg); } }
   /* Повне ім'я лишається, поки є місце; скорочення «AO» — тільки на найвужчих */
   @media (max-width: 359px) {
     .logo-full { display: none; }

@@ -10,6 +10,7 @@ import demoMeta from "../generated/demo/meta.json";
 export const BRANDS = ["aurum", "nova", "fiesta", "ultra"] as const;
 export const NEUTRAL = "site"; // стартовий монохромний стан експозиції, не п'ятий бренд
 export const THEMES = ["light", "dark"] as const;
+export const BRAND_NAME: Record<string, string> = { aurum: "Aurum", nova: "Nova", fiesta: "Fiesta", ultra: "Ultra" };
 /** Токени лінзи: кожен показано на сцені (data-token). Ланцюжки є в manifest (CHAIN_TOKENS у tools/build-css.mjs) */
 export const TOKENS = ["button.primary.bg.default", "button.borderRadius", "badge.primary.bg", "card.default.bg", "input.br.active", "header.logo.iconColor"] as const;
 

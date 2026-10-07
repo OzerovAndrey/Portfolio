@@ -1,0 +1,74 @@
+---
+// Перемикачі бренду й теми для продуктової сцени: нативні radio у fieldset (клавіатура й семантика безкоштовно).
+// Вибрана вкладка — колір + підкреслення (не лише колір) + крапка реального product1 бренду (з токенів).
+import { BRANDS, BRAND_NAME, NEUTRAL, THEMES, states } from "../lib/exhibit";
+import { t, type Locale } from "../i18n";
+
+interface Props {
+  lang: Locale;
+  /** префікс name радіо — кілька наборів на сторінці не конфліктують */
+  name: string;
+  brand: string;
+  theme: "light" | "dark";
+  /** показати «Neutral» (вихідний стан site) перед брендами */
+  neutral?: boolean;
+  /** префікс подій аналітики (data-event) */
+  event: string;
+  /** aria-label групи; за замовчуванням — підпис експозиції */
+  label?: string;
+  class?: string;
+}
+const { lang, name, brand, theme, neutral = false, event, label, class: cls } = Astro.props;
+const c = t(lang).signature.controls;
+const dot = (b: string) => states[`${b}|light`].colors["color.product1"];
+---
+<div class:list={["controls", cls]} role="group" aria-label={label ?? c.group}>
+  <fieldset class="tabs tabs--brand">
+    <legend class="tabs__legend ts-label-sm">{c.brand}</legend>
+    <div class="tabs__row">
+      {neutral && <label class="tab tab--origin ts-label-md"><input type="radio" name={`${name}-brand`} value={NEUTRAL} checked={brand === NEUTRAL} data-event={`${event}_brand_neutral`} /><span>{c.neutral}</span></label>}
+      {BRANDS.map((b) => (
+        <label class="tab ts-label-md"><input type="radio" name={`${name}-brand`} value={b} checked={brand === b} data-event={`${event}_brand_${b}`} /><span><i class="tab__dot" style={`--dot: ${dot(b)}`} aria-hidden="true"></i>{BRAND_NAME[b]}</span></label>
+      ))}
+    </div>
+  </fieldset>
+  <fieldset class="tabs tabs--theme">
+    <legend class="tabs__legend ts-label-sm">{c.theme}</legend>
+    <div class="tabs__row">
+      {THEMES.map((th) => (
+        <label class="tab ts-label-sm"><input type="radio" name={`${name}-theme`} value={th} checked={th === theme} data-event={`${event}_theme_${th}`} /><span>{c.themes[th]}</span></label>
+      ))}
+    </div>
+  </fieldset>
+</div>
+
+<style>
+  .controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-gap-xl) var(--l-gap); padding-bottom: var(--space-padding-sm); border-bottom: var(--borderWidth-control) solid var(--exhibit-rule-br); min-width: 0; }
+  .tabs { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: var(--space-gap-xs); }
+  .tabs__legend { padding: 0; color: var(--exhibit-label-color); }
+  .tabs__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-sm) var(--space-gap-xl); }
+  .tab { position: relative; display: inline-flex; }
+  .tab input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .tab span {
+    display: inline-flex; align-items: center; gap: var(--space-gap-md); min-height: var(--size-control-md); box-sizing: border-box;
+    border-bottom: calc(var(--borderWidth-control) * 2) solid transparent; color: var(--exhibit-text-color);
+    transition: color var(--motion-duration-fast) var(--motion-easing-out), border-color var(--motion-duration-fast) var(--motion-easing-out);
+  }
+  @media (hover: hover) { .tab:hover span { color: var(--exhibit-title-color); } }
+  /* вибрана вкладка: колір + підкреслення (не лише колір) */
+  .tab input:checked + span { color: var(--exhibit-title-color); border-bottom-color: var(--exhibit-title-color); }
+  .tab input:focus-visible + span { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  /* Neutral — вихідний стан: відокремлений тонкою лінією від чотирьох брендів */
+  .tab--origin { padding-inline-end: var(--space-gap-xl); border-inline-end: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  /* реальний колір product1 бренду — тільки в обраній вкладці */
+  .tab__dot { display: none; width: var(--iconSize-sm); height: var(--iconSize-sm); border-radius: var(--borderRadius-pill); background: var(--dot); border: var(--borderWidth-control) solid var(--exhibit-rule-br); }
+  .tab input:checked + span .tab__dot { display: inline-block; }
+  .tabs--theme .tab span { min-height: var(--size-control-sm); }
+  /* вузькі екрани: бренди в один рядок; якщо не влазять — рядок скролиться, а не ламається */
+  @media (max-width: 559px) {
+    .tabs--brand { max-width: 100%; }
+    .tabs--brand .tabs__row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .tabs--brand .tab { flex: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .tab span { transition: none; } }
+</style>

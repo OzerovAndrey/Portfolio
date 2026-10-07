@@ -3,14 +3,20 @@
 // Токени: ті самі editorial-токени, що в Positioning (rule / label / title / detail) — нових немає.
 import { t, type Locale } from "../i18n";
 
-interface Props { lang: Locale }
-const { lang } = Astro.props;
+interface Props {
+  lang: Locale;
+  /** Home: звичайний ритм секції (layout.rowGap) замість editorial-відступу */
+  compact?: boolean;
+  /** номер секції в індекс-рядку */
+  index?: string;
+}
+const { lang, compact = false, index = "04" } = Astro.props;
 const e = t(lang).expertise;
 const num = (i: number) => String(i + 1).padStart(2, "0");
 ---
-<section class="section section--editorial expertise" id="expertise" aria-labelledby="expertise-title" data-reveal>
+<section class:list={["section", "expertise", compact ? "expertise--compact" : "section--editorial"]} id="expertise" aria-labelledby="expertise-title" data-reveal>
   <div class="container">
-    <p class="expertise__label ts-label-md"><span aria-hidden="true">04</span><span>{e.label}</span></p>
+    <p class="expertise__label ts-label-md"><span aria-hidden="true">{index}</span><span>{e.label}</span></p>
     <h2 class="expertise__statement ts-display-d2 display-lg" id="expertise-title">{e.statement}</h2>
 
     <div class="expertise__body">
@@ -34,6 +40,7 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
   .expertise__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); color: var(--positioning-label-color); }
   .expertise__statement { margin-top: var(--section-gap); max-width: 24ch; color: var(--positioning-title-color); overflow-wrap: break-word; }
   .expertise__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--layout-section-padding) * 0.6); margin-top: calc(var(--layout-section-padding) * 0.6); }
+  .expertise--compact .expertise__body { margin-top: var(--l-row); gap: var(--l-row); }
   .expertise__text { display: grid; gap: var(--space-padding-xl); align-content: start; }
   .expertise__paragraph { color: var(--positioning-item-detail-color); }
   .expertise__closing { color: var(--positioning-title-color); }

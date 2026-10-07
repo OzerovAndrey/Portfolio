@@ -20,7 +20,9 @@
     "lang": "Language",
     "themeToDark": "Switch to dark theme",
     "themeToLight": "Switch to light theme",
-    "home": "Andrey Ozerov — home"
+    "home": "Andrey Ozerov — home",
+    "menu": "Menu",
+    "menuOpen": "Open menu"
   },
   "nav": {
     "home": "Home",
@@ -31,11 +33,18 @@
     "about": "About"
   },
   "hero": {
-    "eyebrow": "Andrey Ozerov · Design systems for multi-brand products",
-    "title": "Many brands. One codebase.",
-    "subtitle": "I build token architectures where a new brand is one file of 55 values. Components, markup and releases stay exactly the same. The proof is below: a live product in 4 brands and 2 themes.",
-    "ctaDemo": "Switch brands live",
-    "ctaHow": "See how it's built"
+    "role": "Product / UI/UX Designer · Multi-brand Design Systems",
+    "title": [
+      "Multi-brand",
+      "design systems",
+      "for digital products."
+    ],
+    "subtitle": "I design complex digital products and scalable systems that turn one product foundation into multiple distinct brands.",
+    "ctaLive": "Open live system",
+    "ctaLiveLabel": "Open live system (opens in a new tab)",
+    "ctaHow": "Explore the system",
+    "previewLabel": "Product preview: switch brand and theme",
+    "announce": "Preview: {brand}, {theme} theme"
   },
   "positioning": {
     "label": "Positioning",
@@ -57,8 +66,8 @@
   },
   "signature": {
     "label": "Signature work",
-    "title": "One system. Many brands.",
-    "lead": "One interface, mounted once. Choose a brand and only the tokens underneath change.",
+    "title": "One system. Four brands. Two themes.",
+    "lead": "Same content, same components, same layout. Only the brand file and the theme change what you see.",
     "controls": {
       "group": "Exhibit controls",
       "brand": "Brand",
@@ -137,7 +146,8 @@
     "proof": {
       "title": "Real product",
       "lead": "The working multi-brand demo, running on the same token files."
-    }
+    },
+    "inspect": "Inspect the system, token by token"
   },
   "expertise": {
     "label": "About / Expertise",
@@ -518,5 +528,13 @@
         "detail": "Direct ways to reach me."
       }
     ]
+  },
+  "explore": {
+    "summary": "Explore how the system works",
+    "hint": "Product thinking, architecture and implementation, in four short notes.",
+    "archTitle": "Multi-brand architecture",
+    "archDetail": "Every brand is one file of the same values. Components ask for meanings, never raw colors, so switching a brand changes no component code. The build checks keys, layer references and contrast for every brand and theme.",
+    "factsLabel": "Counted from the demo's tokens at build time",
+    "more": "Read the full approach"
   }
 }

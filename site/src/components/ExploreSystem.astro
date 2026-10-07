@@ -1,0 +1,95 @@
+---
+// 02 Explore — другий шар Home: глибше пояснення для тих, кому цікаво. Нативний <details>, закритий за замовчуванням:
+// видно лише рядок-підсумок. Усередині — тези з колишніх Positioning і Signature Work (копі не видалено, а перенесено)
+// і факти, пораховані з токенів демо під час білду (lib/exhibit). Ні сцени, ні демо тут немає — продукт живе в Hero.
+import { facts } from "../lib/exhibit";
+import { href, t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const d = t(lang);
+const e = d.explore;
+const [thinking, scalable, implementation] = d.positioning.items;
+const rows = [thinking, scalable, { title: e.archTitle, detail: e.archDetail, facts: true }, implementation];
+const f = d.signature.facts;
+const factList = [
+  { amount: String(facts.brandValues), label: f.brandValues },
+  { amount: String(facts.componentTokens), label: f.componentTokens },
+  { amount: String(facts.aliasesChanged), label: f.aliases },
+  { amount: `${facts.brands} × ${facts.themes}`, label: f.matrix },
+];
+const num = (i: number) => String(i + 1).padStart(2, "0");
+---
+<section class="section explore-section" aria-labelledby="explore-title">
+  <div class="container">
+    <details class="explore" id="explore">
+      <summary class="explore__summary" data-event="explore_toggle">
+        <span class="explore__heading">
+          <h2 class="explore__title ts-title-t3" id="explore-title">{e.summary}</h2>
+          <span class="explore__hint ts-body-sm-regular">{e.hint}</span>
+        </span>
+        <span class="explore__icon" aria-hidden="true"></span>
+      </summary>
+
+      <div class="explore__body">
+        <p class="explore__lead ts-title-t4 measure--heading">{d.positioning.title}</p>
+        <ol class="explore__rows">
+          {rows.map((r, i) => (
+            <li class="explore__row">
+              <span class="explore__num ts-label-md" aria-hidden="true">{num(i)}</span>
+              <h3 class="explore__row-title ts-title-t5">{r.title}</h3>
+              <div class="explore__row-body">
+                <p class="explore__detail ts-body-md-regular measure--lead">{r.detail}</p>
+                {"facts" in r && (
+                  <dl class="explore__facts" aria-label={e.factsLabel}>
+                    {factList.map((x) => <div class="explore__fact"><dt class="ts-body-sm-regular">{x.label}</dt><dd class="ts-title-t4">{x.amount}</dd></div>)}
+                  </dl>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <a class="explore__more ts-label-md" href={href(lang, "approach")} data-event="explore_approach">{e.more} →</a>
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  /* Компактний рядок-підсумок між hairline; відкрите тіло — редакційні рядки (номер · назва · текст), без карток */
+  .explore { border-block: var(--borderWidth-control) solid var(--positioning-rule-br); }
+  .explore__summary { display: flex; align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-lg); cursor: pointer; list-style: none; }
+  .explore__summary::-webkit-details-marker { display: none; }
+  .explore__summary:focus-visible { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  .explore__heading { display: grid; gap: var(--space-gap-xs); min-width: 0; }
+  .explore__title { color: var(--positioning-title-color); }
+  .explore__hint { color: var(--positioning-label-color); }
+  /* закритий стан — один рядок: назва + «+». Пояснення з'являється лише після відкриття */
+  .explore:not([open]) .explore__hint { display: none; }
+  /* «+» / «−» з двох смужок; стан — форма, не лише колір */
+  .explore__icon { position: relative; flex: none; margin-inline-start: auto; width: var(--iconSize-md); height: var(--iconSize-md); }
+  .explore__icon::before, .explore__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); transition: transform var(--motion-duration-base) var(--motion-easing-out); }
+  .explore__icon::after { transform: rotate(90deg); }
+  .explore[open] .explore__icon::after { transform: rotate(0deg); }
+  @media (hover: hover) { .explore__summary:hover .explore__title { text-decoration: underline; text-underline-offset: 0.2em; } }
+
+  .explore__body { display: grid; gap: var(--space-padding-xl); padding-bottom: var(--space-padding-xl); }
+  .explore__lead { color: var(--positioning-title-color); }
+  .explore__rows { margin: 0; padding: 0; list-style: none; display: grid; }
+  .explore__row { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-gap-xl); row-gap: var(--space-gap-md); padding-block: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
+  .explore__num { color: var(--positioning-label-color); min-width: 2ch; }
+  .explore__row-title { color: var(--positioning-item-title-color); }
+  .explore__row-body { grid-column: 2; display: grid; gap: var(--space-padding-md); min-width: 0; }
+  .explore__detail { color: var(--positioning-item-detail-color); }
+  .explore__facts { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--l-gap); }
+  .explore__fact { display: flex; flex-direction: column-reverse; gap: var(--space-gap-xs); min-width: 0; }
+  .explore__fact dt { color: var(--positioning-label-color); overflow-wrap: anywhere; }
+  .explore__fact dd { margin: 0; color: var(--positioning-title-color); font-variant-numeric: tabular-nums; }
+  .explore__more { justify-self: start; }
+  @media (min-width: 768px) {
+    .explore__row { grid-template-columns: auto minmax(0, 4fr) minmax(0, 8fr); }
+    .explore__row-body { grid-column: 3; }
+    .explore__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) { .explore__icon::before, .explore__icon::after { transition: none; } }
+</style>
