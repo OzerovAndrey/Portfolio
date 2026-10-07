@@ -1,95 +1,89 @@
 ---
-// 02 Explore — другий шар Home: глибше пояснення для тих, кому цікаво. Нативний <details>, закритий за замовчуванням:
-// видно лише рядок-підсумок. Усередині — тези з колишніх Positioning і Signature Work (копі не видалено, а перенесено)
-// і факти, пораховані з токенів демо під час білду (lib/exhibit). Ні сцени, ні демо тут немає — продукт живе в Hero.
-import { facts } from "../lib/exhibit";
-import { href, t, type Locale } from "../i18n";
+// 02 Explore — другий шар Home: три редакційні рядки-акордеони (індекс · назва · +/−), без карток і заливок.
+// Кнопка-тригер з aria-expanded / aria-controls, панель — region з aria-labelledby. Одночасно відкритий лише один рядок.
+// Без JS панелі видимі; inline-скрипт згортає їх до першого кадру (без CLS), модульний — керує відкриттям.
+import { t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const d = t(lang);
-const e = d.explore;
-const [thinking, scalable, implementation] = d.positioning.items;
-const rows = [thinking, scalable, { title: e.archTitle, detail: e.archDetail, facts: true }, implementation];
-const f = d.signature.facts;
-const factList = [
-  { amount: String(facts.brandValues), label: f.brandValues },
-  { amount: String(facts.componentTokens), label: f.componentTokens },
-  { amount: String(facts.aliasesChanged), label: f.aliases },
-  { amount: `${facts.brands} × ${facts.themes}`, label: f.matrix },
-];
+const e = t(lang).explore;
 const num = (i: number) => String(i + 1).padStart(2, "0");
 ---
-<section class="section explore-section" aria-labelledby="explore-title">
+<section class="section explore-section" id="explore" aria-labelledby="explore-heading" data-accordion>
   <div class="container">
-    <details class="explore" id="explore">
-      <summary class="explore__summary" data-event="explore_toggle">
-        <span class="explore__heading">
-          <h2 class="explore__title ts-title-t3" id="explore-title">{e.summary}</h2>
-          <span class="explore__hint ts-body-sm-regular">{e.hint}</span>
-        </span>
-        <span class="explore__icon" aria-hidden="true"></span>
-      </summary>
-
-      <div class="explore__body">
-        <p class="explore__lead ts-title-t4 measure--heading">{d.positioning.title}</p>
-        <ol class="explore__rows">
-          {rows.map((r, i) => (
-            <li class="explore__row">
-              <span class="explore__num ts-label-md" aria-hidden="true">{num(i)}</span>
-              <h3 class="explore__row-title ts-title-t5">{r.title}</h3>
-              <div class="explore__row-body">
-                <p class="explore__detail ts-body-md-regular measure--lead">{r.detail}</p>
-                {"facts" in r && (
-                  <dl class="explore__facts" aria-label={e.factsLabel}>
-                    {factList.map((x) => <div class="explore__fact"><dt class="ts-body-sm-regular">{x.label}</dt><dd class="ts-title-t4">{x.amount}</dd></div>)}
-                  </dl>
-                )}
-              </div>
-            </li>
-          ))}
-        </ol>
-        <a class="explore__more ts-label-md" href={href(lang, "approach")} data-event="explore_approach">{e.more} →</a>
-      </div>
-    </details>
+    <h2 class="sr-only" id="explore-heading">{e.heading}</h2>
+    <div class="acc">
+      {e.items.map((item, i) => (
+        <div class="acc__item">
+          <h3 class="acc__heading">
+            <button type="button" class="acc__trigger" id={`acc-trigger-${i}`} aria-expanded="false" aria-controls={`acc-panel-${i}`} data-acc-trigger data-event={`explore_${i + 1}`}>
+              <span class="acc__num ts-label-md" aria-hidden="true">{num(i)}</span>
+              <span class="acc__title ts-title-t3">{item.title}</span>
+              <span class="acc__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="acc__panel" id={`acc-panel-${i}`} role="region" aria-labelledby={`acc-trigger-${i}`} data-acc-panel>
+            <div class="acc__body">
+              <p class="acc__detail ts-body-lg-regular measure--lead">{item.detail}</p>
+              {i === 0 && (
+                <ol class="acc__chain ts-label-md" aria-label={e.chainLabel}>
+                  {e.chain.map((layer) => <li class="acc__layer">{layer}</li>)}
+                </ol>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
+<script is:inline>
+  document.querySelectorAll("[data-accordion] [data-acc-panel]").forEach(function (p) { p.hidden = true; });
+</script>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-accordion]");
+  if (root) {
+    const triggers = [...root.querySelectorAll<HTMLButtonElement>("[data-acc-trigger]")];
+    const panelOf = (b: HTMLButtonElement) => document.getElementById(b.getAttribute("aria-controls")!)!;
+    const set = (b: HTMLButtonElement, open: boolean) => { b.setAttribute("aria-expanded", String(open)); panelOf(b).hidden = !open; };
+    const toggle = (b: HTMLButtonElement) => { const open = b.getAttribute("aria-expanded") !== "true"; triggers.forEach((x) => set(x, x === b && open)); };
+    triggers.forEach((b) => b.addEventListener("click", () => toggle(b)));
+    // «Explore the system ↓» у Hero: відкрити перший рядок (якщо все закрито)
+    root.addEventListener("explore:open", () => { if (!triggers.some((b) => b.getAttribute("aria-expanded") === "true")) set(triggers[0], true); });
+  }
+</script>
 
 <style>
-  /* Компактний рядок-підсумок між hairline; відкрите тіло — редакційні рядки (номер · назва · текст), без карток */
-  .explore { border-block: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .explore__summary { display: flex; align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-lg); cursor: pointer; list-style: none; }
-  .explore__summary::-webkit-details-marker { display: none; }
-  .explore__summary:focus-visible { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
-  .explore__heading { display: grid; gap: var(--space-gap-xs); min-width: 0; }
-  .explore__title { color: var(--positioning-title-color); }
-  .explore__hint { color: var(--positioning-label-color); }
-  /* закритий стан — один рядок: назва + «+». Пояснення з'являється лише після відкриття */
-  .explore:not([open]) .explore__hint { display: none; }
-  /* «+» / «−» з двох смужок; стан — форма, не лише колір */
-  .explore__icon { position: relative; flex: none; margin-inline-start: auto; width: var(--iconSize-md); height: var(--iconSize-md); }
-  .explore__icon::before, .explore__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); transition: transform var(--motion-duration-base) var(--motion-easing-out); }
-  .explore__icon::after { transform: rotate(90deg); }
-  .explore[open] .explore__icon::after { transform: rotate(0deg); }
-  @media (hover: hover) { .explore__summary:hover .explore__title { text-decoration: underline; text-underline-offset: 0.2em; } }
-
-  .explore__body { display: grid; gap: var(--space-padding-xl); padding-bottom: var(--space-padding-xl); }
-  .explore__lead { color: var(--positioning-title-color); }
-  .explore__rows { margin: 0; padding: 0; list-style: none; display: grid; }
-  .explore__row { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-gap-xl); row-gap: var(--space-gap-md); padding-block: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .explore__num { color: var(--positioning-label-color); min-width: 2ch; }
-  .explore__row-title { color: var(--positioning-item-title-color); }
-  .explore__row-body { grid-column: 2; display: grid; gap: var(--space-padding-md); min-width: 0; }
-  .explore__detail { color: var(--positioning-item-detail-color); }
-  .explore__facts { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--l-gap); }
-  .explore__fact { display: flex; flex-direction: column-reverse; gap: var(--space-gap-xs); min-width: 0; }
-  .explore__fact dt { color: var(--positioning-label-color); overflow-wrap: anywhere; }
-  .explore__fact dd { margin: 0; color: var(--positioning-title-color); font-variant-numeric: tabular-nums; }
-  .explore__more { justify-self: start; }
-  @media (min-width: 768px) {
-    .explore__row { grid-template-columns: auto minmax(0, 4fr) minmax(0, 8fr); }
-    .explore__row-body { grid-column: 3; }
-    .explore__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* Редакційний індекс: рядки між hairline, номер приглушений, назва сильна, +/− праворуч. Без карток, заливок, тіней і скла */
+  .acc { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
+  .acc__item { border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
+  .acc__heading { margin: 0; }
+  .acc__trigger {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--l-gap);
+    width: 100%; padding: var(--space-padding-lg) 0; margin: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer;
   }
-  @media (prefers-reduced-motion: reduce) { .explore__icon::before, .explore__icon::after { transition: none; } }
+  .acc__trigger:focus-visible { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
+  .acc__num { color: var(--positioning-label-color); min-width: 2ch; font-variant-numeric: tabular-nums; }
+  .acc__title { color: var(--positioning-title-color); text-wrap: balance; }
+  @media (hover: hover) { .acc__trigger:hover .acc__title { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: var(--borderWidth-control); } }
+  /* «+» / «−» з двох смужок: стан — форма, не лише колір */
+  .acc__icon { position: relative; width: var(--iconSize-md); height: var(--iconSize-md); }
+  .acc__icon::before, .acc__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); transition: transform var(--motion-duration-base) var(--motion-easing-out); }
+  .acc__icon::after { transform: rotate(90deg); }
+  .acc__trigger[aria-expanded="true"] .acc__icon::after { transform: rotate(0deg); }
+
+  .acc__body { display: grid; gap: var(--space-padding-lg); padding: 0 0 var(--space-padding-xl); }
+  .acc__detail { color: var(--positioning-item-detail-color); }
+  .acc__chain { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-md) var(--space-gap-xl); margin: 0; padding: 0; list-style: none; color: var(--positioning-title-color); }
+  .acc__layer { display: inline-flex; align-items: center; gap: var(--space-gap-xl); }
+  .acc__layer + .acc__layer::before { content: "→"; color: var(--positioning-label-color); }
+  /* ≥ 768: текст панелі вирівняний з назвою (після колонки номера) */
+  @media (min-width: 768px) { .acc__body { padding-inline-start: calc(var(--l-gap) + 2ch); } }
+  /* Вузькі: номер над назвою, «+» праворуч на рівні назви */
+  @media (max-width: 559px) {
+    .acc__trigger { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "num num" "title icon"; row-gap: var(--space-gap-sm); }
+    .acc__num { grid-area: num; } .acc__title { grid-area: title; } .acc__icon { grid-area: icon; }
+  }
+  @media (prefers-reduced-motion: reduce) { .acc__icon::before, .acc__icon::after { transition: none; } }
 </style>

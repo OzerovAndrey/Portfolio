@@ -1,20 +1,19 @@
 ---
-// Hero (Home, перший екран): хто (ім'я + роль) → що (мультибрендові дизайн-системи) → спробувати одразу.
-// Праворуч — та сама продуктова сцена, що й у Signature Work (ProductStage + BrandControls, перемикання — lib/stage.ts).
-// Стартовий стан — Aurum + Dark: відвідувач одразу бачить виразний бренд. Тема сцени незалежна від теми сайту.
+// Hero (Home, перший екран): роль → твердження → CTA ліворуч, праворуч — СПРАВЖНЯ жива система в iframe (той самий origin, GitHub Pages).
+// iframe = миттєвий доказ, «Open live system ↗» = повноекранне дослідження. Стартовий стан демо — Aurum + Dark через ?brand&theme
+// (демо читає їх при старті). Тему портфоліо в iframe не прокидаємо.
+// Розміри: рамка має фіксовані пропорції (aspect-ratio) → без CLS. Широка рамка: демо рендериться на віртуальній ширині
+// (десктоп-розкладка демо від 768) і пропорційно зменшується; вузька — рідна мобільна розкладка демо, без масштабу.
 import Button from "./Button.astro";
-import ProductStage from "./ProductStage.astro";
-import BrandControls from "./BrandControls.astro";
-import { BRAND_NAME } from "../lib/exhibit";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
-const d = t(lang);
-const h = d.hero;
-const START = { brand: "aurum", theme: "dark" } as const;
-const i18n = { names: BRAND_NAME, themes: d.signature.controls.themes, announce: h.announce };
+const h = t(lang).hero;
+const live = new URL(config.demoUrl);
+live.searchParams.set("brand", "aurum");
+live.searchParams.set("theme", "dark");
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
@@ -31,36 +30,43 @@ const i18n = { names: BRAND_NAME, themes: d.signature.controls.themes, announce:
     </div>
 
     <div class="hero__product">
-      <BrandControls lang={lang} name="hero" brand={START.brand} theme={START.theme} event="hero" label={h.previewLabel} />
-      <div class="hero__plate surface surface--raised">
-        <ProductStage lang={lang} brand={START.brand} theme={START.theme} />
+      <div class="hero__live" data-live-frame>
+        <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
+        <iframe class="hero__iframe" data-src={live.href} title={h.liveTitle} referrerpolicy="strict-origin-when-cross-origin" data-live-iframe></iframe>
+        <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
       </div>
-      <p class="sr-only" role="status" aria-live="polite" data-hero-live></p>
-      <!-- мобільні: другорядна дія — після сцени, щоб продукт був ближче до верху -->
+      <!-- мобільні: другорядна дія — після живої системи -->
       <Button size="lg" variant="text" href="#explore" class="hero__more hero__more--mobile" data-explore data-event="cta_explore">{h.ctaHow} <span aria-hidden="true">↓</span></Button>
     </div>
   </div>
-  <script type="application/json" data-hero-i18n set:html={JSON.stringify(i18n)} />
 </section>
 
 <script>
-  import { setStage } from "../lib/stage";
   const root = document.querySelector<HTMLElement>("[data-hero]");
   if (root) {
-    const stage = root.querySelector<HTMLElement>("[data-stage]")!;
-    const live = root.querySelector<HTMLElement>("[data-hero-live]")!;
-    const i18n = JSON.parse(root.querySelector("[data-hero-i18n]")!.textContent!);
-    const pick = (n: string) => root.querySelector<HTMLInputElement>(`input[name="hero-${n}"]:checked`)!.value;
-    root.querySelectorAll<HTMLInputElement>('input[name="hero-brand"], input[name="hero-theme"]').forEach((i) =>
-      i.addEventListener("change", () => {
-        const b = pick("brand"), th = pick("theme");
-        setStage(stage, b, th);
-        live.textContent = i18n.announce.replace("{brand}", i18n.names[b]).replace("{theme}", i18n.themes[th]);
-      }),
-    );
-    // «Explore the system ↓»: розкрити блок деталей і перейти до нього (без JS — звичайний якір)
+    // Жива система: рамка задає розмір (aspect-ratio), iframe підганяється. Рамка ≥ 448 — десктоп-розкладка демо (від 768) на віртуальній
+    // ширині 960 (рамка ≥ 600) або 800 (вужча, напр. 1024 у дві колонки) і масштаб = ширина рамки / віртуальна; вужча за 448 —
+    // рідна мобільна розкладка демо 1:1. Без JS iframe просто заповнює рамку
+    const frame = root.querySelector<HTMLElement>("[data-live-frame]");
+    const iframe = root.querySelector<HTMLIFrameElement>("[data-live-iframe]");
+    if (frame && iframe) {
+      const MIN_SCALED = 448;
+      const fit = () => {
+        const w = frame.clientWidth, hgt = frame.clientHeight;
+        if (!w || !hgt) return;
+        const virtual = w >= 600 ? 960 : 800;
+        const k = w >= MIN_SCALED ? Math.min(1, w / virtual) : 1;
+        iframe.style.width = `${w / k}px`;
+        iframe.style.height = `${hgt / k}px`;
+        iframe.style.transform = k === 1 ? "" : `scale(${k})`;
+      };
+      new ResizeObserver(fit).observe(frame);
+      fit();
+      if (iframe.dataset.src) iframe.src = iframe.dataset.src;
+    }
+    // «Explore the system ↓»: перейти до акордеонів і відкрити перший (без JS — звичайний якір)
     root.querySelectorAll<HTMLAnchorElement>("[data-explore]").forEach((a) =>
-      a.addEventListener("click", () => { const det = document.getElementById("explore"); if (det instanceof HTMLDetailsElement) det.open = true; }),
+      a.addEventListener("click", () => document.getElementById("explore")?.dispatchEvent(new CustomEvent("explore:open"))),
     );
   }
 </script>
@@ -86,7 +92,15 @@ const i18n = { names: BRAND_NAME, themes: d.signature.controls.themes, announce:
   .hero__product :global(.hero__more--mobile) { justify-self: center; }
   @media (max-width: 1023px) { .hero__actions :global(.hero__more--desktop) { display: none; } }
   @media (min-width: 1024px) { .hero__product :global(.hero__more--mobile) { display: none; } }
-  .hero__plate { padding: var(--space-padding-md); border-radius: var(--borderRadius-panel); min-width: 0; }
+  /* Рамка живої системи: нейтральна, тонка межа, стриманий радіус, без хрому браузера й світіння. Колір дає сама система */
+  .hero__live {
+    position: relative; overflow: hidden; min-width: 0; aspect-ratio: 9 / 14;
+    background: var(--demoFrame-placeholder-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius);
+  }
+  /* max-width: none — глобальне iframe { max-width: 100% } (base.css) інакше обрізає віртуальну ширину до рамки */
+  .hero__iframe { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
+  @media (min-width: 480px) { .hero__live { aspect-ratio: 4 / 3; } }
+  @media (min-width: 1024px) { .hero__live { aspect-ratio: 8 / 7; } }
   @media (min-width: 1024px) { .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   @media (min-width: 1280px) { .hero__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 7fr); } }
 </style>
