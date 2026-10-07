@@ -5,6 +5,7 @@ export type IconName =
   | "window" | "mail" | "linkedin" | "send" | "github" | "phone"
   | "pen" | "layout" | "component" | "layers" | "figma" | "braces" | "pointer" | "code"
   | "compass" | "alert" | "lightbulb" | "trending" | "rotate" | "search" | "branch" | "file" | "repeat" | "package"
+  | "arrowUpRight" | "arrowDown"
   | "user" | "briefcase" | "wrench" | "target" | "grid" | "ban" | "clipboard" | "image" | "activity" | "scale" | "palette" | "clock";
 
 interface Props { name: IconName; class?: string }
@@ -48,6 +49,8 @@ const ICONS: Record<IconName, Shape[]> = {
   activity: [P("M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2")],
   scale: [P("m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"), P("m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"), P("M7 21h10"), P("M12 3v18"), P("M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2")],
   palette: [P("M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"), ["circle", { cx: 13.5, cy: 6.5, r: 0.5 }], ["circle", { cx: 17.5, cy: 10.5, r: 0.5 }], ["circle", { cx: 6.5, cy: 12.5, r: 0.5 }], ["circle", { cx: 8.5, cy: 7.5, r: 0.5 }]],
+  arrowUpRight: [P("M7 7h10v10"), P("M7 17 17 7")],
+  arrowDown: [P("M12 5v14"), P("m19 12-7 7-7-7")],
   clock: [["circle", { cx: 12, cy: 12, r: 10 }], P("M12 6v6l4 2")],
 };
 const shapes = ICONS[name];
