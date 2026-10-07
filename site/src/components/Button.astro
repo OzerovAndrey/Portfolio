@@ -1,18 +1,31 @@
 ---
 // Button на токенах button.* (розміри, радіус — як у демо) і action.* (кольори й стани сайту). Рендерить <a>, якщо є href.
+// icon — підпис CTA: квадратний «знак» праворуч з іконкою дії (Icon.astro). Знак однаковий за геометрією в усіх CTA;
+// primary — кільце з product1 чотирьох брендів демо (значення з токенів під час білду, одне місце — тут), secondary — нейтральне кільце.
+// Мікрорух іконки залежить від дії: ↗ / send — по діагоналі, → / mail — вправо, ↓ — вниз, + — поворот. Іконка декоративна: дію називає підпис
+import Icon, { type IconName } from "./Icon.astro";
+import { BRANDS, states } from "../lib/exhibit";
+
 interface Props {
   variant?: "primary" | "secondary" | "text";
   size?: "sm" | "md" | "lg";
   href?: string;
   type?: "button" | "submit";
   class?: string;
+  icon?: IconName;
   [attr: string]: unknown;
 }
-const { variant = "primary", size = "md", href, type = "button", class: cls, ...rest } = Astro.props;
+const { variant = "primary", size = "md", href, type = "button", class: cls, icon, ...rest } = Astro.props;
 const Tag = href ? "a" : "button";
+const MOTION: Partial<Record<IconName, string>> = { arrowUpRight: "diag", send: "diag", arrowRight: "x", mail: "x", play: "x", arrowDown: "y", plus: "turn" };
+const motion = icon ? MOTION[icon] ?? "x" : undefined;
+const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].colors["color.product1"]}`).join("; ");
 ---
-<Tag class:list={["btn", `btn--${variant}`, `btn--${size}`, size === "lg" ? "ts-label-lg" : "ts-label-md", cls]} href={href} type={href ? undefined : type} {...rest}>
-  <slot />
+<Tag class:list={["btn", `btn--${variant}`, `btn--${size}`, size === "lg" ? "ts-label-lg" : "ts-label-md", icon && "btn--marked", cls]} href={href} type={href ? undefined : type} data-motion={motion} {...rest}>
+  {icon ? <span class="btn__label"><slot /></span> : <slot />}
+  {icon && (
+    <span class="btn__mark" aria-hidden="true" style={variant === "primary" ? brandAccent : undefined}><Icon name={icon} class="btn__icon" /></span>
+  )}
 </Tag>
 
 <style>
@@ -61,9 +74,51 @@ const Tag = href ? "a" : "button";
   .btn--text:disabled, .btn--text[aria-disabled="true"] { --btn-color: var(--action-secondary-color-disabled); }
   .btn:disabled, .btn[aria-disabled="true"] { cursor: not-allowed; }
 
+  /* ---------- знак CTA (icon) ---------- */
+  .btn--lg { --btn-mark: var(--iconSize-xl); --btn-mark-icon: var(--iconSize-md); }
+  .btn--md, .btn--sm { --btn-mark: var(--iconSize-lg); --btn-mark-icon: var(--iconSize-sm); }
+  /* знак сидить з рівним відступом зверху / знизу / справа */
+  .btn--marked { padding-inline-end: calc((var(--btn-size) - var(--btn-mark)) / 2); }
+  .btn__mark {
+    display: inline-grid; place-items: center; flex: none; width: var(--btn-mark); height: var(--btn-mark); box-sizing: border-box;
+    border: calc(var(--borderWidth-control) * 1.5) solid var(--btn-mark-br, transparent); border-radius: var(--borderRadius-control);
+    transition: background var(--motion-duration-base) var(--motion-easing-out), border-color var(--motion-duration-base) var(--motion-easing-out);
+  }
+  .btn__mark :global(.btn__icon) { --icon-size: var(--btn-mark-icon); transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
+  /* primary: монохромна кнопка з тонким внутрішнім контуром; кільце знака — градієнт чотирьох брендів, заливка = фон кнопки */
+  .btn--primary.btn--marked { box-shadow: inset 0 0 0 var(--borderWidth-control) color-mix(in srgb, var(--btn-color) 14%, transparent); }
+  .btn--primary .btn__mark {
+    background:
+      linear-gradient(var(--btn-bg), var(--btn-bg)) padding-box,
+      linear-gradient(135deg, var(--mb-1), var(--mb-2), var(--mb-3), var(--mb-4)) border-box;
+  }
+  /* secondary: те саме кільце, нейтральне (action.secondary.br) — без кольору брендів */
+  .btn--secondary .btn__mark { --btn-mark-br: var(--action-secondary-br-default); }
+  @media (hover: hover) {
+    .btn--primary:hover .btn__mark {
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--mb-1) 16%, var(--btn-bg)), color-mix(in srgb, var(--mb-3) 16%, var(--btn-bg))) padding-box,
+        linear-gradient(135deg, var(--mb-1), var(--mb-2), var(--mb-3), var(--mb-4)) border-box;
+    }
+    .btn--secondary:hover .btn__mark { --btn-mark-br: var(--action-secondary-br-hover); }
+  }
+  /* мікрорух іконки за типом дії — 2 px, тільки hover / клавіатурний фокус */
+  .btn { --btn-nudge: calc(var(--borderWidth-control) * 2); }
+  @media (hover: hover) {
+    .btn[data-motion="diag"]:hover :global(.btn__icon) { transform: translate(var(--btn-nudge), calc(var(--btn-nudge) * -1)); }
+    .btn[data-motion="x"]:hover :global(.btn__icon) { transform: translateX(var(--btn-nudge)); }
+    .btn[data-motion="y"]:hover :global(.btn__icon) { transform: translateY(var(--btn-nudge)); }
+    .btn[data-motion="turn"]:hover :global(.btn__icon) { transform: rotate(90deg); }
+  }
+  .btn[data-motion="diag"]:focus-visible :global(.btn__icon) { transform: translate(var(--btn-nudge), calc(var(--btn-nudge) * -1)); }
+  .btn[data-motion="x"]:focus-visible :global(.btn__icon) { transform: translateX(var(--btn-nudge)); }
+  .btn[data-motion="y"]:focus-visible :global(.btn__icon) { transform: translateY(var(--btn-nudge)); }
+
   /* Reduced motion: без зсуву, кольорові переходи лишаються */
   @media (prefers-reduced-motion: reduce) {
     .btn { transition-property: background-color, border-color, color; }
     .btn:active:not(:disabled, [aria-disabled="true"]) { transform: none; } /* та сама специфічність, що в правила натискання вище */
+    .btn__mark, .btn__mark :global(.btn__icon) { transition: none; }
+    .btn[data-motion] :global(.btn__icon) { transform: none !important; }
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 // Три карточки кейсів (Home і /cases). Третя — слот «coming soon» (пунктирна рамка, як плейсхолдер скріна).
 import Icon from "./Icon.astro";
+import Button from "./Button.astro";
 import { config } from "../config";
 import { href, t, type Locale } from "../i18n";
 
@@ -14,13 +15,13 @@ const c = d.cases.items;
     <span class="case__head"><Icon name="window" class="case__icon" /><span class="case__tag ts-label-sm">{c[0].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[0].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
-    <a class="case__cta ts-label-md" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta} ↗</a>
+    <Button variant="secondary" size="md" icon="arrowUpRight" class="case__cta" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta}</Button>
   </li>
   <li class="case">
     <span class="case__head"><Icon name="palette" class="case__icon" /><span class="case__tag ts-label-sm">{c[1].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[1].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[1].detail}</p>
-    <a class="case__cta ts-label-md" href={href(lang, "approach")} data-event="case_site">{c[1].cta} →</a>
+    <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, "approach")} data-event="case_site">{c[1].cta}</Button>
   </li>
   <li class="case case--soon">
     <span class="case__head"><Icon name="clock" class="case__icon" /><span class="case__tag ts-label-sm">{c[2].tag}</span></span>
@@ -40,5 +41,5 @@ const c = d.cases.items;
   .case__head :global(.case__icon) { --icon-size: var(--iconSize-lg); color: var(--caseCard-title-color); }
   .case__title { color: var(--caseCard-title-color); }
   .case__detail { color: var(--caseCard-detail-color); }
-  .case__cta { margin-top: auto; }
+  .case :global(.case__cta) { margin-top: auto; }
 </style>

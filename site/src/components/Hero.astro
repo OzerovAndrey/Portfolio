@@ -5,17 +5,12 @@
 // Розміри: рамка має фіксовані пропорції (aspect-ratio) → без CLS. Широка рамка: демо рендериться на віртуальній ширині
 // (десктоп-розкладка демо від 768) і пропорційно зменшується; вузька — рідна мобільна розкладка демо, без масштабу.
 import Button from "./Button.astro";
-import Icon from "./Icon.astro";
-import { BRANDS, states } from "../lib/exhibit";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const h = t(lang).hero;
-// Підпис primary CTA: тонке кільце з product1 усіх чотирьох брендів демо (значення — з токенів під час білду, не з поточного бренду).
-// Портфоліо лишається монохромним; колір — лише в цій маленькій деталі
-const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].colors["color.product1"]}`).join("; ");
 const live = new URL(config.demoUrl);
 live.searchParams.set("brand", "aurum");
 live.searchParams.set("theme", "dark");
@@ -29,8 +24,8 @@ live.searchParams.set("theme", "dark");
       </h1>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
       <div class="hero__actions">
-        <Button size="lg" href={config.demoUrl} target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} class="hero__cta hero__cta--primary" style={brandAccent} data-event="cta_live_system"><span>{h.ctaLive}</span><span class="cta-mark" aria-hidden="true"><Icon name="arrowUpRight" class="cta-mark__icon" /></span></Button>
-        <Button size="lg" variant="secondary" href="#explore" class="hero__cta hero__cta--secondary hero__more hero__more--desktop" data-explore data-event="cta_explore"><span>{h.ctaHow}</span><Icon name="arrowDown" class="cta-arrow" /></Button>
+        <Button size="lg" icon="arrowUpRight" href={config.demoUrl} target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
+        <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--desktop" data-explore data-event="cta_explore">{h.ctaHow}</Button>
       </div>
     </div>
 
@@ -41,7 +36,7 @@ live.searchParams.set("theme", "dark");
         <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
       </div>
       <!-- мобільні: другорядна дія — після живої системи -->
-      <Button size="lg" variant="secondary" href="#explore" class="hero__cta hero__cta--secondary hero__more hero__more--mobile" data-explore data-event="cta_explore"><span>{h.ctaHow}</span><Icon name="arrowDown" class="cta-arrow" /></Button>
+      <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--mobile" data-explore data-event="cta_explore">{h.ctaHow}</Button>
     </div>
   </div>
 </section>
@@ -94,36 +89,6 @@ live.searchParams.set("theme", "dark");
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
   .hero__product { display: grid; gap: var(--space-gap-xl); min-width: 0; }
 
-  /* CTA: одна геометрія (lg, той самий радіус, іконка md), різна вага. Primary — монохромна дія (action.*) з тонким внутрішнім контуром
-     і «знаком» праворуч: квадрат iconSize.xl, кільце-градієнт із product1 чотирьох брендів (--mb-1…4 з токенів демо), заливка = фон кнопки.
-     Hover: ледь помітна підсвітка знака кольорами брендів і зсув стрілки на 2 px по діагоналі. Secondary — ghost (action.secondary.*), стрілка вниз на 2 px */
-  :global(a.btn.hero__cta--primary) {
-    padding-inline-end: calc((var(--btn-size) - var(--iconSize-xl)) / 2);
-    box-shadow: inset 0 0 0 var(--borderWidth-control) color-mix(in srgb, var(--btn-color) 14%, transparent);
-  }
-  .cta-mark {
-    display: inline-grid; place-items: center; flex: none; width: var(--iconSize-xl); height: var(--iconSize-xl); box-sizing: border-box;
-    border: calc(var(--borderWidth-control) * 1.5) solid transparent; border-radius: var(--borderRadius-control);
-    background:
-      linear-gradient(var(--btn-bg), var(--btn-bg)) padding-box,
-      linear-gradient(135deg, var(--mb-1), var(--mb-2), var(--mb-3), var(--mb-4)) border-box;
-    transition: background var(--motion-duration-base) var(--motion-easing-out);
-  }
-  .cta-mark :global(.cta-mark__icon), .hero__cta--secondary :global(.cta-arrow), :global(.hero__cta--secondary) :global(.cta-arrow) { transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
-  @media (hover: hover) {
-    :global(a.btn.hero__cta--primary:hover) .cta-mark {
-      background:
-        linear-gradient(135deg, color-mix(in srgb, var(--mb-1) 16%, var(--btn-bg)), color-mix(in srgb, var(--mb-3) 16%, var(--btn-bg))) padding-box,
-        linear-gradient(135deg, var(--mb-1), var(--mb-2), var(--mb-3), var(--mb-4)) border-box;
-    }
-    :global(a.btn.hero__cta--primary:hover) .cta-mark :global(.cta-mark__icon) { transform: translate(calc(var(--borderWidth-control) * 2), calc(var(--borderWidth-control) * -2)); }
-    :global(a.btn.hero__cta--secondary:hover .cta-arrow) { transform: translateY(calc(var(--borderWidth-control) * 2)); }
-  }
-  :global(a.btn.hero__cta--primary:focus-visible) .cta-mark :global(.cta-mark__icon) { transform: translate(calc(var(--borderWidth-control) * 2), calc(var(--borderWidth-control) * -2)); }
-  @media (prefers-reduced-motion: reduce) {
-    .cta-mark { transition: none; }
-    .cta-mark :global(.cta-mark__icon), :global(.hero__cta--secondary .cta-arrow) { transition: none; transform: none !important; }
-  }
   /* друга дія: на десктопі поруч з основною, на мобільних — під сценою */
   .hero__product :global(.hero__more--mobile) { justify-self: center; }
   @media (max-width: 1023px) { .hero__actions :global(.hero__more--desktop) { display: none; } }
