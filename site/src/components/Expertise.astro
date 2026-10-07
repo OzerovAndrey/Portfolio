@@ -51,7 +51,7 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
   .expertise__name { color: var(--positioning-title-color); overflow-wrap: anywhere; }
   /* ≥ 1200: текст ліворуч, індекс напрямів праворуч; твердження лишається найбільшим елементом */
   @media (min-width: 1200px) {
-    .expertise__body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); }
+    .expertise__body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); align-items: center; }
     .expertise__text { grid-column: 1 / span 5; }
     .expertise__list { grid-column: 7 / span 6; }
   }
