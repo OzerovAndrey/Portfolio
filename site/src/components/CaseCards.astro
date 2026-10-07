@@ -1,5 +1,6 @@
 ---
 // Три карточки кейсів (Home і /cases). Третя — слот «coming soon» (пунктирна рамка, як плейсхолдер скріна).
+import Icon from "./Icon.astro";
 import { config } from "../config";
 import { href, t, type Locale } from "../i18n";
 
@@ -10,19 +11,19 @@ const c = d.cases.items;
 ---
 <ul class="cases">
   <li class="case">
-    <span class="case__tag ts-label-sm">{c[0].tag}</span>
+    <span class="case__head"><Icon name="window" class="case__icon" /><span class="case__tag ts-label-sm">{c[0].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[0].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
     <a class="case__cta ts-label-md" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta} ↗</a>
   </li>
   <li class="case">
-    <span class="case__tag ts-label-sm">{c[1].tag}</span>
+    <span class="case__head"><Icon name="palette" class="case__icon" /><span class="case__tag ts-label-sm">{c[1].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[1].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[1].detail}</p>
     <a class="case__cta ts-label-md" href={href(lang, "approach")} data-event="case_site">{c[1].cta} →</a>
   </li>
   <li class="case case--soon">
-    <span class="case__tag ts-label-sm">{c[2].tag}</span>
+    <span class="case__head"><Icon name="clock" class="case__icon" /><span class="case__tag ts-label-sm">{c[2].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[2].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[2].detail}</p>
   </li>
@@ -35,6 +36,8 @@ const c = d.cases.items;
   .case:hover:not(.case--soon) { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
   .case--soon { background: var(--shot-bg); border-style: dashed; border-color: var(--shot-br); }
   .case__tag { padding-inline: var(--caseCard-tag-paddingH); height: var(--caseCard-tag-size); display: inline-flex; align-items: center; background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  .case__head { display: flex; align-items: center; gap: var(--space-gap-md); }
+  .case__head :global(.case__icon) { --icon-size: var(--iconSize-lg); color: var(--caseCard-title-color); }
   .case__title { color: var(--caseCard-title-color); }
   .case__detail { color: var(--caseCard-detail-color); }
   .case__cta { margin-top: auto; }

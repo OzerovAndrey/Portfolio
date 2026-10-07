@@ -53,7 +53,7 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "figma", "brac
   .expertise__item:last-child { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
   .expertise__num { flex: none; min-width: 2ch; color: var(--positioning-label-color); }
   .expertise__name { color: var(--positioning-title-color); overflow-wrap: anywhere; }
-  .expertise__item :global(.expertise__icon) { align-self: center; width: var(--iconSize-lg); height: var(--iconSize-lg); color: var(--positioning-label-color); }
+  .expertise__item :global(.expertise__icon) { align-self: center; --icon-size: var(--iconSize-lg); color: var(--positioning-label-color); }
   /* ≥ 1200: текст ліворуч, індекс напрямів праворуч; твердження лишається найбільшим елементом */
   @media (min-width: 1200px) {
     .expertise__body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); align-items: center; }

@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
 import Button from "../../components/Button.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
@@ -7,6 +8,8 @@ export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
 const s = d.services;
+const PKG = ["clipboard", "braces", "layers", "branch"] as const; // аудит · токени · система · пайплайн
+const STEP = ["phone", "search", "file", "repeat", "package"] as const; // дзвінок · аудит · пропозиція · спринти · передача
 ---
 <Base lang={lang} page="services" title={d.meta.servicesTitle} description={d.meta.servicesDescription}>
   <section class="section">
@@ -16,8 +19,9 @@ const s = d.services;
         <p class="section__lead ts-body-lg-regular measure">{s.lead}</p>
       </div>
       <ul class="info-grid">
-        {s.packages.map((p) => (
+        {s.packages.map((p, i) => (
           <li class="info-card">
+            <Icon name={PKG[i] ?? "component"} class="info-card__icon" />
             <h2 class="info-card__title ts-title-t3">{p.name}</h2>
             <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.forLabel}</span><br />{p.forWhom}</p>
             <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.resultLabel}</span><br />{p.result}</p>
@@ -34,7 +38,7 @@ const s = d.services;
       </div>
       <ol class="process">
         {s.process.map((step, i) => (
-          <li class="process__step ts-title-t5"><span class="process__index ts-label-md" aria-hidden="true">{i + 1}</span>{step}</li>
+          <li class="process__step ts-title-t5"><span class="process__index ts-label-md" aria-hidden="true">{i + 1}</span><span class="process__label"><Icon name={STEP[i] ?? "file"} class="process__icon" />{step}</span></li>
         ))}
       </ol>
       <p class="ts-body-md-regular measure note">{s.note}</p>
@@ -49,5 +53,7 @@ const s = d.services;
   .process__step { display: flex; align-items: center; gap: var(--space-gap-lg); color: var(--step-title-color); }
   @media (min-width: 768px) { .process__step { flex-direction: column; align-items: flex-start; } }
   .process__index { display: inline-grid; place-items: center; width: var(--step-index-size); height: var(--step-index-size); border-radius: var(--step-index-borderRadius); background: var(--step-index-bg); color: var(--step-index-color); }
+  .process__label { display: inline-flex; align-items: center; gap: var(--space-gap-md); }
+  .process__label :global(.process__icon) { color: var(--section-lead-color); }
   .note { color: var(--section-lead-color); }
 </style>

@@ -1,14 +1,16 @@
 ---
 // Схема в HTML/CSS (не картинка): вузли зі стрілками. Шари токенів — стовпчик; пайплайн — стовпчик на вузьких, ряд на широких.
-interface Props { items: { name: string; detail: string; example?: string }[]; label: string; row?: boolean }
-const { items, label, row = false } = Astro.props;
+// icons — необов'язкові тематичні іконки вузлів за порядком (components/Icon.astro)
+import Icon, { type IconName } from "./Icon.astro";
+interface Props { items: { name: string; detail: string; example?: string }[]; label: string; row?: boolean; icons?: readonly IconName[] }
+const { items, label, row = false, icons = [] } = Astro.props;
 ---
 <div class:list={["flow", row && "flow--row"]} role="list" aria-label={label}>
   {items.map((it, i) => (
     <>
       {i > 0 && <span class="flow__arrow ts-title-t3" aria-hidden="true"></span>}
       <div class="flow__node" role="listitem">
-        <span class="flow__name ts-title-t5">{it.name}</span>
+        <span class="flow__name ts-title-t5">{icons[i] && <Icon name={icons[i]} class="flow__icon" />}{it.name}</span>
         <p class="flow__detail ts-body-sm-regular">{it.detail}</p>
         {it.example && <code class="flow__example ts-body-sm-strong">{it.example}</code>}
       </div>
@@ -20,7 +22,8 @@ const { items, label, row = false } = Astro.props;
   .flow { display: flex; flex-direction: column; align-items: stretch; gap: var(--flow-gap); }
   .flow__node { display: flex; flex-direction: column; gap: var(--flow-node-gap); flex: 1; padding: var(--flow-node-padding); background: var(--flow-node-bg); border: var(--flow-borderWidth) solid var(--flow-node-br); border-radius: var(--flow-node-borderRadius); }
   .flow__node:last-child { border-color: var(--flow-node-accent-br); }
-  .flow__name { color: var(--flow-node-title-color); }
+  .flow__name { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--flow-node-title-color); }
+  .flow__name :global(.flow__icon) { color: var(--flow-node-detail-color); }
   .flow__detail { color: var(--flow-node-detail-color); }
   .flow__example { color: var(--flow-node-title-color); overflow-wrap: anywhere; }
   .flow__arrow { align-self: center; color: var(--flow-arrow-color); }
