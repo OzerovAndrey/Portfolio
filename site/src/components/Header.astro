@@ -79,10 +79,15 @@ const path = Astro.url.pathname;
   .nav__item:hover { color: var(--siteNav-item-color-hover); }
   /* Активний пункт: колір + тонка лінія 1 px (без анімації) */
   .nav__item[aria-current="page"] { color: var(--siteNav-item-color-active); }
-  .nav__item[aria-current="page"]::after {
+  /* Індикатор: та сама лінія для hover і активного пункту — на hover виростає зліва (scaleX), активний — повна */
+  .nav__item::after {
     content: ""; position: absolute; inset-inline: var(--siteNav-item-paddingH); bottom: var(--space-gap-md);
     height: var(--siteNav-item-indicator-height); background: var(--siteNav-item-indicator-bg);
+    transform: scaleX(0); transform-origin: left center; transition: transform var(--motion-duration-base) var(--motion-easing-out);
   }
+  .nav__item[aria-current="page"]::after { transform: scaleX(1); }
+  @media (hover: hover) { .nav__item:hover::after { transform: scaleX(1); } }
+  .nav__item:focus-visible::after { transform: scaleX(1); }
   .header__tools { display: flex; align-items: center; gap: var(--siteHeader-gap); }
   /* EN / UK: два текстові посилання з тонким роздільником замість сегмент-контролу */
   .lang { display: inline-flex; align-items: center; }
@@ -129,8 +134,14 @@ const path = Astro.url.pathname;
       display: inline-flex; align-items: center; gap: var(--space-gap-md); height: var(--langSwitch-size); padding-inline: var(--space-gap-md);
       border: var(--siteHeader-borderWidth) solid var(--siteHeader-br); border-radius: var(--button-borderRadius); background: transparent; color: var(--siteHeader-logo-color); cursor: pointer;
     }
-    .menu-toggle__icon { position: relative; width: var(--iconSize-sm); height: var(--borderWidth-control); background: currentColor; box-shadow: 0 calc(var(--borderWidth-control) * -4) 0 currentColor, 0 calc(var(--borderWidth-control) * 4) 0 currentColor; }
-    [data-menu="open"] .menu-toggle__icon { box-shadow: none; }
+    /* гамбургер: середня лінія — сам елемент, верхня / нижня — ::before / ::after; відкрито — середня зникає, крайні сходяться в × */
+    .menu-toggle__icon { position: relative; width: var(--iconSize-sm); height: var(--borderWidth-control); background: currentColor; transition: background-color var(--motion-duration-fast) var(--motion-easing-out); }
+    .menu-toggle__icon::before, .menu-toggle__icon::after { content: ""; position: absolute; inset-inline: 0; height: 100%; background: currentColor; transition: transform var(--motion-duration-base) var(--motion-easing-standard); }
+    .menu-toggle__icon::before { transform: translateY(calc(var(--borderWidth-control) * -4)); }
+    .menu-toggle__icon::after { transform: translateY(calc(var(--borderWidth-control) * 4)); }
+    [data-menu="open"] .menu-toggle__icon { background-color: transparent; }
+    [data-menu="open"] .menu-toggle__icon::before { transform: rotate(45deg); }
+    [data-menu="open"] .menu-toggle__icon::after { transform: rotate(-45deg); }
     [data-menu] .header__inner { padding-block: var(--space-gap-sm); }
     /* Відкрите меню — панель поверх сторінки під рядком шапки (absolute від sticky .header): висота документа не змінюється, Hero не зсувається.
        Суцільна заливка шапки й hairline знизу; коротка поява opacity + зсув на motion-токенах */

@@ -103,7 +103,7 @@ const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].
     .btn--secondary:hover .btn__mark { --btn-mark-br: var(--action-secondary-br-hover); }
   }
   /* мікрорух іконки за типом дії — 2 px, тільки hover / клавіатурний фокус */
-  .btn { --btn-nudge: calc(var(--borderWidth-control) * 2); }
+  .btn { --btn-nudge: var(--motion-nudge); }
   @media (hover: hover) {
     .btn[data-motion="diag"]:hover :global(.btn__icon) { transform: translate(var(--btn-nudge), calc(var(--btn-nudge) * -1)); }
     .btn[data-motion="x"]:hover :global(.btn__icon) { transform: translateX(var(--btn-nudge)); }
@@ -113,6 +113,8 @@ const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].
   .btn[data-motion="diag"]:focus-visible :global(.btn__icon) { transform: translate(var(--btn-nudge), calc(var(--btn-nudge) * -1)); }
   .btn[data-motion="x"]:focus-visible :global(.btn__icon) { transform: translateX(var(--btn-nudge)); }
   .btn[data-motion="y"]:focus-visible :global(.btn__icon) { transform: translateY(var(--btn-nudge)); }
+  /* натискання: кнопка зсувається на 1 px (вище), іконка повертається в спокій — коротке «клац», без масштабу */
+  .btn[data-motion]:active :global(.btn__icon) { transform: none; }
 
   /* Reduced motion: без зсуву, кольорові переходи лишаються */
   @media (prefers-reduced-motion: reduce) {

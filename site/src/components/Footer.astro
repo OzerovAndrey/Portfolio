@@ -24,6 +24,10 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
   .footer__links a { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
   .footer__links a:hover { color: var(--siteFooter-link-color-hover); }
   .footer__links a:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
+  .footer__links a :global(.icon) { transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .footer__links a:hover :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); } }
+  .footer__links a:focus-visible :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); }
+  @media (prefers-reduced-motion: reduce) { .footer__links a :global(.icon) { transform: none !important; } }
   .footer__meta { padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
   @media (min-width: 768px) {
     .footer__links { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--siteFooter-gap); }

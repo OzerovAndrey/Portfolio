@@ -109,5 +109,9 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
   .form__status:global(.is-error) { color: var(--contactForm-error-color); }
   .direct { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-gap-xl); }
   .direct__link { display: inline-flex; align-items: center; gap: var(--space-gap-md); }
+  .direct__link :global(.icon) { transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .direct__link:hover :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); } }
+  .direct__link:focus-visible :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); }
+  @media (prefers-reduced-motion: reduce) { .direct__link :global(.icon) { transform: none !important; } }
   .direct__list { display: flex; flex-wrap: wrap; gap: var(--space-gap-xl); }
 </style>

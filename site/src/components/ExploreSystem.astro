@@ -68,10 +68,14 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
   .acc__title { color: var(--positioning-title-color); text-wrap: balance; }
   @media (hover: hover) { .acc__trigger:hover .acc__title { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: var(--borderWidth-control); } }
   /* «+» / «−» з двох смужок: стан — форма, не лише колір */
-  .acc__icon { position: relative; width: var(--iconSize-md); height: var(--iconSize-md); }
-  .acc__icon::before, .acc__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); transition: transform var(--motion-duration-base) var(--motion-easing-out); }
+  /* «+» з двох смужок; відкрито — весь знак повернутий на 45° (×). Рух прив'язаний до aria-expanded, не до hover */
+  .acc__icon { position: relative; width: var(--iconSize-md); height: var(--iconSize-md); transition: transform var(--motion-duration-slow) var(--motion-easing-standard); }
+  .acc__icon::before, .acc__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); }
   .acc__icon::after { transform: rotate(90deg); }
-  .acc__trigger[aria-expanded="true"] .acc__icon::after { transform: rotate(0deg); }
+  .acc__trigger[aria-expanded="true"] .acc__icon { transform: rotate(45deg); }
+  .acc__num { transition: color var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .acc__trigger:hover .acc__num { color: var(--positioning-title-color); } }
+  .acc__trigger:focus-visible .acc__num { color: var(--positioning-title-color); }
 
   .acc__body { display: grid; gap: var(--space-padding-lg); padding: 0 0 var(--space-padding-xl); }
   .acc__detail { color: var(--positioning-item-detail-color); }
@@ -87,5 +91,6 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
     .acc__trigger { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "num num" "title icon"; row-gap: var(--space-gap-sm); }
     .acc__num { grid-area: num; } .acc__title { grid-area: title; } .acc__icon { grid-area: icon; }
   }
-  @media (prefers-reduced-motion: reduce) { .acc__icon::before, .acc__icon::after { transition: none; } }
+  /* reduced motion: без обертання-анімації — стан (+ / ×) змінюється миттєво й лишається зрозумілим */
+  @media (prefers-reduced-motion: reduce) { .acc__icon { transition: none; } }
 </style>

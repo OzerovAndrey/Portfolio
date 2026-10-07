@@ -491,5 +491,12 @@
         "type": "dimension"
       }
     }
+  },
+  "motionDistance": {
+    "nudge": {
+      "value": "{dimension.2}",
+      "type": "spacing",
+      "description": "мікрозсув іконки на hover / фокус: семантичний рух дії (→ ↓ ↗)"
+    }
   }
 }

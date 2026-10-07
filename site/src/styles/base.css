@@ -68,6 +68,10 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } /* allow: стандартний reduced-motion ресет, 0.01ms — не дизайн-значення */
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+/* Перемикач теми: нова іконка з'являється коротким поворотом −30° → 0 і проявом (лише після кліку, один раз) */
+@keyframes theme-icon-in { from { opacity: 0; transform: rotate(-30deg); } to { opacity: 1; transform: none; } }
+.theme-toggle__icon.is-switched { animation: theme-icon-in var(--motion-duration-base) var(--motion-easing-out) both; }
+@media (prefers-reduced-motion: reduce) { .theme-toggle__icon.is-switched { animation: none; } }
 
 /* Інфо-картки сторінок (services, about, cases): сітка + картка на токенах audience.* */
 .info-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--l-gap); }
