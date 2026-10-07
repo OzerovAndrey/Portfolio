@@ -1,15 +1,16 @@
 ---
+import Icon from "./Icon.astro";
 import { config, formatPhone, links as mk } from "../config";
 import { t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
 const { email, linkedin, telegram, phone, github } = config.contacts;
-const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${email}`], ["LinkedIn", linkedin], ["Telegram", telegram], ["GitHub", github], [formatPhone(phone), phone && `tel:${phone}`]);
+const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `mailto:${email}`, "mail"], ["LinkedIn", linkedin, "linkedin"], ["Telegram", telegram, "send"], ["GitHub", github, "github"], [formatPhone(phone), phone && `tel:${phone}`, "phone"]);
 ---
 <footer class="footer">
   <div class="container footer__inner">
     <ul class="footer__links">
-      {links.map((l) => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.label}</a></li>)}
+      {links.map((l) => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.icon && <Icon name={l.icon} />}<span>{l.label}</span></a></li>)}
     </ul>
     <p class="footer__meta ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
   </div>
@@ -20,8 +21,9 @@ const links = mk([d.footer.demo, config.demoUrl], ["Email", email && `mailto:${e
   .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: calc(var(--siteFooter-paddingT) * 0.75) var(--siteFooter-paddingB); }
   .footer__inner { display: grid; gap: var(--siteFooter-gap); grid-template-columns: minmax(0, 1fr); }
   .footer__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-lg) var(--siteFooter-gap); align-items: center; }
-  .footer__links a { color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
-  .footer__links a:hover { color: var(--siteFooter-link-color-hover); text-decoration: underline; text-underline-offset: 0.2em; }
+  .footer__links a { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
+  .footer__links a:hover { color: var(--siteFooter-link-color-hover); }
+  .footer__links a:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
   .footer__meta { padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
   @media (min-width: 768px) {
     .footer__links { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--siteFooter-gap); }

@@ -1,6 +1,7 @@
 ---
 // 04 About / Expertise — коротке твердження + типографічний індекс напрямів. Без карток, скла і руху понад появу (data-reveal).
 // Токени: ті самі editorial-токени, що в Positioning (rule / label / title / detail) — нових немає.
+import Icon, { type IconName } from "./Icon.astro";
 import { t, type Locale } from "../i18n";
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
 const { lang, compact = false, index = "04" } = Astro.props;
 const e = t(lang).expertise;
 const num = (i: number) => String(i + 1).padStart(2, "0");
+// Іконки напрямів — у тому ж порядку, що й expertise.items (EN = UK)
+const ICON: IconName[] = ["pen", "layout", "component", "layers", "figma", "braces", "pointer", "code"];
 ---
 <section class:list={["section", "expertise", compact ? "expertise--compact" : "section--editorial"]} id="expertise" aria-labelledby="expertise-title" data-reveal>
   <div class="container">
@@ -28,6 +31,7 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
         {e.items.map((item, i) => (
           <li class="expertise__item">
             <span class="expertise__num ts-label-md" aria-hidden="true">{num(i)}</span>
+            <Icon name={ICON[i] ?? "component"} class="expertise__icon" />
             <span class="expertise__name ts-title-t3">{item}</span>
           </li>
         ))}
@@ -49,6 +53,7 @@ const num = (i: number) => String(i + 1).padStart(2, "0");
   .expertise__item:last-child { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
   .expertise__num { flex: none; min-width: 2ch; color: var(--positioning-label-color); }
   .expertise__name { color: var(--positioning-title-color); overflow-wrap: anywhere; }
+  .expertise__item :global(.expertise__icon) { align-self: center; width: var(--iconSize-lg); height: var(--iconSize-lg); color: var(--positioning-label-color); }
   /* ≥ 1200: текст ліворуч, індекс напрямів праворуч; твердження лишається найбільшим елементом */
   @media (min-width: 1200px) {
     .expertise__body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); align-items: center; }
