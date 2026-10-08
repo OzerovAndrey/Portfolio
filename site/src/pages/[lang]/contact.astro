@@ -113,7 +113,7 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
   .form__status:global(.is-success) { color: var(--contactForm-success-color); }
   .form__status:global(.is-error) { color: var(--contactForm-error-color); }
   /* Без форми: ліворуч «що написати» + кнопка листа, праворуч великі рядки контактів */
-  @media (min-width: 1024px) { .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--l-gap); align-items: start; }
+  @media (min-width: 1024px) { .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--contactForm-columnGap); align-items: start; }
     .contact .section__head { grid-column: 1 / -1; } }
   .brief { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
   .brief__list { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }

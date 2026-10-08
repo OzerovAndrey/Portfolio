@@ -1034,6 +1034,11 @@
       "value": "{space.gap.xl}",
       "type": "spacing"
     },
+    "columnGap": {
+      "value": "{layout.rowGap.md}",
+      "type": "spacing",
+      "description": "Відстань між формою й колонкою контактів (desktop): 48"
+    },
     "actions": {
       "gap": {
         "value": "{space.gap.md}",
