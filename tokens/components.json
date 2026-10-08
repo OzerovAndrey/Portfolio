@@ -628,8 +628,9 @@
     },
     "actions": {
       "gap": {
-        "value": "{space.gap.md}",
-        "type": "spacing"
+        "value": "{layout.columnGap.lg}",
+        "type": "spacing",
+        "description": "24 між CTA в hero"
       }
     }
   },
