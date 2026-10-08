@@ -85,6 +85,10 @@ const s = t(Astro.props.lang).services;
     background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius);
     transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
   .flow__step:hover { border-color: var(--section-lead-color); }
+  @media (min-width: 600px) and (max-width: 1099px) {
+    .flow__step { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); grid-template-rows: auto auto 1fr; column-gap: var(--l-gap); align-items: start; }
+    .flow__art { grid-row: 1 / span 3; margin-bottom: 0; }
+  }
   .flow__art { aspect-ratio: 10 / 7; display: grid; place-items: center; margin-bottom: var(--space-gap-sm);
     background: var(--section-bg-alt); border-radius: var(--audience-borderRadius); color: var(--step-title-color); }
   .flow__index { color: var(--step-detail-color); }

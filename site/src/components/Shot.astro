@@ -57,7 +57,8 @@ const a11y = t(lang).a11y;
 </script>
 
 <style>
-  .shot { position: relative; margin: 0; width: 100%; overflow: hidden; border-radius: var(--shot-borderRadius); }
+  /* align-self: Safari інакше бере висоту рядка сітки й рахує ширину з aspect-ratio */
+  .shot { position: relative; margin: 0; width: 100%; align-self: start; overflow: hidden; border-radius: var(--shot-borderRadius); }
   .shot--ready { border: var(--shot-borderWidth) solid var(--shot-image-br); background: var(--shot-bg); }
   .shot__img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .shot__zoom { all: unset; display: block; width: 100%; height: 100%; cursor: zoom-in; }

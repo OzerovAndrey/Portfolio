@@ -46,14 +46,19 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
           </div>
         </form>
       ) : (
-        !direct.length && <p class="field__hint ts-body-md-regular">{c.noForm}</p>
+        <div class="brief">
+          <h2 class="ts-title-t4">{c.includeTitle}</h2>
+          <ol class="brief__list">{c.include.map((x, i) => <li class="brief__item ts-body-lg-regular"><span class="brief__n ts-label-md">0{i + 1}</span>{x}</li>)}</ol>
+          {email && <div><Button size="lg" icon="mail" href={`mailto:${email}?subject=${encodeURIComponent(c.emailSubject)}`} data-event="contact_email">{c.emailCta}</Button></div>}
+          {!direct.length && <p class="field__hint ts-body-md-regular">{c.noForm}</p>}
+        </div>
       )}
 
       {direct.length > 0 && (
         <div class="direct">
           <h2 class="ts-title-t4">{c.direct}</h2>
           <ul class="direct__list">
-            {direct.map((l) => <li><a class="direct__link ts-body-md-strong" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.icon && <Icon name={l.icon} />}<span>{l.label}</span></a></li>)}
+            {direct.map((l) => <li><a class="direct__link ts-body-lg-regular" href={l.url} target={l.url.startsWith("http") ? "_blank" : undefined} rel={l.url.startsWith("http") ? "noopener" : undefined} data-event={`contact_${l.icon ?? "link"}`}>{l.icon && <Icon name={l.icon} class="direct__icon" />}<span>{l.label}</span><Icon name="arrowUpRight" class="direct__go" /></a></li>)}
           </ul>
         </div>
       )}
@@ -107,11 +112,20 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
   .form__status { color: var(--contactForm-hint-color); }
   .form__status:global(.is-success) { color: var(--contactForm-success-color); }
   .form__status:global(.is-error) { color: var(--contactForm-error-color); }
-  .direct { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-gap-xl); }
-  .direct__link { display: inline-flex; align-items: center; gap: var(--space-gap-md); }
-  .direct__link :global(.icon) { transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
-  @media (hover: hover) { .direct__link:hover :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); } }
-  .direct__link:focus-visible :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); }
-  @media (prefers-reduced-motion: reduce) { .direct__link :global(.icon) { transform: none !important; } }
-  .direct__list { display: flex; flex-wrap: wrap; gap: var(--space-gap-xl); }
+  /* Без форми: ліворуч «що написати» + кнопка листа, праворуч великі рядки контактів */
+  @media (min-width: 1024px) { .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--l-gap); align-items: start; }
+    .contact .section__head { grid-column: 1 / -1; } }
+  .brief { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
+  .brief__list { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }
+  .brief__item { display: flex; gap: var(--space-gap-lg); align-items: baseline; padding-block: var(--space-padding-md); border-bottom: var(--metric-borderWidth) solid var(--metric-br); color: var(--section-title-color); }
+  .brief__n { color: var(--metric-label-color); }
+  .direct { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
+  .direct__list { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }
+  .direct__link { display: flex; align-items: center; gap: var(--space-gap-lg); padding-block: var(--space-padding-md);
+    border-bottom: var(--metric-borderWidth) solid var(--metric-br); color: var(--section-title-color); text-decoration: none; }
+  .direct__link:hover span { text-decoration: underline; text-underline-offset: var(--space-gap-xs); }
+  .direct__link :global(.direct__icon) { --icon-size: var(--iconSize-md); color: var(--section-lead-color); }
+  .direct__link :global(.direct__go) { --icon-size: var(--iconSize-sm); margin-left: auto; color: var(--section-lead-color); transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
+  @media (hover: hover) { .direct__link:hover :global(.direct__go) { transform: translate(var(--motion-nudge), calc(var(--motion-nudge) * -1)); } }
+  @media (prefers-reduced-motion: reduce) { .direct__link :global(.direct__go) { transform: none !important; } }
 </style>

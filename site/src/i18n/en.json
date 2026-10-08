@@ -292,7 +292,15 @@
     "success": "Thanks, your message is on its way. I'll reply personally.",
     "error": "The message didn't go through. Please try again or use one of the direct contacts below.",
     "direct": "Prefer to write directly?",
-    "noForm": "The contact form is on its way. Until then, use the direct contacts."
+    "noForm": "The contact form is on its way. Until then, use the direct contacts.",
+    "includeTitle": "What helps me answer faster",
+    "include": [
+      "How many brands, and how many more are planned",
+      "Platforms: web, iOS, Android, white-label",
+      "Where the design system is today: Figma only, tokens, code"
+    ],
+    "emailCta": "Write an email",
+    "emailSubject": "Design system for our brands"
   },
   "footer": {
     "rights": "This site runs on the same token system as the demo, as its own brand.",

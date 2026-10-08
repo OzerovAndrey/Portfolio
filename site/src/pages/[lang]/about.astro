@@ -124,7 +124,8 @@ const contacts = links(
 <style>
   .ab-intro { display: grid; gap: var(--l-gap); align-items: stretch; }
   @media (min-width: 900px) { .ab-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
-  .ab-portrait { position: relative; margin: 0; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden;
+  /* width + align-self: Safari рахує ширину з aspect-ratio і розтягнутої висоти рядка сітки → вузька смужка */
+  .ab-portrait { position: relative; margin: 0; width: 100%; max-width: var(--layout-measure-lead); align-self: start; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden;
     background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
   .ab-portrait :global(.ab-portrait__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: var(--portrait-filter); }
   .ab-portrait__mono { color: var(--section-title-color); letter-spacing: var(--metric-amount-letterSpacing); }
@@ -154,7 +155,10 @@ const contacts = links(
   .ab-contact :global(.ab-contact__go) { --icon-size: var(--iconSize-sm); margin-left: auto; color: var(--section-lead-color);
     transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
   .ab-contact:hover :global(.ab-contact__go) { transform: translate(var(--motion-nudge), calc(var(--motion-nudge) * -1)); }
-  .ab-stats { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--l-gap); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ab-stats { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--l-gap); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 600px) { .ab-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  /* вузькі: число й підпис в один рядок */
+  @media (max-width: 599px) { .ab-stat { flex-direction: row; align-items: baseline; gap: var(--space-gap-lg); } }
   .ab-stat { display: flex; flex-direction: column; gap: var(--space-gap-sm); padding-top: var(--space-padding-md); border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .ab-stat__amount { color: var(--metric-amount-color); letter-spacing: var(--metric-amount-letterSpacing); }
   .ab-stat__label { color: var(--metric-label-color); }
