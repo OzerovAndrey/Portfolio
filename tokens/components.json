@@ -682,6 +682,18 @@
         "value": "{color.text.secondary}",
         "type": "color"
       }
+    },
+    "text": {
+      "heading": {
+        "value": "{layout.columnGap.lg}",
+        "type": "spacing",
+        "description": "заголовок → його текст: 24"
+      },
+      "block": {
+        "value": "{layout.rowGap.md}",
+        "type": "spacing",
+        "description": "між логічними блоками тексту/контенту: 48"
+      }
     }
   },
   "demoFrame": {
@@ -1001,8 +1013,9 @@
       "type": "spacing"
     },
     "gap": {
-      "value": "{space.gap.xl}",
-      "type": "spacing"
+      "value": "{layout.rowGap.md}",
+      "type": "spacing",
+      "description": "текст ↔ кнопка (окремі блоки): 48"
     },
     "title": {
       "color": {

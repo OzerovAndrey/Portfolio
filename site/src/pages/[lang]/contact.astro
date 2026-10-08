@@ -94,7 +94,7 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
 </script>
 
 <style>
-  .contact { display: flex; flex-direction: column; gap: var(--contactForm-gap); }
+  .contact { display: flex; flex-direction: column; gap: var(--section-text-block); }
   .contact .section__head { margin-bottom: 0; }
   .form { display: flex; flex-direction: column; gap: var(--contactForm-gap); max-width: 40rem; }
   .field { display: flex; flex-direction: column; gap: var(--input-wrapper-gap); }
@@ -115,11 +115,11 @@ const direct = links([email, email && `mailto:${email}`, "mail"], ["LinkedIn", l
   /* Без форми: ліворуч «що написати» + кнопка листа, праворуч великі рядки контактів */
   @media (min-width: 1024px) { .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--contactForm-columnGap); align-items: start; }
     .contact .section__head { grid-column: 1 / -1; } }
-  .brief { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
+  .brief { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .brief__list { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .brief__item { display: flex; gap: var(--space-gap-lg); align-items: baseline; padding-block: var(--space-padding-md); border-bottom: var(--metric-borderWidth) solid var(--metric-br); color: var(--section-title-color); }
   .brief__n { color: var(--metric-label-color); }
-  .direct { display: flex; flex-direction: column; gap: var(--space-gap-xl); }
+  .direct { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .direct__list { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .direct__link { display: flex; align-items: center; gap: var(--space-gap-lg); padding-block: var(--space-padding-md);
     border-bottom: var(--metric-borderWidth) solid var(--metric-br); color: var(--section-title-color); text-decoration: none; }

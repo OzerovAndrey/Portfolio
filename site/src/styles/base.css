@@ -49,7 +49,8 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 
 .section { background: var(--section-bg-default); padding-block: var(--l-row); }
 .section--alt { background: var(--section-bg-alt); }
-.section__head { display: flex; flex-direction: column; gap: var(--space-gap-md); margin-bottom: var(--section-gap); }
+/* Текстовий ритм по всьому сайту: заголовок → його текст 24 (section.text.heading), між логічними блоками 48 (section.text.block) */
+.section__head { display: flex; flex-direction: column; gap: var(--section-text-heading); margin-bottom: var(--section-text-block); }
 .section__eyebrow { color: var(--section-eyebrow-color); }
 .section__title { color: var(--section-title-color); font-size: var(--section-title-fontSize); line-height: var(--section-title-lineHeight); letter-spacing: var(--section-title-letterSpacing); text-wrap: balance; }
 .section__lead { color: var(--section-lead-color); }
@@ -83,7 +84,8 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 /* Тематична іконка картки: приглушена, розмір через --icon-size (components/Icon.astro) */
 .info-card__icon { --icon-size: var(--iconSize-lg); color: var(--section-lead-color); }
 .info-card__head { display: flex; align-items: center; gap: var(--space-gap-md); }
-.stack { display: flex; flex-direction: column; gap: var(--l-gap); }
+.stack { display: flex; flex-direction: column; gap: var(--section-text-block); }
+.text-pair { display: flex; flex-direction: column; gap: var(--section-text-heading); }
 .stack > .section__head { margin-bottom: 0; }
 
 /* Display-типографіка v3. Розмір, інтервал і трекінг — з токенів display.xl / display.lg; сімейство й вагу дає text style (ts-display-d1…),

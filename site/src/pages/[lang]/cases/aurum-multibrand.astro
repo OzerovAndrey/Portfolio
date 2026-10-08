@@ -138,7 +138,7 @@ const PROBLEM_ICON = ["component", "grid", "branch"] as const;
   .cs-fact dd { margin: 0; color: var(--section-title-color); }
   .cs-actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
 
-  .cs-split { display: grid; gap: var(--l-gap); }
+  .cs-split { display: grid; gap: var(--section-text-heading) var(--l-gap); }
   @media (min-width: 1024px) { .cs-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } }
   .cs-prose { color: var(--section-lead-color); max-width: var(--layout-measure-body); margin: 0; }
 

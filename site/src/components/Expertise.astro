@@ -43,8 +43,8 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "figma", "brac
 <style>
   .expertise__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-top: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); color: var(--positioning-label-color); }
   .expertise__statement { margin-top: var(--section-gap); max-width: 24ch; color: var(--positioning-title-color); overflow-wrap: break-word; }
-  .expertise__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--layout-section-padding) * 0.6); margin-top: calc(var(--layout-section-padding) * 0.6); }
-  .expertise--compact .expertise__body { margin-top: var(--l-row); gap: var(--l-row); }
+  .expertise__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--section-text-block); margin-top: var(--section-text-heading); }
+  .expertise--compact .expertise__body { margin-top: var(--section-text-heading); gap: var(--section-text-block); }
   .expertise__text { display: grid; gap: var(--space-padding-xl); align-content: start; }
   .expertise__paragraph { color: var(--positioning-item-detail-color); }
   .expertise__closing { color: var(--positioning-title-color); }

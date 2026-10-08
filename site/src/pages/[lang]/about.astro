@@ -121,7 +121,7 @@ const contacts = links(
 
 <style>
   /* Текст ліворуч (заголовок → лід → теза → абзац), портрет праворуч на всю висоту блоку; на вузьких: заголовок → фото → текст */
-  .ab-intro { display: grid; gap: var(--l-gap); grid-template-areas: "head" "photo" "text"; }
+  .ab-intro { display: grid; gap: var(--section-text-block) var(--l-gap); grid-template-areas: "head" "photo" "text"; }
   .ab-head { grid-area: head; margin-bottom: 0; }
   .ab-portrait { grid-area: photo; }
   .ab-text { grid-area: text; }
@@ -142,10 +142,10 @@ const contacts = links(
   .ab-portrait__cap--photo { left: var(--space-padding-md); right: var(--space-padding-md); bottom: var(--space-padding-md); padding: var(--space-padding-md);
     background: var(--glass-bg); border: var(--glass-borderWidth) solid var(--glass-br); border-radius: var(--metric-borderRadius); backdrop-filter: var(--glass-backdropFilter); color: var(--glass-color-default); }
   .ab-portrait__cap--photo span:last-child { color: var(--glass-color-default); }
-  .ab-text { display: flex; flex-direction: column; gap: var(--l-gap); }
+  .ab-text { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
   .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
-  .ab-split { display: grid; gap: var(--l-gap); }
+  .ab-split { display: grid; gap: var(--section-text-heading) var(--l-gap); }
   @media (min-width: 1024px) { .ab-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } }
   .ab-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
   .ab-tag { display: inline-flex; align-items: center; height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH);
