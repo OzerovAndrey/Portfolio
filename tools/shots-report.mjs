@@ -16,7 +16,7 @@ const md = [
   "",
   "Автогенеровано: `npm --prefix site run shots:report`. Не редагувати вручну — правки в `site/src/content/shots.json`.",
   "",
-  `Готово: **${done} / ${rows.length}**. Заміна скріна = покласти PNG за шляхом із колонки «Файл» (від \`site/src/assets/\`) і запушити.`,
+  `Готово: **${done} / ${rows.length}**. Заміна скріна = покласти WebP за шляхом із колонки «Файл» (від \`site/src/assets/\`) і запушити. Перезняти з демо: \`node tools/shots/render.mjs [id …]\`.`,
   "",
   ...blocks.flatMap((b) => [
     `## ${b}`,

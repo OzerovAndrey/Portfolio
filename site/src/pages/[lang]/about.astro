@@ -1,31 +1,134 @@
 ---
+// /about: людина за системою. Тільки підтверджене (BRIEF.md, розділ 3 і 6): без років досвіду й назв клієнтів (NDA).
+// Портрет: покласти src/assets/about/portrait.(jpg|png|webp) — з'явиться замість монограми без правок коду.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
 import Icon from "../../components/Icon.astro";
-import { staticLangPaths, t, type Locale } from "../../i18n";
+import { config, links, formatPhone } from "../../config";
+import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
 const lang = Astro.params.lang as Locale;
 const d = t(lang);
 const a = d.about;
-const ICON = ["image", "briefcase", "wrench", "target", "mail"] as const; // фото · досвід · інструменти · принципи · контакти
+const portrait = Object.values(import.meta.glob<{ default: ImageMetadata }>("/src/assets/about/portrait.{jpg,jpeg,png,webp}", { eager: true }))[0]?.default;
+const ct = config.contacts;
+const contacts = links(
+  [ct.email, ct.email && `mailto:${ct.email}`, "mail"],
+  ["Telegram", ct.telegram, "send"],
+  ["LinkedIn", ct.linkedin, "linkedin"],
+  ["GitHub", ct.github, "github"],
+  [ct.phone && formatPhone(ct.phone), ct.phone && `tel:${ct.phone}`, "phone"],
+);
 ---
 <Base lang={lang} page="about" title={d.meta.aboutTitle} description={d.meta.aboutDescription}>
   <section class="section">
     <div class="container stack">
       <div class="section__head">
         <h1 class="section__title ts-display-d3">{a.title}</h1>
-        <p class="section__lead ts-body-lg-regular measure">{a.lead}</p>
+        <p class="section__lead ts-body-lg-regular measure--lead">{a.lead}</p>
       </div>
-      <ul class="info-grid">
-        {a.sections.map((s, i) => (
-          <li class="info-card">
-            <Icon name={ICON[i] ?? "file"} class="info-card__icon" />
-            <h2 class="info-card__title ts-title-t4">{s.title}</h2>
-            <p class="info-card__detail ts-body-md-regular">{s.detail}</p>
-            <p class="info-card__label ts-label-sm">{a.pending}</p>
-          </li>
+      <div class="ab-intro">
+        <figure class="ab-portrait">
+          {portrait
+            ? <Image src={portrait} alt={a.portraitAlt} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 33vw, 100vw" class="ab-portrait__img" />
+            : <span class="ab-portrait__mono ts-display-d1" aria-hidden="true">{a.monogram}</span>}
+          <figcaption class="ab-portrait__cap"><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
+        </figure>
+        <div class="ab-text">
+          <p class="ab-statement ts-title-t1">{a.statement}</p>
+          <p class="ab-prose ts-body-lg-regular">{a.paragraph}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="ab-exp" data-reveal>
+    <div class="container ab-split">
+      <h2 class="section__title ts-title-t1" id="ab-exp">{a.experience.title}</h2>
+      <div class="stack">
+        <p class="ab-prose ts-body-lg-regular">{a.experience.detail}</p>
+        <ul class="ab-tags">{a.experience.items.map((x) => <li class="ab-tag ts-label-md">{x}</li>)}</ul>
+        <div><Button variant="secondary" size="md" icon="arrowRight" href={href(lang, "cases/aurum-multibrand")} data-event="about_case">{a.experience.link}</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ab-tools" data-reveal>
+    <div class="container stack">
+      <h2 class="section__title ts-title-t1" id="ab-tools">{a.tools.title}</h2>
+      <ul class="ab-grid3">
+        {a.tools.items.map((x) => (
+          <li class="info-card"><h3 class="info-card__title ts-title-t4">{x.name}</h3><p class="info-card__detail ts-body-md-regular">{x.detail}</p></li>
         ))}
       </ul>
     </div>
   </section>
+
+  <section class="section section--alt" aria-labelledby="ab-principles" data-reveal>
+    <div class="container stack">
+      <h2 class="section__title ts-title-t1" id="ab-principles">{a.principles.title}</h2>
+      <ol class="info-grid">
+        {a.principles.items.map((x, i) => (
+          <li class="info-card">
+            <span class="info-card__label ts-label-sm">0{i + 1}</span>
+            <h3 class="info-card__title ts-title-t4">{x.title}</h3>
+            <p class="info-card__detail ts-body-md-regular">{x.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ab-contact" data-reveal>
+    <div class="container ab-split">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1" id="ab-contact">{a.contact.title}</h2>
+        <p class="section__lead ts-body-lg-regular">{a.contact.lead}</p>
+      </div>
+      <div class="stack">
+        <ul class="ab-contacts">
+          {contacts.map((l) => (
+            <li><a class="ab-contact ts-body-lg-regular" href={l.url} target={l.url.startsWith("http") ? "_blank" : undefined} rel={l.url.startsWith("http") ? "noopener" : undefined} data-event={`about_contact_${(l.icon ?? "link")}`}>
+              {l.icon && <Icon name={l.icon} class="ab-contact__icon" />}<span>{l.label}</span><Icon name="arrowUpRight" class="ab-contact__go" />
+            </a></li>
+          ))}
+        </ul>
+        <div><Button size="lg" icon="mail" href={href(lang, "contact")} data-event="about_cta">{a.contact.cta}</Button></div>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .ab-intro { display: grid; gap: var(--l-gap); align-items: stretch; }
+  @media (min-width: 900px) { .ab-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
+  .ab-portrait { position: relative; margin: 0; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden;
+    background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
+  .ab-portrait :global(.ab-portrait__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ab-portrait__mono { color: var(--section-title-color); letter-spacing: var(--metric-amount-letterSpacing); }
+  .ab-portrait__cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: var(--space-gap-xs);
+    padding: var(--space-padding-lg); color: var(--section-title-color); }
+  .ab-portrait__cap span:last-child { color: var(--section-lead-color); }
+  .ab-text { display: flex; flex-direction: column; justify-content: flex-end; gap: var(--l-gap); }
+  .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
+  .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
+  .ab-split { display: grid; gap: var(--l-gap); }
+  @media (min-width: 1024px) { .ab-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } }
+  .ab-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
+  .ab-tag { display: inline-flex; align-items: center; height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH);
+    background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  .ab-grid3 { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--l-gap); }
+  @media (min-width: 768px) { .ab-grid3 { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .ab-grid3 { grid-template-columns: repeat(3, 1fr); } }
+  .ab-contacts { list-style: none; margin: 0; padding: 0; display: grid; border-top: var(--metric-borderWidth) solid var(--metric-br); }
+  .ab-contact { display: flex; align-items: center; gap: var(--space-gap-lg); padding-block: var(--space-padding-md);
+    border-bottom: var(--metric-borderWidth) solid var(--metric-br); color: var(--section-title-color); text-decoration: none; }
+  .ab-contact:hover span { text-decoration: underline; text-underline-offset: var(--space-gap-xs); }
+  .ab-contact :global(.ab-contact__icon) { --icon-size: var(--iconSize-md); color: var(--section-lead-color); }
+  .ab-contact :global(.ab-contact__go) { --icon-size: var(--iconSize-sm); margin-left: auto; color: var(--section-lead-color);
+    transition: transform var(--motion-duration-fast) var(--motion-easing-out); }
+  .ab-contact:hover :global(.ab-contact__go) { transform: translate(var(--motion-nudge), calc(var(--motion-nudge) * -1)); }
+</style>

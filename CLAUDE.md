@@ -45,6 +45,9 @@
 - Аналітика — Umami Cloud (`PUBLIC_UMAMI_ID`). Подія = атрибут `data-event="назва"` на елементі, без коду провайдера в компонентах.
   Назви подій: `snake_case`, `<об'єкт>_<дія>` (`cta_demo`, `demo_open_fullscreen`, `lang_uk`, `theme_dark`, `contact_sent`).
 - OG-картинки — `site/public/og/en.png`, `uk.png` (1200×630). Змінився hero-текст → оновити картинки.
+- Скріни `/approach` — `site/src/assets/shots/**.webp` з маніфесту `shots.json`. Перезняти: `node tools/shots/render.mjs [id …]` (DEMO_DIST, DEMO_REPO).
+  Кадри інструментів — відтворення на даних репо, не вигадані значення. Помітно змінився вигляд демо → перезняти.
+- Фото для `/about` — `site/src/assets/about/portrait.(jpg|png|webp)`; поки файлу немає — монограма.
 - Постер демо — `site/public/demo/poster-{wide,mid,mobile}-{light,dark}.webp` (кадри демо в пропорціях рамки 27:25, 4:5, 9:16@2x,
   без підказки демо, зі справжніми шрифтами). Помітно змінився вигляд демо → перезняти постери (локальна збірка демо + Playwright).
 - Цифри на сайті — тільки реальні або з плашкою `metric.typical`. Не вигадувати обіцянок від імені Андрія.

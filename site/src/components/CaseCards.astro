@@ -2,7 +2,6 @@
 // Три карточки кейсів (Home і /cases). Третя — слот «coming soon» (пунктирна рамка, як плейсхолдер скріна).
 import Icon from "./Icon.astro";
 import Button from "./Button.astro";
-import { config } from "../config";
 import { href, t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
@@ -15,7 +14,7 @@ const c = d.cases.items;
     <span class="case__head"><Icon name="window" class="case__icon" /><span class="case__tag ts-label-sm">{c[0].tag}</span></span>
     <h3 class="case__title ts-title-t4">{c[0].title}</h3>
     <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
-    <Button variant="secondary" size="md" icon="arrowUpRight" class="case__cta" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_demo">{c[0].cta}</Button>
+    <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, "cases/aurum-multibrand")} data-event="case_aurum">{c[0].cta}</Button>
   </li>
   <li class="case">
     <span class="case__head"><Icon name="palette" class="case__icon" /><span class="case__tag ts-label-sm">{c[1].tag}</span></span>

@@ -12,7 +12,9 @@
     "servicesTitle": "Services — Andrey Ozerov",
     "servicesDescription": "Four packages for teams running more than one brand: audit, token architecture, a full multi-brand system, pipeline setup.",
     "aboutTitle": "About — Andrey Ozerov",
-    "aboutDescription": "Who is behind the system: experience, products, tools and working principles."
+    "aboutDescription": "Who is behind the system: experience, products, tools and working principles.",
+    "caseAurumTitle": "Aurum Multibrand — case study · Andrey Ozerov",
+    "caseAurumDescription": "One casino lobby in four brands and two themes on one set of components: context, problem, token architecture, results and what I would do differently."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -22,7 +24,9 @@
     "themeToLight": "Switch to light theme",
     "home": "Andrey Ozerov — home",
     "menu": "Menu",
-    "menuOpen": "Open menu"
+    "menuOpen": "Open menu",
+    "zoomShot": "Open full size",
+    "closeZoom": "Close"
   },
   "nav": {
     "home": "Home",
@@ -320,7 +324,7 @@
         "tag": "Meta-case",
         "title": "Aurum Multibrand",
         "detail": "A casino lobby that re-skins between 4 brands and 2 themes on one codebase. The live demo behind this site.",
-        "cta": "Open the demo"
+        "cta": "Read the case"
       },
       {
         "tag": "This site",
@@ -340,7 +344,6 @@
     "title": "Work",
     "lead": "Every case follows one format, so you can compare them.",
     "formatTitle": "The format of a case",
-    "pending": "Content in progress.",
     "sections": [
       {
         "title": "Context",
@@ -362,7 +365,8 @@
         "title": "What I would do differently",
         "detail": "One honest paragraph."
       }
-    ]
+    ],
+    "formatLead": "Every case on this site follows the same five parts. Aurum Multibrand is the first one written this way."
   },
   "approach": {
     "title": "How the system is built",
@@ -503,30 +507,80 @@
   },
   "about": {
     "title": "About",
-    "lead": "The person behind the system.",
-    "pending": "Content in progress.",
-    "sections": [
-      {
-        "title": "Photo",
-        "detail": "A portrait goes here."
-      },
-      {
-        "title": "Experience and products",
-        "detail": "Years of experience and the products I worked on, as far as I can publish them."
-      },
-      {
-        "title": "Tools",
-        "detail": "Figma, Token Studio, Git and the build tooling I work with."
-      },
-      {
-        "title": "Working principles",
-        "detail": "How I work with teams."
-      },
-      {
-        "title": "Contacts",
-        "detail": "Direct ways to reach me."
-      }
-    ]
+    "lead": "Product and UI/UX designer. I design complex interfaces and the multi-brand systems behind them.",
+    "portraitAlt": "Portrait of Andrey Ozerov",
+    "monogram": "AO",
+    "name": "Andrey Ozerov",
+    "role": "Product / UI/UX designer · Multi-brand design systems",
+    "statement": "From product logic to production-ready UI.",
+    "paragraph": "I’m a UI/UX and Product Designer focused on complex interfaces, scalable design systems and multi-brand products. I work from product logic and user flows through interface design, reusable components and implementation with development teams.",
+    "experience": {
+      "title": "Experience and products",
+      "detail": "I work on iGaming products: lobbies and game discovery, promotions, tournaments and account flows, and on the design systems that carry them across brands. Client work stays under NDA. What I can show in full is the demo system on this site, built the same way.",
+      "items": [
+        "iGaming products",
+        "Multi-brand design systems",
+        "Complex UX flows",
+        "Component libraries",
+        "Developer handoff"
+      ],
+      "link": "Read the Aurum Multibrand case"
+    },
+    "tools": {
+      "title": "Tools",
+      "items": [
+        {
+          "name": "Figma",
+          "detail": "Components, Variables with modes per brand and theme, prototypes."
+        },
+        {
+          "name": "Tokens Studio",
+          "detail": "Token sets, themes and the sync of JSON with GitHub."
+        },
+        {
+          "name": "GitHub",
+          "detail": "Tokens live in the repository next to the code and go through review."
+        },
+        {
+          "name": "Build scripts",
+          "detail": "Node scripts that turn JSON into CSS variables and check keys, layers and contrast."
+        },
+        {
+          "name": "React · Astro",
+          "detail": "The demo and this site, so I can test a decision in a real interface."
+        },
+        {
+          "name": "Claude",
+          "detail": "A design-system skill generated from the tokens, so AI tools use the same names."
+        }
+      ]
+    },
+    "principles": {
+      "title": "Working principles",
+      "items": [
+        {
+          "title": "Start from the product task",
+          "detail": "Flows, users and constraints first. Then I decide what the system has to carry."
+        },
+        {
+          "title": "Meaning before value",
+          "detail": "Components ask for meanings. Raw values live in one place, so a brand is a file, not a fork."
+        },
+        {
+          "title": "Checks over reviews",
+          "detail": "Key parity, layer rules and contrast fail the build. Nobody has to catch them in a meeting."
+        },
+        {
+          "title": "Facts over promises",
+          "detail": "Every number on this site comes from the repository. Estimates are labelled as estimates."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contacts",
+      "lead": "Email or Telegram is the fastest. I read every message myself.",
+      "cta": "Write to me"
+    }
   },
   "explore": {
     "heading": "How the system is built",
@@ -552,5 +606,87 @@
       "Theme",
       "Components"
     ]
+  },
+  "caseAurum": {
+    "tag": "Meta-case · live demo",
+    "title": "Aurum Multibrand",
+    "lead": "One casino lobby in four brands, light and dark, on one set of components. A working model of the system I build for teams that run more than one brand.",
+    "facts": [
+      {
+        "k": "Role",
+        "v": "Product design, design system, token pipeline"
+      },
+      {
+        "k": "Scope",
+        "v": "{brands} brands × 2 themes · {components} components"
+      },
+      {
+        "k": "Stack",
+        "v": "Figma · Tokens Studio · GitHub · React · CSS variables"
+      },
+      {
+        "k": "Status",
+        "v": "Live demo · public repository"
+      }
+    ],
+    "ctaDemo": "Open the live demo",
+    "ctaApproach": "How it is built",
+    "ctaContact": "Talk about your brands",
+    "contextTitle": "Context",
+    "context": "White-label and iGaming platforms ship one product under several brands. Each brand wants its own colors, type and shapes; the product team wants one codebase. Aurum Multibrand models that setup: a casino lobby with promos, game tiles, tournaments, a shop and account screens, styled only by tokens. Switch the brand or the theme and the whole interface re-skins without a reload.",
+    "problemTitle": "Problem",
+    "problems": [
+      {
+        "title": "Brand values live in components",
+        "detail": "When colors and radii sit inside a button or a card, every new brand means editing every component."
+      },
+      {
+        "title": "Brands multiply with themes",
+        "detail": "Four brands in light and dark are eight combinations. Kept by hand, they drift out of sync."
+      },
+      {
+        "title": "Design and code drift apart",
+        "detail": "Variables in Figma and CSS in the repository are edited separately, and contrast is checked by eye."
+      }
+    ],
+    "solutionTitle": "Solution",
+    "solutionLead": "Six token layers. Components ask for a meaning, the theme maps meanings to the brand, and only the brand file holds raw values. Tokens Studio pushes JSON to GitHub, a build script turns it into CSS variables and checks it.",
+    "layersLabel": "Token layers, top to bottom",
+    "layers": {
+      "components": "What each component asks for: button.primary.bg, chip.selected.bg.",
+      "theme": "Meanings for light and dark: fill, text, border, surface.",
+      "typography": "Text styles shared by every brand.",
+      "map": "Ramps generated from brand colors: 100 to 900.",
+      "brand": "The only per-brand file: colors, fonts, radii, spacing.",
+      "core": "Raw scales: dimensions, radii, widths."
+    },
+    "brandNote": "changes per brand",
+    "perBrand": "per brand",
+    "componentsUnit": "components",
+    "shotsCaption": [
+      "The Brand collection in Figma: one mode per brand, same variable names.",
+      "The commit that added Ultra: a new brand file and theme entries. components.json is not touched."
+    ],
+    "resultTitle": "Result",
+    "results": [
+      {
+        "amount": "{brandKeys}",
+        "label": "values in a brand file",
+        "detail": "The same keys in every brand. A new brand is a copy of this file with new values."
+      },
+      {
+        "amount": "0",
+        "label": "changes in components for a new brand",
+        "detail": "Components reference meanings only. The checker fails the build if one reaches for a raw value."
+      },
+      {
+        "amount": "{combos}",
+        "label": "brand × theme combinations",
+        "detail": "From one component library and one CSS file, switched by two attributes on the root element."
+      }
+    ],
+    "differentTitle": "What I would do differently",
+    "different": "I would add automated contrast checks before the second brand, not after the fourth. When the checker arrived, it found that text.accent in the light theme misses WCAG AA in every brand: Aurum 2.13, Nova 1.67, Fiesta 1.42, Ultra 3.03 against the required 4.5. The good news is where the fix lives: one change in the shared theme layer corrects all four brands at once.",
+    "backToWork": "All work"
   }
 }

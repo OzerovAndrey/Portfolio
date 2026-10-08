@@ -2,7 +2,7 @@
   {
     "id": "lobby-aurum-dark",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-aurum-dark.png",
+    "file": "shots/brand-morph/lobby-aurum-dark.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -17,7 +17,7 @@
   {
     "id": "lobby-aurum-light",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-aurum-light.png",
+    "file": "shots/brand-morph/lobby-aurum-light.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -32,7 +32,7 @@
   {
     "id": "lobby-nova-dark",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-nova-dark.png",
+    "file": "shots/brand-morph/lobby-nova-dark.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -47,7 +47,7 @@
   {
     "id": "lobby-nova-light",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-nova-light.png",
+    "file": "shots/brand-morph/lobby-nova-light.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -62,7 +62,7 @@
   {
     "id": "lobby-fiesta-dark",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-fiesta-dark.png",
+    "file": "shots/brand-morph/lobby-fiesta-dark.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -77,7 +77,7 @@
   {
     "id": "lobby-fiesta-light",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-fiesta-light.png",
+    "file": "shots/brand-morph/lobby-fiesta-light.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -92,7 +92,7 @@
   {
     "id": "lobby-ultra-dark",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-ultra-dark.png",
+    "file": "shots/brand-morph/lobby-ultra-dark.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -107,7 +107,7 @@
   {
     "id": "lobby-ultra-light",
     "block": "brand-morph",
-    "file": "shots/brand-morph/lobby-ultra-light.png",
+    "file": "shots/brand-morph/lobby-ultra-light.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -122,7 +122,7 @@
   {
     "id": "ts-sets-panel",
     "block": "token-layers",
-    "file": "shots/token-layers/ts-sets-panel.png",
+    "file": "shots/token-layers/ts-sets-panel.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -130,14 +130,14 @@
       "uk": "Панель сетів Token Studio"
     },
     "alt": {
-      "en": "Token Studio with the token sets listed in layer order",
-      "uk": "Token Studio зі списком сетів у порядку шарів"
+      "en": "Tokens Studio sets panel, recreated from the demo repo: 10 sets in order, brand/aurum open with its 55 tokens",
+      "uk": "Панель сетів Tokens Studio, відтворена з репо демо: 10 сетів у порядку, відкритий brand/aurum із 55 токенами"
     }
   },
   {
     "id": "ts-token-chain",
     "block": "token-layers",
-    "file": "shots/token-layers/ts-token-chain.png",
+    "file": "shots/token-layers/ts-token-chain.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -145,14 +145,14 @@
       "uk": "Ланцюжок токена: component → semantic → primitive"
     },
     "alt": {
-      "en": "One component token resolved step by step down to a primitive value",
-      "uk": "Токен компонента, розкритий крок за кроком до примітива"
+      "en": "Token inspector, recreated from the demo tokens: button.primary.bg.default resolves through theme, map and brand to #CFA74A; the same token in four brands",
+      "uk": "Інспектор токена, відтворений з токенів демо: button.primary.bg.default резолвиться через theme, map і brand до #CFA74A; той самий токен у чотирьох брендах"
     }
   },
   {
     "id": "ts-themes-matrix",
     "block": "two-axes",
-    "file": "shots/two-axes/ts-themes-matrix.png",
+    "file": "shots/two-axes/ts-themes-matrix.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -160,14 +160,14 @@
       "uk": "Вікно Themes у Token Studio, матриця бренд × мод"
     },
     "alt": {
-      "en": "The Themes window with four brands and two modes",
-      "uk": "Вікно Themes з чотирма брендами й двома модами"
+      "en": "Tokens Studio Themes window, recreated from $themes.json: Brand / Aurum set states and the 4 × 2 brand-by-theme matrix with real colors",
+      "uk": "Вікно Themes у Tokens Studio, відтворене з $themes.json: стани сетів для Brand / Aurum і матриця 4 × 2 бренд × тема зі справжніми кольорами"
     }
   },
   {
     "id": "figma-variables-modes",
     "block": "two-axes",
-    "file": "shots/two-axes/figma-variables-modes.png",
+    "file": "shots/two-axes/figma-variables-modes.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -175,14 +175,14 @@
       "uk": "Figma Variables з колонками модів"
     },
     "alt": {
-      "en": "Figma Variables panel with one column per mode",
-      "uk": "Панель Figma Variables з окремою колонкою на кожен мод"
+      "en": "Figma Variables, recreated from the brand files: the Brand collection with Aurum, Nova, Fiesta and Ultra as modes",
+      "uk": "Figma Variables, відтворені з файлів брендів: колекція Brand з модами Aurum, Nova, Fiesta і Ultra"
     }
   },
   {
     "id": "comp-button-set",
     "block": "components",
-    "file": "shots/components/comp-button-set.png",
+    "file": "shots/components/comp-button-set.webp",
     "ratio": "4/3",
     "size": "2400x1800",
     "what": {
@@ -190,14 +190,14 @@
       "uk": "Набір компонента Button у Figma"
     },
     "alt": {
-      "en": "The Button component set with all variants and states",
-      "uk": "Набір Button з усіма варіантами й станами"
+      "en": "Button set rendered from the demo: primary, secondary and text in five sizes, icon and disabled states",
+      "uk": "Набір Button, відрендерений з демо: primary, secondary і text у п'яти розмірах, з іконками й disabled"
     }
   },
   {
     "id": "comp-card-set",
     "block": "components",
-    "file": "shots/components/comp-card-set.png",
+    "file": "shots/components/comp-card-set.webp",
     "ratio": "4/3",
     "size": "2400x1800",
     "what": {
@@ -205,14 +205,14 @@
       "uk": "Набір компонента Card у Figma"
     },
     "alt": {
-      "en": "The Card component set with all variants",
-      "uk": "Набір Card з усіма варіантами"
+      "en": "Card set rendered from the demo in Aurum dark: game tiles and tournament cards",
+      "uk": "Набір карток, відрендерений з демо в Aurum dark: плитки ігор і картки турнірів"
     }
   },
   {
     "id": "comp-chip-set",
     "block": "components",
-    "file": "shots/components/comp-chip-set.png",
+    "file": "shots/components/comp-chip-set.webp",
     "ratio": "4/3",
     "size": "2400x1800",
     "what": {
@@ -220,14 +220,14 @@
       "uk": "Набір компонента Chip у Figma"
     },
     "alt": {
-      "en": "The Chip component set with all variants and states",
-      "uk": "Набір Chip з усіма варіантами й станами"
+      "en": "Chips rendered from the demo in Nova light: category menu pills, chips in two sizes, badge tones",
+      "uk": "Чипи, відрендерені з демо в Nova light: категорії, чипи двох розмірів, тони бейджів"
     }
   },
   {
     "id": "comp-props-panel",
     "block": "components",
-    "file": "shots/components/comp-props-panel.png",
+    "file": "shots/components/comp-props-panel.webp",
     "ratio": "4/5",
     "size": "1600x2000",
     "what": {
@@ -235,14 +235,14 @@
       "uk": "Панель властивостей компонента"
     },
     "alt": {
-      "en": "Figma properties panel of a component",
-      "uk": "Панель властивостей компонента у Figma"
+      "en": "Button instance properties and the component variables it applies, with values from the demo",
+      "uk": "Властивості інстансу Button і змінні компонента, які він застосовує, зі значеннями з демо"
     }
   },
   {
     "id": "comp-four-brands",
     "block": "components",
-    "file": "shots/components/comp-four-brands.png",
+    "file": "shots/components/comp-four-brands.webp",
     "ratio": "16/9",
     "size": "2880x1620",
     "what": {
@@ -250,14 +250,14 @@
       "uk": "Один компонент у 4 брендах поруч"
     },
     "alt": {
-      "en": "The same component rendered in Aurum, Nova, Fiesta and Ultra",
-      "uk": "Той самий компонент в Aurum, Nova, Fiesta й Ultra"
+      "en": "The same component markup in four brands, dark theme: Aurum, Nova, Fiesta, Ultra",
+      "uk": "Та сама розмітка компонентів у чотирьох брендах, темна тема: Aurum, Nova, Fiesta, Ultra"
     }
   },
   {
     "id": "ts-github-sync",
     "block": "pipeline",
-    "file": "shots/pipeline/ts-github-sync.png",
+    "file": "shots/pipeline/ts-github-sync.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -265,14 +265,14 @@
       "uk": "Налаштування синхронізації Token Studio з GitHub"
     },
     "alt": {
-      "en": "Token Studio syncing tokens to a GitHub repository",
-      "uk": "Token Studio синхронізує токени з репозиторієм GitHub"
+      "en": "Tokens Studio GitHub sync settings for OzerovAndrey/multibrand-design-system and the push that added Ultra (real file stats)",
+      "uk": "Налаштування синхронізації Tokens Studio з GitHub для OzerovAndrey/multibrand-design-system і пуш, що додав Ultra (справжні цифри по файлах)"
     }
   },
   {
     "id": "repo-tokens-folder",
     "block": "pipeline",
-    "file": "shots/pipeline/repo-tokens-folder.png",
+    "file": "shots/pipeline/repo-tokens-folder.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -280,14 +280,14 @@
       "uk": "Тека tokens/ у репозиторії"
     },
     "alt": {
-      "en": "Repository view of the tokens folder with JSON sets",
-      "uk": "Тека tokens у репозиторії з JSON-сетами"
+      "en": "The tokens/ folder in the demo repo, with aurum.json and ultra.json side by side: same keys, different values",
+      "uk": "Тека tokens/ у репо демо, aurum.json і ultra.json поруч: ті самі ключі, різні значення"
     }
   },
   {
     "id": "css-output",
     "block": "pipeline",
-    "file": "shots/pipeline/css-output.png",
+    "file": "shots/pipeline/css-output.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -295,14 +295,14 @@
       "uk": "Згенеровані CSS-змінні"
     },
     "alt": {
-      "en": "The generated CSS file with custom properties per brand",
-      "uk": "Згенерований CSS-файл зі змінними для кожного бренду"
+      "en": "Generated CSS variables for Aurum and Nova side by side, and the build-css output: 1039 tokens",
+      "uk": "Згенеровані CSS-змінні Aurum і Nova поруч і вивід build-css: 1039 токенів"
     }
   },
   {
     "id": "terminal-build",
     "block": "pipeline",
-    "file": "shots/pipeline/terminal-build.png",
+    "file": "shots/pipeline/terminal-build.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -310,14 +310,14 @@
       "uk": "Термінал: білд і перевірки токенів проходять"
     },
     "alt": {
-      "en": "Terminal output of the token build and checks",
-      "uk": "Вивід термінала: збірка й перевірки токенів"
+      "en": "Terminal: the demo build and the portfolio token and style checks pass (real output)",
+      "uk": "Термінал: збірка демо й перевірки токенів і стилів портфоліо проходять (справжній вивід)"
     }
   },
   {
     "id": "devtools-data-brand",
     "block": "code-proof",
-    "file": "shots/code-proof/devtools-data-brand.png",
+    "file": "shots/code-proof/devtools-data-brand.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -325,14 +325,14 @@
       "uk": "DevTools: атрибут data-brand на <html>"
     },
     "alt": {
-      "en": "Browser DevTools showing data-brand on the html element",
-      "uk": "DevTools браузера з атрибутом data-brand на елементі html"
+      "en": "DevTools on the live demo: data-brand=\"nova\" on <html> and the :root[data-brand=\"nova\"] rule with its variables",
+      "uk": "DevTools на живому демо: data-brand=\"nova\" на <html> і правило :root[data-brand=\"nova\"] з його змінними"
     }
   },
   {
     "id": "devtools-computed",
     "block": "code-proof",
-    "file": "shots/code-proof/devtools-computed.png",
+    "file": "shots/code-proof/devtools-computed.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -340,14 +340,14 @@
       "uk": "DevTools: computed-значення змінюються разом із брендом"
     },
     "alt": {
-      "en": "Computed styles in DevTools for two different brands",
-      "uk": "Computed-стилі в DevTools для двох різних брендів"
+      "en": "Computed CSS variables in Aurum and Fiesta side by side: highlighted values change with the brand",
+      "uk": "Обчислені CSS-змінні в Aurum і Fiesta поруч: підсвічені значення змінюються разом із брендом"
     }
   },
   {
     "id": "git-diff-ultra",
     "block": "new-brand",
-    "file": "shots/new-brand/git-diff-ultra.png",
+    "file": "shots/new-brand/git-diff-ultra.webp",
     "ratio": "16/10",
     "size": "2880x1800",
     "what": {
@@ -355,8 +355,8 @@
       "uk": "Git diff додавання бренду Ultra"
     },
     "alt": {
-      "en": "The diff that added the Ultra brand: one new brand file",
-      "uk": "Diff, що додав бренд Ultra: один новий файл бренду"
+      "en": "The commit that added the Ultra brand: a new tokens/brand/ultra.json, theme entries, components.json untouched",
+      "uk": "Коміт, що додав бренд Ultra: новий tokens/brand/ultra.json, записи тем, components.json не змінено"
     }
   }
 ]
