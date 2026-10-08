@@ -262,6 +262,18 @@
         "value": "{color.line.subtle}",
         "type": "color"
       }
+    },
+    "float": {
+      "near": {
+        "value": "{color.neutral.dark.alpha10}",
+        "type": "color",
+        "description": "контактна тінь під «піднятою» поверхнею"
+      },
+      "far": {
+        "value": "{color.neutral.dark.alpha30}",
+        "type": "color",
+        "description": "розсіяна тінь далеко під поверхнею"
+      }
     }
   },
   "boxShadow": {
@@ -327,6 +339,36 @@
         }
       ],
       "type": "boxShadow"
+    },
+    "float": {
+      "value": [
+        {
+          "x": "0",
+          "y": "2",
+          "blur": "4",
+          "spread": "0",
+          "color": "{color.float.near}",
+          "type": "dropShadow"
+        },
+        {
+          "x": "0",
+          "y": "12",
+          "blur": "24",
+          "spread": "-4",
+          "color": "{color.float.near}",
+          "type": "dropShadow"
+        },
+        {
+          "x": "0",
+          "y": "40",
+          "blur": "64",
+          "spread": "-16",
+          "color": "{color.float.far}",
+          "type": "dropShadow"
+        }
+      ],
+      "type": "boxShadow",
+      "description": "поверхня «висить у повітрі»: контакт + середня + далека тінь"
     }
   },
   "backdropFilter": {
@@ -497,6 +539,16 @@
       "value": "{dimension.2}",
       "type": "spacing",
       "description": "мікрозсув іконки на hover / фокус: семантичний рух дії (→ ↓ ↗)"
+    },
+    "drift": {
+      "value": "{dimension.32}",
+      "type": "spacing",
+      "description": "паралакс: на скільки «піднята» поверхня обганяє сторінку при скролі"
+    },
+    "rise": {
+      "value": "{dimension.40}",
+      "type": "spacing",
+      "description": "підйом поверхні при появі сторінки"
     }
   }
 }

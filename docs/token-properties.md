@@ -9,6 +9,7 @@
 | `boxShadow` | `box-shadow` | `boxShadow` (композит) | theme → component | `glass.boxShadow` → `boxShadow.glass` (inner highlight + drop shadow) |
 | `duration` | `transition-duration`, `animation-duration` | `duration` | core `time.*` → theme `duration.*` → component `motion.duration.*` | `motion.duration.fast` = 120ms |
 | `easing` | `transition-timing-function`, `animation-timing-function` | `cubicBezier` | core `curve.*` → theme `easing.*` → component `motion.easing.*` | `motion.easing.out` = ease-out |
+| `drift` / `rise` | `transform` / `translate` (паралакс, підйом при появі) | `spacing` | theme `motionDistance.*` → component | `demoFrame.float.drift` → `motionDistance.drift` (32) |
 
 ## Прозорість
 
@@ -24,6 +25,6 @@
 |---|---|---|
 | `site/core.json` | core | `time.*`, `curve.*`, `filter.*`, `fontSize.fluid.*`, `lineHeight.ratio.*`, `letterSpacing.*` |
 | `site/map.json` | map | альфа-рампи (тимчасово, до demo-04) |
-| `site/theme/light.json`, `dark.json` | theme | `color.glass.*`, `color.action.*`, `boxShadow.glass`, `backdropFilter.glass`, `duration.*`, `easing.*`, `borderRadius.pill`, `display.*` |
+| `site/theme/light.json`, `dark.json` | theme | `color.glass.*`, `color.action.*`, `boxShadow.glass`, `boxShadow.float` (+ `color.float.near/far`), `motionDistance.*`, `backdropFilter.glass`, `duration.*`, `easing.*`, `borderRadius.pill`, `display.*` |
 
 Контраст тексту на напівпрозорому фоні `check-tokens` міряє після компонування поверх найгіршого фону: чорного й білого.

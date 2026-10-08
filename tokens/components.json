@@ -737,6 +737,28 @@
         "value": "{color.text.secondary}",
         "type": "color"
       }
+    },
+    "float": {
+      "boxShadow": {
+        "value": "{boxShadow.float}",
+        "type": "boxShadow"
+      },
+      "drift": {
+        "value": "{motionDistance.drift}",
+        "type": "spacing"
+      },
+      "rise": {
+        "value": "{motionDistance.rise}",
+        "type": "spacing"
+      },
+      "duration": {
+        "value": "{duration.reveal}",
+        "type": "duration"
+      },
+      "easing": {
+        "value": "{easing.reveal}",
+        "type": "cubicBezier"
+      }
     }
   },
   "metric": {
