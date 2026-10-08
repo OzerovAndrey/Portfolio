@@ -181,7 +181,7 @@ Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не �
 
 ## 6. Потрібно від Андрія
 
-- [ ] Фото для `/about` і блоку «Про мене»
+- [x] Фото для `/about` — тимчасове (08.10.2026), `site/src/assets/about/portrait.jpg`; фінальне — заміною файлу
 - [x] Роки досвіду й ролі — з LinkedIn (08.10.2026), на `/about`: цифри + хронологія
 - [ ] NDA: чи можна показувати Wanda DS і продуктові фічі (VIP Manager, lootbox, audio widget) — і в якому вигляді
 - [x] Аналітика: Umami Cloud, безкоштовний Hobby. Потрібен Website ID у змінній `PUBLIC_UMAMI_ID`
