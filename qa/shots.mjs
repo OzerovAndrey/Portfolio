@@ -1,7 +1,7 @@
 // QA-скріни Home і /approach: 1440 і 390, EN і UK, light і dark. Запуск: node qa/shots.mjs (потрібен `npm --prefix site run preview`)
 import { createRequire } from "node:module";
 const { chromium } = createRequire(import.meta.url)(process.env.PW ?? "/opt/node22/lib/node_modules/playwright");
-const BASE = process.env.BASE ?? "http://localhost:4321/Portfolio";
+const BASE = process.env.BASE ?? "http://localhost:4321/portfolio";
 const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" });
 const errors = [];
 for (const [w, h] of [[1440, 900], [390, 844]])
