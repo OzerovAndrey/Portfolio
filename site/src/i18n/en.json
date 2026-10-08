@@ -497,13 +497,30 @@
     ],
     "processTitle": "Process",
     "process": [
-      "Call",
-      "Audit",
-      "Proposal",
-      "Work in sprints",
-      "Handover"
+      {
+        "title": "Call",
+        "detail": "We talk about your product, your brands and where the design system is today."
+      },
+      {
+        "title": "Audit",
+        "detail": "I go through the Figma files and the code: hard-coded values, duplicates, what a new brand costs now."
+      },
+      {
+        "title": "Proposal",
+        "detail": "A written plan: token layers, scope, order of work and what you get at each step."
+      },
+      {
+        "title": "Work in sprints",
+        "detail": "Short iterations with a review at the end of each. The system grows in Figma and in code together."
+      },
+      {
+        "title": "Handover",
+        "detail": "Documentation, the pipeline and a session with your team, so the system lives without me."
+      }
     ],
-    "note": "Prices are not published. Timelines are given only with an estimate label."
+    "note": "Prices are not published. Timelines are given only with an estimate label.",
+    "processLead": "Five steps from the first call to a system your team runs on its own.",
+    "processStep": "Step"
   },
   "about": {
     "title": "About",

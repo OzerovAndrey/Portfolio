@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
 import Button from "../../components/Button.astro";
+import ProcessFlow from "../../components/ProcessFlow.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
 export const getStaticPaths = staticLangPaths;
@@ -9,7 +10,6 @@ const lang = Astro.params.lang as Locale;
 const d = t(lang);
 const s = d.services;
 const PKG = ["clipboard", "braces", "layers", "branch"] as const; // аудит · токени · система · пайплайн
-const STEP = ["phone", "search", "file", "repeat", "package"] as const; // дзвінок · аудит · пропозиція · спринти · передача
 ---
 <Base lang={lang} page="services" title={d.meta.servicesTitle} description={d.meta.servicesDescription}>
   <section class="section">
@@ -35,12 +35,9 @@ const STEP = ["phone", "search", "file", "repeat", "package"] as const; // дз�
     <div class="container stack">
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="process-title">{s.processTitle}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{s.processLead}</p>
       </div>
-      <ol class="process">
-        {s.process.map((step, i) => (
-          <li class="process__step ts-title-t5"><span class="process__index ts-label-md" aria-hidden="true">{i + 1}</span><span class="process__label"><Icon name={STEP[i] ?? "file"} class="process__icon" />{step}</span></li>
-        ))}
-      </ol>
+      <ProcessFlow lang={lang} />
       <p class="ts-body-md-regular measure note">{s.note}</p>
       <div><Button size="lg" icon="mail" href={href(lang, "contact")} data-event="services_contact">{d.cta.button}</Button></div>
     </div>
@@ -48,12 +45,5 @@ const STEP = ["phone", "search", "file", "repeat", "package"] as const; // дз�
 </Base>
 
 <style>
-  .process { display: grid; gap: var(--space-gap-xl); }
-  @media (min-width: 768px) { .process { grid-template-columns: repeat(5, 1fr); } }
-  .process__step { display: flex; align-items: center; gap: var(--space-gap-lg); color: var(--step-title-color); }
-  @media (min-width: 768px) { .process__step { flex-direction: column; align-items: flex-start; } }
-  .process__index { display: inline-grid; place-items: center; width: var(--step-index-size); height: var(--step-index-size); border-radius: var(--step-index-borderRadius); background: var(--step-index-bg); color: var(--step-index-color); }
-  .process__label { display: inline-flex; align-items: center; gap: var(--space-gap-md); }
-  .process__label :global(.process__icon) { color: var(--section-lead-color); }
   .note { color: var(--section-lead-color); }
 </style>

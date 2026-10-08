@@ -1,0 +1,109 @@
+---
+// Процес роботи (/services): 5 кроків-карток з ілюстрацією за темою кроку і стрілками між ними
+// (десктоп — вправо, вузькі екрани — вниз). Ілюстрації — inline SVG, кольори лише з токенів через CSS-класи:
+// .s — лінія (колір заголовка), .m — приглушена лінія, .f — поверхня, .a — акцент (суцільний), .t — текст у SVG.
+import { t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const s = t(Astro.props.lang).services;
+---
+<ol class="flow">
+  {s.process.map((step, i) => (
+    <>
+      <li class="flow__step">
+        <div class="flow__art" aria-hidden="true">
+          {i === 0 && (
+            /* Дзвінок: діалог — голос і відповідь */
+            <svg viewBox="0 0 200 140" class="ill">
+              <path class="s f" d="M30 22h86a14 14 0 0 1 14 14v30a14 14 0 0 1-14 14H58l-18 16 4-16h-14a14 14 0 0 1-14-14V36a14 14 0 0 1 14-14z" />
+              <path class="s" d="M38 51v0M48 45v12M58 39v24M68 46v10M78 42v18M88 47v8M98 44v14M108 50v2" />
+              <path class="s f" d="M96 62h76a14 14 0 0 1 14 14v22a14 14 0 0 1-14 14h-8l4 16-18-16H96a14 14 0 0 1-14-14V76a14 14 0 0 1 14-14z" />
+              <circle class="a" cx="116" cy="87" r="4.5" /><circle class="a" cx="134" cy="87" r="4.5" /><circle class="a" cx="152" cy="87" r="4.5" />
+            </svg>
+          )}
+          {i === 1 && (
+            /* Аудит: інтерфейс під лупою, знайдені зашиті значення */
+            <svg viewBox="0 0 200 140" class="ill">
+              <rect class="s f" x="18" y="14" width="150" height="104" rx="10" />
+              <path class="s" d="M18 32h150" /><circle class="a" cx="30" cy="23" r="3" /><circle class="m-fill" cx="40" cy="23" r="3" /><circle class="m-fill" cx="50" cy="23" r="3" />
+              <path class="m" d="M32 48h58M32 60h44M32 72h52M32 98h40" />
+              <rect class="m" x="32" y="82" width="34" height="10" rx="5" />
+              <text class="t" font-size="11" x="98" y="48">#CFA74A</text><text class="t" font-size="11" x="98" y="61">16px</text>
+              <circle class="s f" cx="138" cy="92" r="22" /><path class="s thick" d="M154 108l18 18" />
+              <path class="m" d="M127 87h22M127 97h14" /><path class="a-stroke" d="M128 92h8" />
+            </svg>
+          )}
+          {i === 2 && (
+            /* Пропозиція: документ-план з пунктами і шарами */
+            <svg viewBox="0 0 200 140" class="ill">
+              <path class="s f" d="M50 10h70l26 26v88a8 8 0 0 1-8 8H50a8 8 0 0 1-8-8V18a8 8 0 0 1 8-8z" /><path class="s" d="M120 10v18a8 8 0 0 0 8 8h18" />
+              <path class="s thick" d="M56 30h44" />
+              <rect class="s" x="56" y="50" width="12" height="12" rx="3" /><path class="a-stroke" d="M59 56l3 3 5-6" /><path class="m" d="M76 56h46" />
+              <rect class="s" x="56" y="72" width="12" height="12" rx="3" /><path class="a-stroke" d="M59 78l3 3 5-6" /><path class="m" d="M76 78h38" />
+              <rect class="s" x="56" y="94" width="12" height="12" rx="3" /><path class="m" d="M76 100h42" />
+              <g transform="translate(132 74)"><path class="s f" d="M30 30l26 13-26 13-26-13z" /><path class="s f" d="M30 20l26 13-26 13-26-13z" /><path class="a" d="M30 10l26 13-26 13-26-13z" /></g>
+            </svg>
+          )}
+          {i === 3 && (
+            /* Спринти: цикл навколо дошки задач */
+            <svg viewBox="0 0 200 140" class="ill">
+              <path class="s" d="M44 104A62 50 0 1 1 156 104" /><path class="s" d="M156 104l-10-6M156 104l2-12" />
+              <path class="m dash" d="M150 116A62 50 0 0 1 50 116" />
+              <rect class="s f" x="62" y="40" width="22" height="58" rx="4" /><rect class="s f" x="89" y="40" width="22" height="58" rx="4" /><rect class="s f" x="116" y="40" width="22" height="58" rx="4" />
+              <rect class="m" x="66" y="46" width="14" height="10" rx="2" /><rect class="m" x="66" y="60" width="14" height="10" rx="2" />
+              <rect class="m" x="93" y="46" width="14" height="10" rx="2" /><rect class="a" x="120" y="46" width="14" height="10" rx="2" /><rect class="a" x="120" y="60" width="14" height="10" rx="2" /><rect class="a" x="120" y="74" width="14" height="10" rx="2" />
+            </svg>
+          )}
+          {i === 4 && (
+            /* Передача: пакет із документацією і гілка, що зливається в main */
+            <svg viewBox="0 0 200 140" class="ill">
+              <path class="s f" d="M22 56l42-18 42 18v50l-42 18-42-18z" /><path class="s" d="M22 56l42 18 42-18M64 74v50" />
+              <path class="s f" d="M38 46V20a4 4 0 0 1 4-4h34l12 12v26" /><path class="m" d="M48 30h22M48 38h28M48 46h18" />
+              <path class="s" d="M128 24v92" /><path class="s" d="M128 50c0 18 30 14 30 32v20c0-10-30-4-30 14" />
+              <circle class="s f" cx="128" cy="24" r="6" /><circle class="s f" cx="158" cy="84" r="6" /><circle class="a" cx="128" cy="116" r="7" />
+              <text class="t" font-size="11" x="140" y="28">main</text>
+            </svg>
+          )}
+        </div>
+        <span class="flow__index ts-label-sm">{s.processStep} {i + 1}</span>
+        <h3 class="flow__title ts-title-t4">{step.title}</h3>
+        <p class="flow__detail ts-body-sm-regular">{step.detail}</p>
+      </li>
+      {i < s.process.length - 1 && (
+        <li class="flow__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="flow__arrow-svg"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+        </li>
+      )}
+    </>
+  ))}
+</ol>
+
+<style>
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-gap-md); }
+  @media (min-width: 1100px) { .flow { grid-template-columns: repeat(4, minmax(0, 1fr) auto) minmax(0, 1fr); align-items: stretch; gap: var(--space-gap-sm); } }
+  .flow__step { display: flex; flex-direction: column; gap: var(--space-gap-md); padding: var(--audience-padding);
+    background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius);
+    transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
+  .flow__step:hover { border-color: var(--section-lead-color); }
+  .flow__art { aspect-ratio: 10 / 7; display: grid; place-items: center; margin-bottom: var(--space-gap-sm);
+    background: var(--section-bg-alt); border-radius: var(--audience-borderRadius); color: var(--step-title-color); }
+  .flow__index { color: var(--step-detail-color); }
+  .flow__title { color: var(--step-title-color); }
+  .flow__detail { color: var(--step-detail-color); margin: 0; }
+
+  .flow__arrow { display: grid; place-items: center; color: var(--section-lead-color); }
+  .flow__arrow-svg { width: var(--iconSize-lg); height: var(--iconSize-lg); fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; transform: rotate(90deg); }
+  @media (min-width: 1100px) { .flow__arrow-svg { transform: none; } }
+
+  /* Ілюстрації: товщина ліній у одиницях viewBox, кольори — токени */
+  .ill { width: 88%; height: auto; overflow: visible; }
+  .ill .s { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ill .thick { stroke-width: 3; }
+  .ill .f { fill: var(--audience-bg); }
+  .ill .m { fill: none; stroke: var(--section-lead-color); stroke-width: 2; stroke-linecap: round; opacity: 0.7; }
+  .ill .dash { stroke-dasharray: 3 6; }
+  .ill .m-fill { fill: var(--section-lead-color); opacity: 0.5; }
+  .ill .a { fill: currentColor; stroke: none; }
+  .ill .a-stroke { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .ill .t { fill: var(--section-lead-color); }
+</style>
