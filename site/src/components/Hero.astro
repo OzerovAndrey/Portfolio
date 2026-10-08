@@ -121,20 +121,28 @@ live.searchParams.set("theme", "light");
       u.searchParams.set("theme", look?.theme ?? siteTheme());
       a.href = u.href;
     });
-    // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс ±drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
-    // 1 — виходить угорі); y = (0.5 − p) · 2 → −1…1, CSS множить на токен drift. Тільки transform, один кадр на rAF
+    // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс до −drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
+    // 1 — виходить угорі); y = −(p − p0) / (1 − p0) відносно стартового p0 → у спокої рамка на місці (відступ від хедера
+    // не з'їдається), при скролі вниз плавно йде вгору. CSS множить y на токен drift. Тільки transform, один кадр на rAF
     if (frame && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       let raf = 0;
+      // позиція рамки в документі без поточного зсуву: p0 — її шлях при scrollY = 0
+      const path = (top: number, h: number, vh: number) => Math.min(1, Math.max(0, (vh - top) / (vh + h)));
+      let p0 = 0;
+      const measure = () => { const r = frame.getBoundingClientRect(); p0 = path(r.top + scrollY - frameShift(), r.height, innerHeight); };
+      const frameShift = () => new DOMMatrixReadOnly(getComputedStyle(frame).transform).m42;
       const drift = () => {
         raf = 0;
         const r = frame.getBoundingClientRect(), vh = innerHeight;
         if (r.bottom < 0 || r.top > vh) return;
-        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
-        frame.style.setProperty("--float-y", ((0.5 - p) * 2).toFixed(4));
+        const p = path(r.top - frameShift(), r.height, vh);
+        const y = p0 >= 1 ? 0 : -Math.max(0, p - p0) / (1 - p0);
+        frame.style.setProperty("--float-y", y.toFixed(4));
       };
       const queue = () => { if (!raf) raf = requestAnimationFrame(drift); };
       addEventListener("scroll", queue, { passive: true });
-      addEventListener("resize", queue);
+      addEventListener("resize", () => { measure(); queue(); });
+      measure();
       drift();
     }
     // «Explore the system ↓»: перейти до акордеонів і відкрити перший (без JS — звичайний якір)
@@ -147,7 +155,8 @@ live.searchParams.set("theme", "light");
 <style>
   /* Асиметрична композиція: текст (ідентичність → твердження → CTA) і продукт ділять перший екран.
      Мобільні: та сама послідовність стовпчиком — продукт одразу після CTA, до Positioning */
-  .hero { background: var(--hero-bg); padding-block: var(--l-gap); }
+  /* вертикальний ритм сторінки (--l-row: 32 → 56), а не колонковий проміжок: повітря між хедером і «піднятою» рамкою */
+  .hero { background: var(--hero-bg); padding-block: var(--l-row); }
   .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hero-gap) var(--l-gap); align-items: center; }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); min-width: 0; }
   .hero__role { color: var(--hero-eyebrow-color); }
@@ -170,7 +179,7 @@ live.searchParams.set("theme", "light");
   .hero__live {
     position: relative; overflow: hidden; min-width: 0; aspect-ratio: 9 / 14;
     background: var(--demoFrame-placeholder-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius);
-    /* «висить у повітрі»: багатошарова тінь + паралакс (--float-y −1…1 ставить скрипт) + підйом при появі сторінки.
+    /* «висить у повітрі»: багатошарова тінь + паралакс (--float-y 0…−1 ставить скрипт) + підйом при появі сторінки.
        translate (поява) і transform (скрол) — окремі властивості, тож не перебивають одна одну */
     box-shadow: var(--demoFrame-float-boxShadow);
     transform: translate3d(0, calc(var(--float-y, 0) * var(--demoFrame-float-drift)), 0);

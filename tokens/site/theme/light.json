@@ -265,12 +265,12 @@
     },
     "float": {
       "near": {
-        "value": "{color.neutral.dark.alpha10}",
+        "value": "{color.neutral.dark.alpha04}",
         "type": "color",
         "description": "контактна тінь під «піднятою» поверхнею"
       },
       "far": {
-        "value": "{color.neutral.dark.alpha30}",
+        "value": "{color.neutral.dark.alpha08}",
         "type": "color",
         "description": "розсіяна тінь далеко під поверхнею"
       }
@@ -344,15 +344,15 @@
       "value": [
         {
           "x": "0",
-          "y": "2",
-          "blur": "4",
+          "y": "1",
+          "blur": "2",
           "spread": "0",
           "color": "{color.float.near}",
           "type": "dropShadow"
         },
         {
           "x": "0",
-          "y": "12",
+          "y": "8",
           "blur": "24",
           "spread": "-4",
           "color": "{color.float.near}",
@@ -360,8 +360,8 @@
         },
         {
           "x": "0",
-          "y": "40",
-          "blur": "64",
+          "y": "32",
+          "blur": "80",
           "spread": "-16",
           "color": "{color.float.far}",
           "type": "dropShadow"
