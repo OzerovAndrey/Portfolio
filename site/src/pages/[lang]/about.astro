@@ -31,22 +31,20 @@ const contacts = links(
 ---
 <Base lang={lang} page="about" title={d.meta.aboutTitle} description={d.meta.aboutDescription}>
   <section class="section">
-    <div class="container stack">
-      <div class="section__head">
+    <div class="container ab-intro">
+      <div class="section__head ab-head">
         <h1 class="section__title ts-display-d3">{a.title}</h1>
         <p class="section__lead ts-body-lg-regular measure--lead">{a.lead}</p>
       </div>
-      <div class="ab-intro">
         <figure class="ab-portrait">
           {portrait
-            ? <Image src={portrait} alt={a.portraitAlt} widths={[480, Math.min(800, portrait.width)]} sizes="(min-width: 1024px) 33vw, 100vw" loading="eager" class="ab-portrait__img" />
+            ? <Image src={portrait} alt={a.portraitAlt} widths={[480, Math.min(800, portrait.width)]} sizes="(min-width: 900px) 40vw, 100vw" loading="eager" class="ab-portrait__img" />
             : <span class="ab-portrait__mono ts-display-d1" aria-hidden="true">{a.monogram}</span>}
           <figcaption class:list={["ab-portrait__cap", portrait && "ab-portrait__cap--photo"]}><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
         </figure>
-        <div class="ab-text">
-          <p class="ab-statement ts-title-t1">{a.statement}</p>
-          <p class="ab-prose ts-body-lg-regular">{a.paragraph}</p>
-        </div>
+      <div class="ab-text">
+        <p class="ab-statement ts-title-t1">{a.statement}</p>
+        <p class="ab-prose ts-body-lg-regular">{a.paragraph}</p>
       </div>
     </div>
   </section>
@@ -122,8 +120,16 @@ const contacts = links(
 </Base>
 
 <style>
-  .ab-intro { display: grid; gap: var(--l-gap); align-items: stretch; }
-  @media (min-width: 900px) { .ab-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
+  /* Текст ліворуч (заголовок → лід → теза → абзац), портрет праворуч на всю висоту блоку; на вузьких: заголовок → фото → текст */
+  .ab-intro { display: grid; gap: var(--l-gap); grid-template-areas: "head" "photo" "text"; }
+  .ab-head { grid-area: head; margin-bottom: 0; }
+  .ab-portrait { grid-area: photo; }
+  .ab-text { grid-area: text; }
+  @media (min-width: 900px) {
+    .ab-intro { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-rows: auto 1fr; grid-template-areas: "head photo" "text photo"; column-gap: var(--layout-section-padding, var(--l-gap)); }
+    .ab-portrait { max-width: none; }
+    .ab-text { justify-content: flex-start; }
+  }
   /* width + align-self: Safari рахує ширину з aspect-ratio і розтягнутої висоти рядка сітки → вузька смужка */
   .ab-portrait { position: relative; margin: 0; width: 100%; max-width: var(--layout-measure-lead); align-self: start; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden;
     background: var(--metric-bg); border: var(--metric-borderWidth) solid var(--metric-br); border-radius: var(--metric-borderRadius); }
@@ -136,7 +142,7 @@ const contacts = links(
   .ab-portrait__cap--photo { left: var(--space-padding-md); right: var(--space-padding-md); bottom: var(--space-padding-md); padding: var(--space-padding-md);
     background: var(--glass-bg); border: var(--glass-borderWidth) solid var(--glass-br); border-radius: var(--metric-borderRadius); backdrop-filter: var(--glass-backdropFilter); color: var(--glass-color-default); }
   .ab-portrait__cap--photo span:last-child { color: var(--glass-color-default); }
-  .ab-text { display: flex; flex-direction: column; justify-content: flex-end; gap: var(--l-gap); }
+  .ab-text { display: flex; flex-direction: column; gap: var(--l-gap); }
   .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
   .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
   .ab-split { display: grid; gap: var(--l-gap); }
