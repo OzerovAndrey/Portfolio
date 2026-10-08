@@ -3,7 +3,7 @@ import type { IconName } from "./components/Icon.astro";
 type Contacts = { email: string; linkedin: string; telegram: string; phone: string; github: string };
 
 // Прапори запуску. SITE_LAUNCHED=false → <meta robots noindex> на всіх сторінках.
-export const SITE_LAUNCHED = false;
+export const SITE_LAUNCHED = true;
 // Плашка «Preview — content in progress» зверху. Окремо від noindex: плашку можна сховати, поки сайт ще не індексується.
 export const SHOW_PREVIEW_BANNER = false;
 // Wanda DS чекає NDA-рішення (BRIEF.md, розділ 6). false → жоден блок про Wanda не рендериться.

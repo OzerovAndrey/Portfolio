@@ -137,7 +137,7 @@
 Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не рендериться; чекає NDA, розділ 6).
 
 ### Прапори запуску
-`SITE_LAUNCHED=false` (`site/src/config.ts`): `noindex` на всіх сторінках. Плашка «Preview — content in progress» — окремий прапор `SHOW_PREVIEW_BANNER` (зараз `false`). Запуск = `SITE_LAUNCHED=true`.
+`SITE_LAUNCHED=true` з 08.10.2026 (`site/src/config.ts`): сайт індексується; `false` повертає `noindex` на всіх сторінках. Sitemap — `/portfolio/sitemap.xml`, дані Person (schema.org) — на головних. Плашка «Preview — content in progress» — окремий прапор `SHOW_PREVIEW_BANNER` (зараз `false`). Запуск = `SITE_LAUNCHED=true`.
 
 ### `/cases/*` — формат
 Контекст (1 абзац) · проблема (3 пункти) · рішення (схема) · результат (3 числа з реєстру) · що зробив би інакше (1 абзац).
@@ -211,3 +211,4 @@ Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не �
 - **08.10.2026** — наповнення: 24/24 скріни для `/approach` (`tools/shots/`, WebP), перегляд скріна на весь екран; кейс `/cases/aurum-multibrand` за форматом (цифри 55 · 0 · 8 з реєстру, шари — з `meta.json`); `/about` з підтвердженими фактами; картка кейсу веде на кейс. Чекає Андрія: фото, роки, NDA.
 - **08.10.2026** — `/about`: роки досвіду (з 2003, рахуються при білді, форма слова — `Intl.PluralRules`) і хронологія ролей з LinkedIn.
 - **08.10.2026** — з `/approach` прибрано секцію `#limits` («Чого система не вирішує») — рішення Андрія: клієнтам зайве.
+- **08.10.2026** — **запуск**: `SITE_LAUNCHED=true` (без noindex), `sitemap.xml` (14 сторінок, hreflang), schema.org Person на Home. Далі: подати sitemap у Google Search Console.

@@ -31,6 +31,15 @@ const { umamiId, umamiSrc } = config.analytics;
     <link rel="canonical" href={abs(path)} />
     {locales.map((l) => <link rel="alternate" hreflang={l} href={abs(swapLang(path, l))} />)}
     <link rel="alternate" hreflang="x-default" href={abs(swapLang(path, "en"))} />
+    <link rel="sitemap" href={abs(`${import.meta.env.BASE_URL}sitemap.xml`)} />
+    {page === "home" && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org", "@type": "Person", name: config.name, url: abs(path),
+        jobTitle: "Product / UI/UX Designer", knowsAbout: ["Product design", "UI/UX design", "Design systems", "Multi-brand design systems", "Figma", "Tokens Studio"],
+        image: abs(`${import.meta.env.BASE_URL}og/${lang}.png`),
+        sameAs: [config.contacts.linkedin, config.contacts.github, config.contacts.telegram].filter(Boolean),
+      })} />
+    )}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
