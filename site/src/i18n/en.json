@@ -516,7 +516,7 @@
     "paragraph": "I’m a UI/UX and Product Designer focused on complex interfaces, scalable design systems and multi-brand products. I work from product logic and user flows through interface design, reusable components and implementation with development teams.",
     "experience": {
       "title": "Experience and products",
-      "detail": "I work on iGaming products: lobbies and game discovery, promotions, tournaments and account flows, and on the design systems that carry them across brands. Client work stays under NDA. What I can show in full is the demo system on this site, built the same way.",
+      "detail": "{years} {yearsWord} in digital design: from websites and HTML in 2003 to product design and design systems today. Since 2023 I design iGaming products: lobbies, gamification mechanics, registration and deposit flows, and the design system that carries them. Client screens stay under NDA. What I can show in full is the demo system on this site, built the same way.",
       "items": [
         "iGaming products",
         "Multi-brand design systems",
@@ -524,7 +524,85 @@
         "Component libraries",
         "Developer handoff"
       ],
-      "link": "Read the Aurum Multibrand case"
+      "link": "Read the Aurum Multibrand case",
+      "stats": [
+        {
+          "amount": "{years}",
+          "n": "years",
+          "label": {
+            "one": "year in digital design, since 2003",
+            "few": "years in digital design, since 2003",
+            "many": "years in digital design, since 2003",
+            "other": "years in digital design, since 2003"
+          }
+        },
+        {
+          "amount": "{igaming}",
+          "n": "igaming",
+          "label": {
+            "one": "year in iGaming product design",
+            "few": "years in iGaming product design",
+            "many": "years in iGaming product design",
+            "other": "years in iGaming product design"
+          }
+        },
+        {
+          "amount": "2",
+          "n": "",
+          "label": {
+            "one": "mobile games for iOS and Android",
+            "few": "mobile games for iOS and Android",
+            "many": "mobile games for iOS and Android",
+            "other": "mobile games for iOS and Android"
+          }
+        }
+      ],
+      "timelineLabel": "Career",
+      "timeline": [
+        {
+          "years": "2023 — now",
+          "role": "Product UI/UX Specialist",
+          "org": "Yellow Stone · iGaming · Kyiv",
+          "detail": "Design-system architecture on Tokens Studio, gamification mechanics, registration and deposit flows."
+        },
+        {
+          "years": "2023",
+          "role": "Senior UI/UX Designer",
+          "org": "tekio · contract",
+          "detail": "A health and well-being app."
+        },
+        {
+          "years": "2021 — 2023",
+          "role": "Senior UI Designer",
+          "org": "EMBRIA Venture Builder · Cyprus",
+          "detail": "Two mobile games for iOS and Android, Arcademy and Swoopy, and their UI kit."
+        },
+        {
+          "years": "2020 — 2022",
+          "role": "Senior UI/UX Designer",
+          "org": "Simplify-ERP",
+          "detail": "Web product, landing pages, marketing graphics."
+        },
+        {
+          "years": "2015 — 2021",
+          "role": "Art Director / UI/UX Designer",
+          "org": "Own design studio",
+          "detail": "Led a small team: websites, landing pages, dashboards, email and print."
+        },
+        {
+          "years": "2003 — 2015",
+          "role": "Web and UI designer",
+          "org": "Beluga Labs, Aleksandrov-web, WebCity, Web Dream",
+          "detail": "Websites, web interfaces and HTML from the first year."
+        }
+      ],
+      "source": "From my LinkedIn profile.",
+      "yearsWord": {
+        "one": "year",
+        "few": "years",
+        "many": "years",
+        "other": "years"
+      }
     },
     "tools": {
       "title": "Tools",

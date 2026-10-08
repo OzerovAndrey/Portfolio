@@ -50,6 +50,9 @@
 | Знахідка чекера | `text.accent` у light не проходить AA 4.5:1: Aurum 2.13 · Nova 1.67 · Fiesta 1.42 · Ultra 3.03 | `tasks/demo-03-theme-a11y.md` |
 | Автоперевірки | паритет ключів, шари, зарезервовані імена, резолв у light/dark, WCAG-контраст | `tools/check-tokens.mjs` |
 | AI-ready | скіл для Claude генерується з токенів | демо: `tools/build-skill.py` |
+| Досвід у цифровому дизайні | з вересня 2003 (на 08.10.2026 — 23 роки; рахується при білді) | LinkedIn Андрія, 08.10.2026 → `config.career.start` |
+| Продуктовий дизайн в iGaming | з вересня 2023 (Yellow Stone) | LinkedIn, 08.10.2026 → `config.career.igaming` |
+| Мобільні гри | 2: Arcademy, Swoopy (iOS, Android), EMBRIA 2021–2023 | LinkedIn, 08.10.2026 |
 
 **Ще не виміряно (не публікувати без цифри або `metric.typical`):** час на новий бренд · розмір CSS на бренд · кількість токенів Wanda DS (потрібен дозвіл Андрія на публікацію).
 **Правило «0 hex/px у стилях»** з етапу 2 перевіряється `tools/check-styles.mjs` при кожному білді — можна писати на сайті як факт.
@@ -179,7 +182,7 @@ Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не �
 ## 6. Потрібно від Андрія
 
 - [ ] Фото для `/about` і блоку «Про мене»
-- [ ] Роки досвіду, продукти, ролі — що можна публікувати
+- [x] Роки досвіду й ролі — з LinkedIn (08.10.2026), на `/about`: цифри + хронологія
 - [ ] NDA: чи можна показувати Wanda DS і продуктові фічі (VIP Manager, lootbox, audio widget) — і в якому вигляді
 - [x] Аналітика: Umami Cloud, безкоштовний Hobby. Потрібен Website ID у змінній `PUBLIC_UMAMI_ID`
 - [ ] Домен (так/ні, який)
@@ -207,3 +210,4 @@ Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не �
 - **06.10.2026** — напрям редизайну (v3) погоджено, **код не змінено**: новий порядок Home з 8 секцій (Hero · Positioning · Signature work «One system. Many brands.» · Product design · Behind the system · Selected work · About · Contact), візуальний напрям (монохром, editorial, кінематографічний), окремий трек впровадження. Матеріали — `docs/portfolio-visual-audit.md`, `docs/visual-foundation-proposal.md`.
 - **06.10.2026** — перший публічний деплой (заморожена версія Home v3): Hero v2.1 · Positioning · Signature work (нативний експонат) · Real product (демо) · **04 About / Expertise** (коротке твердження + індекс напрямів) · How · Architecture · Cases · Audience · CTA · Footer. Секція Product design (Tournaments, STEP 7B.1) **не впроваджена** — відкладена до наступної ітерації; Hero і решта v3-секцій ще попереду. `SITE_LAUNCHED=false` (noindex) лишається.
 - **08.10.2026** — наповнення: 24/24 скріни для `/approach` (`tools/shots/`, WebP), перегляд скріна на весь екран; кейс `/cases/aurum-multibrand` за форматом (цифри 55 · 0 · 8 з реєстру, шари — з `meta.json`); `/about` з підтвердженими фактами; картка кейсу веде на кейс. Чекає Андрія: фото, роки, NDA.
+- **08.10.2026** — `/about`: роки досвіду (з 2003, рахуються при білді, форма слова — `Intl.PluralRules`) і хронологія ролей з LinkedIn.
