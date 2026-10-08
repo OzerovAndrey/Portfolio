@@ -6,7 +6,7 @@
     "contactTitle": "Contact — Andrey Ozerov",
     "contactDescription": "Running more than one brand? Tell me how many, on which platforms, and where your design system is today. I read every message myself.",
     "approachTitle": "Approach — Andrey Ozerov",
-    "approachDescription": "How a multi-brand token architecture is built: three layers, two axes, a pipeline from Figma to CSS, and what the system does not solve.",
+    "approachDescription": "How a multi-brand token architecture is built: three layers, two axes, a pipeline from Figma to CSS, and proof in code.",
     "casesTitle": "Work — Andrey Ozerov",
     "casesDescription": "Case studies in multi-brand design systems. Each one follows the same format: context, problem, solution, result.",
     "servicesTitle": "Services — Andrey Ozerov",
@@ -378,15 +378,14 @@
   },
   "approach": {
     "title": "How the system is built",
-    "lead": "The technical side for people who will maintain it: layers, axes, pipeline, proof in code, and the limits.",
+    "lead": "The technical side for people who will maintain it: layers, axes, pipeline and proof in code.",
     "toc": "On this page",
     "sections": {
       "tokenLayers": "Three layers",
       "twoAxes": "Two axes",
       "components": "Components",
       "pipeline": "Pipeline",
-      "codeProof": "Proof in code",
-      "limits": "What the system does not solve"
+      "codeProof": "Proof in code"
     },
     "tokenLayers": {
       "title": "Three layers of tokens",
@@ -452,28 +451,6 @@
       "more": "and {n} more",
       "first": "Pick another brand to see what changes.",
       "noData": "Token data is not available in this build."
-    },
-    "limits": {
-      "title": "What the system does not solve",
-      "lead": "A token system makes brands cheap to add. It does not make every brand decision for you.",
-      "items": [
-        {
-          "title": "Content",
-          "detail": "Copy, tone of voice and imagery stay with each brand."
-        },
-        {
-          "title": "Illustration",
-          "detail": "Tokens carry colors and sizes. Custom artwork is separate work."
-        },
-        {
-          "title": "Motion",
-          "detail": "Durations and easings can be tokens, but motion design is its own discipline."
-        },
-        {
-          "title": "Legal requirements of markets",
-          "detail": "Age notices, licences and responsible-gaming text differ per market and need their own review."
-        }
-      ]
     }
   },
   "services": {

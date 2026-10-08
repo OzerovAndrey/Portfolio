@@ -16,9 +16,8 @@ const morphRatio = shots.find((s) => s.id === "lobby-aurum-dark")!.ratio;
 const sizes = "(min-width: 768px) 50vw, 100vw";
 const toc = [
   ["token-layers", a.sections.tokenLayers, "layers"], ["two-axes", a.sections.twoAxes, "grid"], ["components", a.sections.components, "component"],
-  ["pipeline", a.sections.pipeline, "branch"], ["code-proof", a.sections.codeProof, "code"], ["limits", a.sections.limits, "ban"],
+  ["pipeline", a.sections.pipeline, "branch"], ["code-proof", a.sections.codeProof, "code"],
 ] as const;
-const LIMIT = ["file", "image", "activity", "scale"] as const; // контент · ілюстрація · motion · юридичні вимоги
 
 // Змінні кожного бренду демо — з реального білду токенів (src/generated/demo/tokens.css ← tokens/demo). Немає даних → плашка не показується
 const css = Object.values(import.meta.glob("../../generated/demo/tokens.css", { query: "?raw", import: "default", eager: true }))[0] as string | undefined;
@@ -128,23 +127,6 @@ const hasBrandData = Object.keys(brandVars).length > 1;
     </div>
   </section>
 
-  <section class="section" id="limits" aria-labelledby="limits-title" data-reveal>
-    <div class="container stack">
-      <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="limits-title">{a.limits.title}</h2>
-        <p class="section__lead ts-body-lg-regular measure">{a.limits.lead}</p>
-      </div>
-      <ul class="limits">
-        {a.limits.items.map((i, n) => (
-          <li class="limit">
-            <Icon name={LIMIT[n] ?? "ban"} class="limit__icon" />
-            <h3 class="limit__title ts-title-t4">{i.title}</h3>
-            <p class="limit__detail ts-body-md-regular">{i.detail}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
 </Base>
 
 <style>
@@ -158,15 +140,9 @@ const hasBrandData = Object.keys(brandVars).length > 1;
     .shots--components :global(.span-2) { grid-column: span 2; }
     .shots--components :global(.span-4) { grid-column: span 4; }
   }
-  .limits { display: grid; gap: var(--l-gap); }
-  @media (min-width: 768px) { .limits { grid-template-columns: repeat(2, 1fr); } }
-  .limit { display: flex; flex-direction: column; gap: var(--audience-gap); padding: var(--audience-padding); background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
   .toc__link :global(.toc__icon) { --icon-size: var(--iconSize-sm); color: var(--section-lead-color); transition: transform var(--motion-duration-fast) var(--motion-easing-out), color var(--motion-duration-fast) var(--motion-easing-out); }
   .toc__link { transition: background-color var(--motion-duration-fast) var(--motion-easing-out); }
   @media (hover: hover) { .toc__link:hover :global(.toc__icon) { transform: translateY(var(--motion-nudge)); color: var(--color-text-primary); } }
   .toc__link:focus-visible :global(.toc__icon) { transform: translateY(var(--motion-nudge)); }
   @media (prefers-reduced-motion: reduce) { .toc__link :global(.toc__icon) { transform: none !important; } }
-  .limit :global(.limit__icon) { --icon-size: var(--iconSize-lg); color: var(--section-lead-color); }
-  .limit__title { color: var(--audience-title-color); }
-  .limit__detail { color: var(--audience-detail-color); }
 </style>

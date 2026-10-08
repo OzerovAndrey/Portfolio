@@ -126,7 +126,6 @@
 - `#components` — 4 скріни компонентів + `comp-four-brands`.
 - `#pipeline` — схема Figma → GitHub → build → CSS в HTML/CSS + 4 скріни.
 - `#code-proof` — 2 скріни DevTools + плашка `<html data-brand="…">`: перемикає атрибут і показує змінні, що змінились (дані — з `tokens/demo` через білд).
-- `#limits` — що система **не** вирішує (контент, ілюстрації, motion, юридичні вимоги ринків).
 Решта вмісту (Token Studio setup, правила CI дослівно) — на наступних проходах.
 
 ### Скріни (`shots.json`, `SHOTS.md`)
@@ -211,3 +210,4 @@ Wanda DS — за фіче-флагом `SHOW_WANDA` (зараз `false`, не �
 - **06.10.2026** — перший публічний деплой (заморожена версія Home v3): Hero v2.1 · Positioning · Signature work (нативний експонат) · Real product (демо) · **04 About / Expertise** (коротке твердження + індекс напрямів) · How · Architecture · Cases · Audience · CTA · Footer. Секція Product design (Tournaments, STEP 7B.1) **не впроваджена** — відкладена до наступної ітерації; Hero і решта v3-секцій ще попереду. `SITE_LAUNCHED=false` (noindex) лишається.
 - **08.10.2026** — наповнення: 24/24 скріни для `/approach` (`tools/shots/`, WebP), перегляд скріна на весь екран; кейс `/cases/aurum-multibrand` за форматом (цифри 55 · 0 · 8 з реєстру, шари — з `meta.json`); `/about` з підтвердженими фактами; картка кейсу веде на кейс. Чекає Андрія: фото, роки, NDA.
 - **08.10.2026** — `/about`: роки досвіду (з 2003, рахуються при білді, форма слова — `Intl.PluralRules`) і хронологія ролей з LinkedIn.
+- **08.10.2026** — з `/approach` прибрано секцію `#limits` («Чого система не вирішує») — рішення Андрія: клієнтам зайве.
