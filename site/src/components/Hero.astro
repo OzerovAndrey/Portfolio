@@ -155,8 +155,8 @@ live.searchParams.set("theme", "light");
 <style>
   /* Асиметрична композиція: текст (ідентичність → твердження → CTA) і продукт ділять перший екран.
      Мобільні: та сама послідовність стовпчиком — продукт одразу після CTA, до Positioning */
-  /* вертикальний ритм сторінки (--l-row: 32 → 56), а не колонковий проміжок: повітря між хедером і «піднятою» рамкою */
-  .hero { background: var(--hero-bg); padding-block: var(--l-row); }
+  /* вертикальний ритм сторінки (--l-row: 32 → 56), а не колонковий проміжок; зверху ще + gap.md (8) — повітря між хедером і «піднятою» рамкою */
+  .hero { background: var(--hero-bg); padding-block: calc(var(--l-row) + var(--space-gap-md)) var(--l-row); }
   .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hero-gap) var(--l-gap); align-items: center; }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); min-width: 0; }
   .hero__role { color: var(--hero-eyebrow-color); }

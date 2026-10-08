@@ -265,12 +265,12 @@
     },
     "float": {
       "near": {
-        "value": "{color.neutral.dark.alpha04}",
+        "value": "{color.neutral.dark.alpha02}",
         "type": "color",
         "description": "контактна тінь під «піднятою» поверхнею"
       },
       "far": {
-        "value": "{color.neutral.dark.alpha08}",
+        "value": "{color.neutral.dark.alpha04}",
         "type": "color",
         "description": "розсіяна тінь далеко під поверхнею"
       }
