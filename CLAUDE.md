@@ -5,7 +5,7 @@
 [multibrand-design-system](https://github.com/OzerovAndrey/multibrand-design-system), вбудоване в сайт.
 Власник — Андрій Озеров. Мова комунікації й документації — українська.
 
-Принцип той самий, що в демо: локальна папка `Portfolio` ↔ репо `OzerovAndrey/Portfolio`, пуш у `main` сам деплоїть сайт.
+Принцип той самий, що в демо: локальна папка `Portfolio` ↔ репо `OzerovAndrey/portfolio` (сайт: `ozerovandrey.github.io/portfolio/`), пуш у `main` сам деплоїть сайт.
 
 ## Структура репо
 `tokens/` (джерело правди, Token Studio) · `tools/` (генератори й перевірки) · `site/` (Astro) · `tasks/` (задачі для демо-проєкту).
