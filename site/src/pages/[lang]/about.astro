@@ -62,7 +62,13 @@ const contacts = links(
           {a.experience.timeline.map((x) => (
             <li class="ab-tl">
               <span class="ab-tl__years ts-label-md">{x.years}</span>
-              <span class="ab-tl__body"><span class="ab-tl__role ts-title-t4">{x.role}</span><span class="ab-tl__org ts-body-sm-regular">{x.org}</span><span class="ab-tl__detail ts-body-md-regular">{x.detail}</span></span>
+              <span class="ab-tl__body">
+                <span class="ab-tl__role ts-title-t4">{x.role}</span><span class="ab-tl__org ts-body-sm-regular">{x.org}</span><span class="ab-tl__detail ts-body-md-regular">{x.detail}</span>
+                {x.highlights.length > 0 && (
+                  <span class="ab-hl">{x.highlights.map((h) => (<span class="ab-hl__item"><span class="ab-hl__title ts-label-lg">{h.title}</span><span class="ab-hl__detail ts-body-sm-regular">{h.detail}</span></span>))}</span>
+                )}
+                {x.skills.length > 0 && <span class="ab-skills">{x.skills.map((k) => <span class="ab-tag ts-label-md">{k}</span>)}</span>}
+              </span>
             </li>
           ))}
         </ol>
@@ -177,4 +183,13 @@ const contacts = links(
   .ab-tl__org { color: var(--section-lead-color); }
   .ab-tl__detail { color: var(--section-lead-color); }
   .ab-source { margin: 0; color: var(--metric-label-color); }
+  /* Поточна роль розписана: 4 напрями сіткою 2×2 + навички. Заголовок → текст 24, між блоками 48 */
+  .ab-tl--lead .ab-tl__body { gap: var(--space-gap-sm); }
+  .ab-hl { display: grid; gap: var(--section-text-heading) var(--l-gap); margin-top: var(--section-text-heading); padding: var(--audience-padding);
+    background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
+  @media (min-width: 768px) { .ab-hl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .ab-hl__item { display: flex; flex-direction: column; gap: var(--space-gap-md); padding-top: var(--space-padding-md); border-top: var(--metric-borderWidth) solid var(--metric-br); }
+  .ab-hl__title { color: var(--section-title-color); }
+  .ab-hl__detail { color: var(--section-lead-color); }
+  .ab-skills { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); margin-top: var(--space-gap-xl); }
 </style>
