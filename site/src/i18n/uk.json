@@ -583,14 +583,6 @@
               "title": "Дизайн від користувача й даних",
               "detail": "UI/UX-аудити на основі відгуків користувачів і продуктової аналітики, далі ітеративні покращення з прицілом на утримання й конверсію."
             }
-          ],
-          "skills": [
-            "Дизайн-системи",
-            "Tokens Studio",
-            "Продуктовий дизайн",
-            "UX",
-            "Figma",
-            "Мобільний дизайн"
           ]
         },
         {
@@ -598,40 +590,35 @@
           "role": "Senior UI/UX Designer",
           "org": "tekio · контракт",
           "detail": "Застосунок про здоров'я й самопочуття.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2021 — 2023",
           "role": "Senior UI Designer",
           "org": "EMBRIA Venture Builder · Кіпр",
           "detail": "Дві мобільні гри для iOS і Android, Arcademy і Swoopy, та їхній UI kit.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2020 — 2022",
           "role": "Senior UI/UX Designer",
           "org": "Simplify-ERP",
           "detail": "Вебпродукт, лендинги, маркетингова графіка.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2015 — 2021",
           "role": "Art Director / UI/UX Designer",
           "org": "Власна дизайн-студія",
           "detail": "Керував невеликою командою: сайти, лендинги, дашборди, email і поліграфія.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2003 — 2015",
           "role": "Веб- і UI-дизайнер",
           "org": "Beluga Labs, Aleksandrov-web, WebCity, Web Dream",
           "detail": "Сайти, вебінтерфейси й HTML з першого року.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         }
       ],
       "source": "За моїм профілем у LinkedIn.",

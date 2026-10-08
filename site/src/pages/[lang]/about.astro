@@ -67,7 +67,6 @@ const contacts = links(
                 {x.highlights.length > 0 && (
                   <span class="ab-hl">{x.highlights.map((h) => (<span class="ab-hl__item"><span class="ab-hl__title ts-label-lg">{h.title}</span><span class="ab-hl__detail ts-body-sm-regular">{h.detail}</span></span>))}</span>
                 )}
-                {x.skills.length > 0 && <span class="ab-skills">{x.skills.map((k) => <span class="ab-tag ts-label-md">{k}</span>)}</span>}
               </span>
             </li>
           ))}
@@ -188,8 +187,10 @@ const contacts = links(
   .ab-hl { display: grid; gap: var(--section-text-heading) var(--l-gap); margin-top: var(--section-text-heading); padding: var(--audience-padding);
     background: var(--audience-bg); border: var(--audience-borderWidth) solid var(--audience-br); border-radius: var(--audience-borderRadius); }
   @media (min-width: 768px) { .ab-hl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  /* без розділювача над першим рядком: на вузьких — перший пункт, з 768 — два перші */
+  .ab-hl__item:first-child { border-top: 0; padding-top: 0; }
+  @media (min-width: 768px) { .ab-hl__item:nth-child(-n + 2) { border-top: 0; padding-top: 0; } }
   .ab-hl__item { display: flex; flex-direction: column; gap: var(--space-gap-md); padding-top: var(--space-padding-md); border-top: var(--metric-borderWidth) solid var(--metric-br); }
   .ab-hl__title { color: var(--section-title-color); }
   .ab-hl__detail { color: var(--section-lead-color); }
-  .ab-skills { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); margin-top: var(--space-gap-xl); }
 </style>

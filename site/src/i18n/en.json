@@ -583,14 +583,6 @@
               "title": "User-centric, data-driven design",
               "detail": "UI/UX audits built on user feedback and product analytics, followed by iterative improvements aimed at retention and conversion."
             }
-          ],
-          "skills": [
-            "Design Systems",
-            "Tokens Studio",
-            "Product Design",
-            "UX",
-            "Figma",
-            "Mobile Design"
           ]
         },
         {
@@ -598,40 +590,35 @@
           "role": "Senior UI/UX Designer",
           "org": "tekio · contract",
           "detail": "A health and well-being app.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2021 — 2023",
           "role": "Senior UI Designer",
           "org": "EMBRIA Venture Builder · Cyprus",
           "detail": "Two mobile games for iOS and Android, Arcademy and Swoopy, and their UI kit.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2020 — 2022",
           "role": "Senior UI/UX Designer",
           "org": "Simplify-ERP",
           "detail": "Web product, landing pages, marketing graphics.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2015 — 2021",
           "role": "Art Director / UI/UX Designer",
           "org": "Own design studio",
           "detail": "Led a small team: websites, landing pages, dashboards, email and print.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         },
         {
           "years": "2003 — 2015",
           "role": "Web and UI designer",
           "org": "Beluga Labs, Aleksandrov-web, WebCity, Web Dream",
           "detail": "Websites, web interfaces and HTML from the first year.",
-          "highlights": [],
-          "skills": []
+          "highlights": []
         }
       ],
       "source": "From my LinkedIn profile.",
