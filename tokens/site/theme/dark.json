@@ -550,5 +550,11 @@
       "type": "spacing",
       "description": "підйом поверхні при появі сторінки"
     }
+  },
+  "imageFilter": {
+    "mono": {
+      "value": "{filter.mono}",
+      "type": "other"
+    }
   }
 }

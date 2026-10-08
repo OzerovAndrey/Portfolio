@@ -1790,5 +1790,12 @@
         "type": "color"
       }
     }
+  },
+  "portrait": {
+    "filter": {
+      "value": "{imageFilter.mono}",
+      "type": "other",
+      "description": "фото на /about: чорно-біле, як решта сайту"
+    }
   }
 }
