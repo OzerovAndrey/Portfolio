@@ -20,3 +20,8 @@
 Vercel/Cloudflare — `Content-Security-Policy: frame-ancestors 'self' <домен портфоліо>`.
 
 **Перевірка:** 4 бренди × 2 теми × 2 мови з `?embed=1` у iframe шириною 768 і 1440.
+
+**Тема з батьківської сторінки (опційно):** hero портфоліо зараз синхронізує тему iframe з темою сайту, натискаючи свіч демо
+(`.panel__theme input[role="switch"]`) через same-origin доступ, а з іншого origin — перезапускає iframe з `?brand&theme`.
+Штатний шлях без прив'язки до розмітки: слухати `message` `{ type: "mds:set-look", theme?, brand? }` → `setLook(...)`.
+Після цього портфоліо перейде на `postMessage`, а `mds:brand-changed` замінить стеження за `data-theme` в iframe.
