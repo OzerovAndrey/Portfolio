@@ -30,7 +30,7 @@ const ICON = ["compass", "alert", "lightbulb", "trending", "rotate"] as const; /
       <ol class="info-grid">
         {p.sections.map((s, i) => (
           <li class="info-card">
-            <span class="info-card__head"><Icon name={ICON[i] ?? "file"} class="info-card__icon" /><span class="info-card__label ts-label-sm">{i + 1}</span></span>
+            <Icon name={ICON[i] ?? "file"} class="info-card__icon" />
             <h3 class="info-card__title ts-title-t4">{s.title}</h3>
             <p class="info-card__detail ts-body-md-regular">{s.detail}</p>
           </li>
