@@ -159,12 +159,12 @@
     "closing": "From product logic to production-ready UI.",
     "listLabel": "Areas of expertise",
     "items": [
+      "Figma",
+      "Token Studio",
       "Product Design",
       "Complex UX / UI",
       "Design Systems",
       "Multi-brand Systems",
-      "Figma",
-      "Token Studio",
       "Prototyping",
       "Developer Handoff"
     ]

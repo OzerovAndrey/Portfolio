@@ -15,7 +15,7 @@ const { lang, compact = false, index = "04" } = Astro.props;
 const e = t(lang).expertise;
 const num = (i: number) => String(i + 1).padStart(2, "0");
 // Іконки напрямів — у тому ж порядку, що й expertise.items (EN = UK)
-const ICON: IconName[] = ["pen", "layout", "component", "layers", "figma", "braces", "pointer", "code"];
+const ICON: IconName[] = ["figma", "tokens", "pen", "layout", "component", "layers", "pointer", "code"];
 ---
 <section class:list={["section", "expertise", compact ? "expertise--compact" : "section--editorial"]} id="expertise" aria-labelledby="expertise-title" data-reveal>
   <div class="container">
